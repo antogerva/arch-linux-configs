@@ -1,7 +1,7 @@
 --[[    $HOME/.config/awesome/rc.lua
         Awesome Window Manager configuration file by STxza        
-        - only works with awesome-git newer than 13/12/08
-        - last update: 24/12/2008                                                ]]--
+        - only works with awesome-git newer than 31/12/2008 
+        - last update: 02/01/2009                                                ]]--
         
 io.stderr:write("\n\r::: Awesome Loaded @ ", os.time(), " :::\r\n")
 -------------------------------------------------------------------------------------
@@ -12,7 +12,7 @@ require("awful")
 require("beautiful")
 require("naughty")
 require("wicked")
---FIX: require("revelation")
+require("revelation")
 
 -- Load my functions
 require("functions")
@@ -31,7 +31,7 @@ beautiful.init(theme_path)
 terminal = "SHELL=/bin/zsh urxvtc"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
-browser = "/usr/bin/swiftweasel"
+browser = "/usr/bin/firefox"
 fileManager = "pcmanfm"
 
 -- Volume
@@ -70,15 +70,15 @@ floatapps =
 -- Use the screen and tags indices.
 apptags =
 {
-    ["Swiftweasel"] = { screen = 1, tag = 2 },
+    ["Firefox"] = { screen = 1, tag = 2 },
     ["transmission"] = { screen = 1, tag = 2 },
     ["pcmanfm"] = { screen = 1, tag = 4 },
     ["geeqie"] = { screen = 1, tag = 6 },
     ["gvim"] = { screen = 1, tag = 3 },
     ["geany"] = { screen = 1, tag = 3 },
-    ["Gimp"] = { screen = 1, tag = 5 }
-    --FIX ["/usr/share/eclipse/eclipse -name Ecli"] = { screen = 1, tag = 3 }
-    --FIX ["soffice-dev"] = { screen = 1, tag = 6 }
+    ["Gimp"] = { screen = 1, tag = 5 },
+    ["Eclipse"] = { screen = 1, tag = 3 },
+    ["OpenOffice.org 3.1"] = { screen = 1, tag = 6 }
 }
 
 -- Define if we want to use titlebar on all applications.
@@ -135,6 +135,7 @@ mymainmenu = awful.menu.new({ items = { { "Term"    , terminal },
                                         { "Screen"      , terminal.." -e screen -RR" },
                                         { "Awesome"     , myawesomemenu }
                                       }
+                                      , border_width = beautiful.border_width_menu
                             })
 
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon)
@@ -231,9 +232,8 @@ for s = 1, screen.count() do
 
     -- Create the wibox
     mywibox[s] = wibox({ 
-        position = "top", 
-        height = 18, 
-        --name = "statusbar"..s, 
+        position = "bottom", 
+        height = 16, 
         fg = beautiful.fg_normal, 
         bg = beautiful.bg_normal, 
         border_color = beautiful.border_wibox, 
@@ -241,7 +241,7 @@ for s = 1, screen.count() do
     })
     
     -- Add widgets to the wibox - order matters
-    mywibox[s].widgets = {  mylauncher,
+    mywibox[s].widgets = {  --mylauncher,
                             mytaglist[s],
                             mytasklist[s],
                             mypromptbox[s],
@@ -330,11 +330,13 @@ key({ modkey }              , "x"       , function () awful.util.spawn(terminal)
 key({ modkey }              , "f"       , function () awful.util.spawn(browser) end):add()
 key({ modkey }              , "p"       , function () awful.util.spawn(fileManager) end):add()
 key({ modkey }              , "g"       , function () awful.util.spawn("geany") end):add()
+key({ modkey }              , "e"       , function () awful.util.spawn("eclipse") end):add()
+key({ modkey }              , "o"       , function () awful.util.spawn("soffice-dev") end):add()
 
 -- Client control
 key({ modkey }              , "c"       , function () client.focus:kill() end):add()
 key({ modkey, "Shift" }     , "r"       , function () client.focus:redraw() end):add()
-key({ modkey, "Control" }   , "space"   , awful.client.togglefloating):add()
+key({ modkey, "Control" }   , "space"   , awful.client.floating.toggle):add()
 key({ modkey }              , "j"       , function () awful.client.focus.byidx(1); client.focus:raise() end):add()
 key({ modkey }              , "k"       , function () awful.client.focus.byidx(-1);  client.focus:raise() end):add()
 key({ modkey }              , "m"       , function () if client.focus then client.focus.maximized_horizontal = not client.focus.maximized_horizontal
@@ -365,7 +367,7 @@ key({ modkey }, "b", function ()
 end):add()
 
 -- Mod+Tab: Run revelation
---FIX: key({ modkey, "Control" }, "z", revelation.revelation):add()
+key({ modkey, "Control" }, "z", revelation.revelation):add()
 
 -- Rotate clients and focus master
 key({ modkey }, "Tab", function ()
@@ -433,7 +435,14 @@ awful.hooks.mouse_enter.register(function (c)
 end)
 
 -- Hook function to execute when a new client appears.
-awful.hooks.manage.register(function (c)
+awful.hooks.manage.register(function (c, startup)
+    -- If we are not managing this application at startup,
+    -- move it to the screen where the mouse is.
+    -- We only do it for filtered windows (i.e. no dock, etc).
+    if not startup and awful.client.focus.filter(c) then
+        c.screen = mouse.screen
+    end
+    
     if use_titlebar then
         -- Add a titlebar
         awful.titlebar.add(c, { modkey = modkey })
@@ -501,10 +510,25 @@ awful.hooks.arrange.register(function (screen)
     end
 end)
 
+-- Hooks for Naughty Calendar
+clockwidget.mouse_enter = function()
+    add_calendar(0)
+end
+clockwidget.mouse_leave = remove_calendar
+
+clockwidget:buttons({
+    button({ }, 4, function()
+        add_calendar(-1)
+    end),
+    button({ }, 5, function()
+        add_calendar(1)
+    end),
+})
+
 -- Timed hooks for the widget functions
 -- 1 second
 awful.hooks.timer.register(1, function ()
-    clockInfo("%d/%m/%Y", "%T")
+    clockInfo("%T")
 end)
 
 -- 5 seconds

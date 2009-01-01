@@ -26,11 +26,40 @@ end
 
 ---- Widget functions
 -- {{{ Clock
-function clockInfo(dateformat, timeformat)
-    local date = os.date(dateformat)
-    local time = os.date(timeformat)
-    
-    clockwidget.text = spacer..date..spacer..setFg(beautiful.fg_focus, time)..spacer
+function clockInfo(timeformat)
+    local time = os.date(timeformat)    
+    clockwidget.text = spacer..setFg(beautiful.fg_focus, time)..spacer
+end
+-- }}}
+
+-- {{{ Calendar
+local calendar = nil
+local offset = 0
+
+function remove_calendar()
+    if calendar ~= nil then
+        naughty.destroy(calendar)
+        calendar = nil
+        offset = 0
+    end
+end
+
+function add_calendar(inc_offset)
+    local save_offset = offset
+    remove_calendar()
+    offset = save_offset + inc_offset
+    local datespec = os.date("*t")
+    datespec = datespec.year * 12 + datespec.month - 1 + offset
+    datespec = (datespec % 12 + 1) .. " " .. math.floor(datespec / 12)
+    local cal = awful.util.pread("cal -m " .. datespec)
+    cal = string.gsub(cal, "^%s*(.-)%s*$", "%1")
+    calendar = naughty.notify({
+        text     = string.format('<span font_desc="%s">%s</span>', "monospace", setFg(beautiful.fg_focus, os.date("%a, %d %B %Y")) .. "\n" .. cal),
+        timeout  = 0, hover_timeout = 0.5,
+        width    = 160,
+        position = "bottom_right",
+        bg       = beautiful.bg_focus
+    })
 end
 -- }}}
 
@@ -42,12 +71,12 @@ function wifiInfo(adapter)
     
     if wifiStrength == "0" then
         wifiStrength = setFg("#ff6565", wifiStrength.."%")
-        naughty.notify({ title      = "Wifi Warning"
-                       , text       = "Wireless Network is Down! ("..wifiStrength.." connectivity)"
-                       , timeout    = 3
-                       , position   = "top_right"
-                       , fg         = beautiful.fg_focus
-                       , bg         = beautiful.bg_focus
+        naughty.notify({ title      = "Wifi Warning",
+                         text       = "Wireless Network is Down! ("..wifiStrength.." connectivity)",
+                         timeout    = 3,
+                         position   = "bottom_right",
+                         fg         = beautiful.fg_focus,
+                         bg         = beautiful.bg_focus
                        })
     else
         wifiStrength = wifiStrength.."%"
@@ -80,12 +109,12 @@ function batteryInfo(adapter)
             battery = setFg("#e6d51d", battery)
         elseif tonumber(battery) < 25 then
             if tonumber(battery) <= 10 then
-                naughty.notify({ title      = "Battery Warning"
-                               , text       = "Battery low!"..spacer..battery.."%"..spacer.."left!"
-                               , timeout    = 5
-                               , position   = "top_right"
-                               , fg         = beautiful.fg_focus
-                               , bg         = beautiful.bg_focus
+                naughty.notify({ title      = "Battery Warning",
+                                 text       = "Battery low!"..spacer..battery.."%"..spacer.."left!",
+                                 timeout    = 5,
+                                 position   = "bottom_right",
+                                 fg         = beautiful.fg_focus,
+                                 bg         = beautiful.bg_focus
                                })
             end
             battery = setFg("#ff6565", battery)
@@ -138,6 +167,10 @@ function cputemp(core)
 	local pos = cpu:find('+')+1
 	cpu = string.sub(cpu, pos, pos+3)
     
+    if tonumber(cpu) >= 45 then
+        cpu = setFg("#994044", cpu)
+    end
+    
 	return tonumber(cpu)
 end
 
@@ -155,7 +188,11 @@ function gputemp()
         return ''
 	end
     
-    return gpuTemp
+    if tonumber(gpuTemp) >= 65 then
+        gpuTemp = setFg("#994044", gpuTemp)
+    end
+    
+    return tonumber(gpuTemp)
 end
 
 function sysInfo(widget, args)

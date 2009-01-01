@@ -2,7 +2,7 @@
 -- STxza's Awesome Theme --
 ---------------------------
 
-font                      = Monaco Bold 7
+font                      = Monaco Bold 7.5
 
 bg_normal                 = #000000AA
 bg_focus                  = #292929AA
@@ -13,7 +13,7 @@ fg_focus                  = #C2C2C2
 fg_urgent                 = #EFEFEF
 
 border_width              = 1
-border_width_wibox        = 1
+border_width_wibox        = 0
 border_normal             = #67676766
 border_wibox              = #4D4D4D66
 border_focus              = #FFFFFF66
@@ -30,8 +30,9 @@ arch_icon                 = /home/stxza/.config/awesome/icons/arch2.png
 menu_submenu_icon         = /home/stxza/.config/awesome/icons/submenu.png
 menu_height               = 15
 menu_width                = 88
+border_width_menu         = 1
 
-wallpaper_cmd             = awsetbg -c /home/stxza/pics/Walls/Aurora_Borealis.jpg
+wallpaper_cmd             = awsetbg /home/stxza/pics/Walls/ARCHWalls/Diagonals_arch.jpg
 
 layout_dwindle            = /usr/share/awesome/themes/default/layouts/dwindlew.png
 layout_fairh              = /usr/share/awesome/themes/default/layouts/fairhw.png
