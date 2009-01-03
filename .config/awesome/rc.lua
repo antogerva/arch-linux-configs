@@ -224,6 +224,7 @@ for s = 1, screen.count() do
     mytaglist[s] = awful.widget.taglist.new(s, awful.widget.taglist.label.all, mytaglist.buttons)
 
     -- Create a tasklist widget
+    -- Mod: Only display currently focused client in tasklist
     mytasklist[s] = awful.widget.tasklist.new(function(c)
                                                 if c == client.focus then
                                                   return awful.widget.tasklist.label.currenttags(c, s)

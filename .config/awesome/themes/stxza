@@ -5,12 +5,12 @@
 font                      = Monaco Bold 7.5
 
 bg_normal                 = #000000AA
-bg_focus                  = #292929AA
-bg_urgent                 = #BFBFBFAA
+bg_focus                  = #073766AA
+bg_urgent                 = #FFC0CBAA
 
 fg_normal                 = #FFFFFF
-fg_focus                  = #C2C2C2
-fg_urgent                 = #81C1FF
+fg_focus                  = #82C1FF
+fg_urgent                 = #1E90FF
 
 border_width              = 1
 border_width_wibox        = 0
@@ -32,7 +32,7 @@ menu_height               = 15
 menu_width                = 88
 border_width_menu         = 1
 
-wallpaper_cmd             = awsetbg /home/stxza/pics/Walls/ARCHWalls/Diagonals_arch.jpg
+wallpaper_cmd             = awsetbg /home/stxza/pics/Walls/ForgottenCity.JPG
 
 layout_dwindle            = /usr/share/awesome/themes/default/layouts/dwindlew.png
 layout_fairh              = /usr/share/awesome/themes/default/layouts/fairhw.png
