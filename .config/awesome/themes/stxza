@@ -10,7 +10,7 @@ bg_urgent                 = #BFBFBFAA
 
 fg_normal                 = #FFFFFF
 fg_focus                  = #C2C2C2
-fg_urgent                 = #EFEFEF
+fg_urgent                 = #81C1FF
 
 border_width              = 1
 border_width_wibox        = 0

@@ -171,7 +171,7 @@ function cputemp(core)
         cpu = setFg("#994044", cpu)
     end
     
-	return tonumber(cpu)
+	return cpu
 end
 
 function gputemp()
@@ -192,7 +192,7 @@ function gputemp()
         gpuTemp = setFg("#994044", gpuTemp)
     end
     
-    return tonumber(gpuTemp)
+    return gpuTemp
 end
 
 function sysInfo(widget, args)
