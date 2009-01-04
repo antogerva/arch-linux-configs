@@ -1,12 +1,12 @@
 ---- Functions
 
 -- {{{ Markup functions
-function setBg(color, text)
-    return '<bg color="'..color..'" />'..text
+function setBg(bgcolor, text)
+    return '<bg color="'..bgcolor..'" />'..text
 end
 
-function setFg(color, text)
-    return '<span color="'..color..'">'..text..'</span>'
+function setFg(fgcolor, text)
+    return '<span color="'..fgcolor..'">'..text..'</span>'
 end
 
 function setBgFg(bgcolor, fgcolor, text)
@@ -16,12 +16,6 @@ end
 function setFont(font, text)
     return '<span font_desc="'..font..'">'..text..'</span>'
 end
--- }}}
-
--- {{{ Layouttext function
---function returnLayoutText(layout)
---    return setFg(beautiful.fg_focus, " | ")..layoutText[layout]..setFg(beautiful.fg_focus, " | ")
---end
 -- }}}
 
 ---- Widget functions
@@ -70,7 +64,7 @@ function wifiInfo(adapter)
     f:close()
     
     if wifiStrength == "0" then
-        wifiStrength = setFg("#ff6565", wifiStrength.."%")
+        wifiStrength = setFg("#ff6565", wifiStrength)
         naughty.notify({ title      = "Wifi Warning",
                          text       = "Wireless Network is Down! ("..wifiStrength.." connectivity)",
                          timeout    = 3,
@@ -78,11 +72,9 @@ function wifiInfo(adapter)
                          fg         = beautiful.fg_focus,
                          bg         = beautiful.bg_focus
                        })
-    else
-        wifiStrength = wifiStrength.."%"
     end
     
-    wifiwidget.text = spacer..setFg(beautiful.fg_focus, "WFi:")..spacer..wifiStrength..spacer
+    wifiwidget.text = spacer..setFg(beautiful.fg_focus, "WFi:")..spacer..wifiStrength.."%"..spacer
 end
 -- }}}
 
@@ -118,8 +110,6 @@ function batteryInfo(adapter)
                                })
             end
             battery = setFg("#ff6565", battery)
-        else
-            battery = battery
         end
     else
         dir = "="

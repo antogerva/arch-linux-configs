@@ -1,7 +1,7 @@
 --[[    $HOME/.config/awesome/rc.lua
         Awesome Window Manager configuration file by STxza        
         - only works with awesome-git newer than 31/12/2008 
-        - last update: 02/01/2009                                                ]]--
+        - last update: 04/01/2009                                                ]]--
         
 io.stderr:write("\n\r::: Awesome Loaded @ ", os.time(), " :::\r\n")
 -------------------------------------------------------------------------------------
@@ -117,6 +117,7 @@ awful.layout.set(awful.layout.suit.max, tags[1][6])
 -------------------------------------------------------------------------------------
 -- {{{ Wibox
 -- Please note the functions feeding some of the widgets are found in functions.lua
+-- TODO: remove "my" from widget names ?
 
 -- Create a laucher widget and a main menu
 myawesomemenu = {
@@ -149,41 +150,41 @@ mysystray = widget({ type = "systray", align = "right" })
 spacer = " "
 
 -- Separator icon
-separator = widget({ type = "imagebox", name = "separator", align = "right" })
+separator = widget({ type = "imagebox", align = "right" })
 separator.image = image(awful.util.getdir("config").."/icons/separators/link2.png")
 
 -- Create the clock widget
-clockwidget = widget({ type = "textbox", name = "clockwidget", align = "right" })
+clockwidget = widget({ type = "textbox", align = "right" })
 -- Run it once so we don't have to wait for the hooks to see our clock
 clockInfo("%d/%m/%Y", "%T")
 
 -- Create the wifi widget
-wifiwidget = widget({ type = "textbox", name = "wifiwidget", align = "right" })
+wifiwidget = widget({ type = "textbox", align = "right" })
 -- Run it once so we don't have to wait for the hooks to see our signal strength
 wifiInfo("wlan0")
 
 -- Create the battery widget
-batterywidget = widget({ type = "textbox", name = "batterywidget", align = "right" })
+batterywidget = widget({ type = "textbox", align = "right" })
 -- Run it once so we don't have to wait for the hooks to see our percentage
 batteryInfo("BAT0")
 
 -- Create the memory widget
-memwidget = widget({ type = "textbox", name = "memwidget", align = "right" })
+memwidget = widget({ type = "textbox", align = "right" })
 -- Run it once so we don't have to wait for the hooks to see our memory usage
 memInfo()
 
 -- Create the File Sys Usage widget
-fswidget = widget({ type = 'textbox', name = 'fswidget', align = 'right' })
+fswidget = widget({ type = 'textbox', align = 'right' })
 wicked.register(fswidget, wicked.widgets.fs, 
     spacer..setFg(beautiful.fg_focus, "/:")..'${/ usep}%'..spacer..setFg(beautiful.fg_focus, "~:")..'${/home usep}%'..spacer, 
 15)
 
 -- Create the CPU Usage, CPU Temps, GPU Temp widget
-syswidget = widget({ type = 'textbox', name = 'syswidget', align = 'right' })
+syswidget = widget({ type = 'textbox', align = 'right' })
 wicked.register(syswidget, 'cpu', sysInfo, 15, nil, 2)
 
 -- Create the volume widget
-volumewidget = widget({ type = 'textbox', name = 'volumewidget', align = 'right' })
+volumewidget = widget({ type = 'textbox', align = 'right' })
 wicked.register(volumewidget, getVol, "$1", 15)
 
 -- Create a wibox for each screen and add it
@@ -227,9 +228,9 @@ for s = 1, screen.count() do
     -- Mod: Only display currently focused client in tasklist
     mytasklist[s] = awful.widget.tasklist.new(function(c)
                                                 if c == client.focus then
-                                                  return awful.widget.tasklist.label.currenttags(c, s)
+                                                    return spacer..setFg(beautiful.fg_focus, awful.widget.tasklist.label.currenttags(c, s))..spacer
                                                 end
-                                              end, mytasklist.buttons)
+                                             end, mytasklist.buttons)
 
     -- Create the wibox
     mywibox[s] = wibox({ 
@@ -242,7 +243,7 @@ for s = 1, screen.count() do
     })
     
     -- Add widgets to the wibox - order matters
-    mywibox[s].widgets = {  --mylauncher,
+    mywibox[s].widgets = {  mylauncher,
                             mytaglist[s],
                             mytasklist[s],
                             mypromptbox[s],
@@ -379,7 +380,8 @@ key({ modkey }, "Tab", function ()
         allclients[i+1]:swap(v)
       end
     end
-    awful.client.focus.byidx(-1)
+    -- dont want currently - want to keep focus of currently focused client
+    --awful.client.focus.byidx(-1)
   end):add()
 
 -- The other way 'round!
@@ -395,7 +397,8 @@ key({ modkey, "Shift" }, "Tab", function ()
         toswap = v
       end
     end
-    awful.client.focus.byidx(-1)
+    -- dont want currently - want to keep focus of currently focused client
+    --awful.client.focus.byidx(-1)
   end):add()
 
 -- }}}
