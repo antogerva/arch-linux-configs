@@ -1,7 +1,6 @@
 #!/bin/zsh
 #------------------------------------------------------------------#
 # File:     .zshrc   ZSH resource file                             #
-# Updated:  18/11/2008                                             #
 # Author:   Seynthan "ST.x" Thanapalan <seynthan.tx@gmail.com>     #
 #------------------------------------------------------------------#
 
@@ -75,10 +74,10 @@ esac
 
 # {{{ Prompt Config
 setprompt () {
-	# load some modules
-	autoload -U colors zsh/terminfo # Used in the colour alias below
-	colors
-	setopt prompt_subst
+    # load some modules
+    autoload -U colors zsh/terminfo # Used in the colour alias below
+    colors
+    setopt prompt_subst
 
     #PROMPT="[%{$fg_bold[cyan]%}%~%{$reset_color%}]-> "
     #PROMPT="[%{$fg[white]%}%n %{$fg_bold[cyan]%}%~%{$reset_color%}]> "

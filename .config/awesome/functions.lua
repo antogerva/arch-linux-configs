@@ -50,7 +50,7 @@ function add_calendar(inc_offset)
     calendar = naughty.notify({
         text     = string.format('<span font_desc="%s">%s</span>', "monospace", setFg(beautiful.fg_focus, os.date("%a, %d %B %Y")) .. "\n" .. cal),
         timeout  = 0, hover_timeout = 0.5,
-        width    = 145,
+        width    = 125,
         position = "bottom_right",
         bg       = beautiful.bg_focus
     })
@@ -66,7 +66,7 @@ function wifiInfo(adapter)
     if wifiStrength == "0" then
         wifiStrength = setFg("#ff6565", wifiStrength)
         naughty.notify({ title      = "Wifi Warning",
-                         text       = "Wireless Network is Down! ("..wifiStrength.." connectivity)",
+                         text       = "Wifi Down! ("..wifiStrength.."% connectivity)",
                          timeout    = 3,
                          position   = "bottom_right",
                          fg         = beautiful.fg_focus,
