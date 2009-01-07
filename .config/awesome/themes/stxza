@@ -5,7 +5,7 @@
 font                      = Monaco Bold 7
 
 bg_normal                 = #000000AA
-bg_focus                  = #073766AA
+bg_focus                  = #1B3E5AAA
 bg_urgent                 = #FFC0CBAA
 
 fg_normal                 = #FFFFFF

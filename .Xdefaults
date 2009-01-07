@@ -22,7 +22,7 @@ URxvt.saveLines:        32767
 URxvt.cursorBlink:      true
 URxvt.cursorColor:      #FFFFFF
 
-URxvt.shading:          16
+URxvt.shading:          26
 URxvt.tintColor:        #000000
 URxvt.depth:            24
 

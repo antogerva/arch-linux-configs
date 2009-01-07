@@ -1,20 +1,33 @@
+--[[    $HOME/.config/awesome/functions.lua
+        Awesome Window Manager configuration functions file by STxza        
+        - only works with awesome-git newer than 07/01/2009 
+        - last update: 07/01/2009                                                ]]--
+        
 ---- Functions
 
 -- {{{ Markup functions
 function setBg(bgcolor, text)
-    return '<bg color="'..bgcolor..'" />'..text
+    if text then
+        return '<bg color="'..bgcolor..'" />'..text
+    end
 end
 
 function setFg(fgcolor, text)
-    return '<span color="'..fgcolor..'">'..text..'</span>'
+    if text then
+        return '<span color="'..fgcolor..'">'..text..'</span>'
+    end
 end
 
 function setBgFg(bgcolor, fgcolor, text)
-    return '<bg color="'..bgcolor..'" /><span color="'..fgcolor..'">'..text..'</span>'
+    if text then
+        return '<bg color="'..bgcolor..'" /><span color="'..fgcolor..'">'..text..'</span>'
+    end
 end
 
 function setFont(font, text)
-    return '<span font_desc="'..font..'">'..text..'</span>'
+    if text then
+        return '<span font_desc="'..font..'">'..text..'</span>'
+    end
 end
 -- }}}
 
@@ -51,7 +64,7 @@ function add_calendar(inc_offset)
         text     = string.format('<span font_desc="%s">%s</span>', "monospace", setFg(beautiful.fg_focus, os.date("%a, %d %B %Y")) .. "\n" .. cal),
         timeout  = 0, hover_timeout = 0.5,
         width    = 125,
-        position = "bottom_right",
+        position = "top_right",
         bg       = beautiful.bg_focus
     })
 end
@@ -68,7 +81,7 @@ function wifiInfo(adapter)
         naughty.notify({ title      = "Wifi Warning",
                          text       = "Wifi Down! ("..wifiStrength.."% connectivity)",
                          timeout    = 3,
-                         position   = "bottom_right",
+                         position   = "top_right",
                          fg         = beautiful.fg_focus,
                          bg         = beautiful.bg_focus
                        })
@@ -104,7 +117,7 @@ function batteryInfo(adapter)
                 naughty.notify({ title      = "Battery Warning",
                                  text       = "Battery low!"..spacer..battery.."%"..spacer.."left!",
                                  timeout    = 5,
-                                 position   = "bottom_right",
+                                 position   = "top_right",
                                  fg         = beautiful.fg_focus,
                                  bg         = beautiful.bg_focus
                                })

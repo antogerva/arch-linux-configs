@@ -1,7 +1,7 @@
 --[[    $HOME/.config/awesome/rc.lua
         Awesome Window Manager configuration file by STxza        
-        - only works with awesome-git newer than 31/12/2008 
-        - last update: 04/01/2009                                                ]]--
+        - only works with awesome-git newer than 07/01/2009 
+        - last update: 07/01/2009                                                ]]--
         
 io.stderr:write("\n\r::: Awesome Loaded @ ", os.time(), " :::\r\n")
 -------------------------------------------------------------------------------------
@@ -227,14 +227,14 @@ for s = 1, screen.count() do
     -- Create a tasklist widget
     -- Mod: Only display currently focused client in tasklist
     mytasklist[s] = awful.widget.tasklist.new(function(c)
-                                                if c == client.focus then
-                                                    return spacer..setFg(beautiful.fg_focus, "awful.widget.tasklist.label.currenttags(c, s)")..spacer
+                                                if c == client.focus and awful.widget.tasklist.label.currenttags(c, s) then
+                                                    return spacer..setFg(beautiful.fg_focus, awful.widget.tasklist.label.currenttags(c, s))..spacer
                                                 end
                                              end, mytasklist.buttons)
 
     -- Create the wibox
     mywibox[s] = wibox({ 
-        position = "bottom", 
+        position = "top", 
         height = 16, 
         fg = beautiful.fg_normal, 
         bg = beautiful.bg_normal, 
@@ -386,7 +386,8 @@ table.insert(globalkeys,
 table.insert(globalkeys, key({ modkey, "Control" }, "z", revelation.revelation))
 
 -- Rotate clients and focus master
-table.insert(globalkeys, key({ modkey }, "Tab", function ()
+table.insert(globalkeys, key({ modkey }, "Tab", 
+  function ()
     local allclients = awful.client.visible(client.focus.screen)
   
     for i,v in ipairs(allclients) do
@@ -399,7 +400,8 @@ table.insert(globalkeys, key({ modkey }, "Tab", function ()
   end))
 
 -- The other way 'round!
-table.insert(globalkeys, key({ modkey, "Shift" }, "Tab", function ()
+table.insert(globalkeys, key({ modkey, "Shift" }, "Tab", 
+  function ()
     local allclients = awful.client.visible(client.focus.screen)
     local toswap
 
@@ -417,7 +419,6 @@ table.insert(globalkeys, key({ modkey, "Shift" }, "Tab", function ()
   
 -- Set keys
 root.keys(globalkeys)
--- }}}
 
 -- }}}
 -------------------------------------------------------------------------------------
