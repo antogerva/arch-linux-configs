@@ -1,7 +1,7 @@
 --[[    $HOME/.config/awesome/rc.lua
         Awesome Window Manager configuration file by STxza        
-        - only works with awesome-git newer than 07/01/2009 
-        - last update: 07/01/2009                                                ]]--
+        - only works with awesome-git newer than 09/01/2009 
+        - last update: 09/01/2009                                                ]]--
         
 io.stderr:write("\n\r::: Awesome Loaded @ ", os.time(), " :::\r\n")
 -------------------------------------------------------------------------------------
@@ -51,7 +51,6 @@ layouts =
     awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
     awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier,
     awful.layout.suit.floating
 }

@@ -51,13 +51,11 @@ fsic                      = /home/stxza/.config/awesome/icons/accordion.png
 wallpaper_cmd             = awsetbg /home/stxza/pics/Walls/ARCHWalls/Diagonals_arch.jpg
 
 # Layout Icons
-layout_dwindle            = /usr/share/awesome/themes/default/layouts/dwindlew.png
 layout_fairh              = /usr/share/awesome/themes/default/layouts/fairhw.png
 layout_fairv              = /usr/share/awesome/themes/default/layouts/fairvw.png
 layout_floating           = /usr/share/awesome/themes/default/layouts/floatingw.png
 layout_magnifier          = /usr/share/awesome/themes/default/layouts/magnifierw.png
 layout_max                = /usr/share/awesome/themes/default/layouts/maxw.png
-layout_spiral             = /usr/share/awesome/themes/default/layouts/spiralw.png
 layout_tilebottom         = /usr/share/awesome/themes/default/layouts/tilebottomw.png
 layout_tileleft           = /usr/share/awesome/themes/default/layouts/tileleftw.png
 layout_tile               = /usr/share/awesome/themes/default/layouts/tilew.png
