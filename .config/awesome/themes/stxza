@@ -7,20 +7,21 @@ font                      = Monaco Bold 7
 
 # BG
 bg_normal                 = #000000AA
-bg_focus                  = #383838AA
+bg_focus                  = #505050AA
 bg_urgent                 = #FFC0CBAA
 
 # FG
-fg_normal                 = #757575
+fg_normal                 = #505050
 fg_focus                  = #FFFFFF
 fg_urgent                 = #1E90FF
+fg_widg                   = #949494
 
 # Border
 border_width              = 1
 border_width_wibox        = 0
-border_normal             = #67676766
-border_wibox              = #4D4D4D66
-border_focus              = #FFFFFF66
+border_normal             = #29292966
+border_wibox              = #00000066
+border_focus              = #50505066
 border_marked             = #A020F066
 
 # Menu

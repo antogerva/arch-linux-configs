@@ -61,7 +61,7 @@ function add_calendar(inc_offset)
     local cal = awful.util.pread("cal -m " .. datespec)
     cal = string.gsub(cal, "^%s*(.-)%s*$", "%1")
     calendar = naughty.notify({
-        text     = string.format('<span font_desc="%s">%s</span>', "monospace", setFg(beautiful.fg_focus, os.date("%a, %d %B %Y")) .. "\n" .. cal),
+        text     = string.format('<span font_desc="%s">%s</span>', "monospace", setFg(beautiful.fg_focus, os.date("%a, %d %B %Y")) .. "\n" .. setFg(beautiful.fg_widg, cal)),
         timeout  = 0, hover_timeout = 0.5,
         width    = 125,
         position = "top_right",
@@ -78,8 +78,8 @@ function wifiInfo(adapter)
     
     if wifiStrength == "0" then
         wifiStrength = setFg("#ff6565", wifiStrength)
-        naughty.notify({ title      = "Warning",
-                         text       = "Wifi Down! ("..wifiStrength.."% connectivity)",
+        naughty.notify({ title      = setFg(beautiful.fg_widg, "Warning"),
+                         text       = setFg(beautiful.fg_widg, "Wifi Down! (")..wifiStrength..setFg(beautiful.fg_widg, "% connectivity)"),
                          timeout    = 3,
                          position   = "top_right",
                          fg         = beautiful.fg_focus,
@@ -87,7 +87,7 @@ function wifiInfo(adapter)
                        })
     end
     
-    wifiwidget.text = spacer..wifiStrength.."%"..spacer
+    wifiwidget.text = setFg(beautiful.fg_widg, ""..wifiStrength.."%")..spacer
 end
 -- }}}
 
@@ -114,8 +114,8 @@ function batteryInfo(adapter)
             battery = setFg("#e6d51d", battery)
         elseif tonumber(battery) < 25 then
             if tonumber(battery) <= 10 then
-                naughty.notify({ title      = "Battery Warning",
-                                 text       = "Battery low!"..spacer..battery.."%"..spacer.."left!",
+                naughty.notify({ title      = setFg(beautiful.fg_widg, "Battery Warning"),
+                                 text       = setFg(beautiful.fg_widg, "Battery low!")..spacer..battery..setFg(beautiful.fg_widg, "%")..spacer..setFg(beautiful.fg_widg, "left!"),
                                  timeout    = 5,
                                  position   = "top_right",
                                  fg         = beautiful.fg_focus,
@@ -129,7 +129,7 @@ function batteryInfo(adapter)
         battery = "A/C"
     end
     
-    batterywidget.text = spacer..dir..battery..dir..spacer
+    batterywidget.text = spacer..setFg(beautiful.fg_widg, ""..dir..""..battery..""..dir.."")..spacer
 end
 -- }}}
 
@@ -154,7 +154,7 @@ function memInfo()
     memInUse = memTotal - memFree
     memUsePct = math.floor(memInUse / memTotal * 100)
 
-    memwidget.text = spacer..memUsePct.."%"..spacer.."("..memInUse.."M)"..spacer
+    memwidget.text = spacer..setFg(beautiful.fg_widg, ""..memUsePct.."%")..spacer.."("..setFg(beautiful.fg_widg,""..memInUse.."M")..")"..spacer
 end
 -- }}}
 
@@ -199,9 +199,9 @@ function gputemp()
 end
 
 function sysInfo(widget, args)
-    local core1 = spacer..setFg(beautiful.fg_focus, "C1:")..args[2].."%"..spacer..cputemp(0).."°"
-    local core2 = spacer..setFg(beautiful.fg_focus, "C2:")..args[3].."%"..spacer..cputemp(1).."°"
-    local gpu = spacer..setFg(beautiful.fg_focus, "G:")..gputemp().."°"..spacer
+    local core1 = spacer..setFg(beautiful.fg_focus, "C1:")..setFg(beautiful.fg_widg, ""..args[2].."%")..spacer..setFg(beautiful.fg_widg, ""..cputemp(0).."°")
+    local core2 = spacer..setFg(beautiful.fg_focus, "C2:")..setFg(beautiful.fg_widg, ""..args[3].."%")..spacer..setFg(beautiful.fg_widg, ""..cputemp(1).."°")
+    local gpu = spacer..setFg(beautiful.fg_focus, "G:")..setFg(beautiful.fg_widg, ""..gputemp().."°")..spacer
     local sysinfo = core1..core2..gpu 
     
 	return sysinfo
@@ -221,6 +221,6 @@ function getVol()
 		volume = volume.."M"
 	end
     
-    return volume..spacer
+    return setFg(beautiful.fg_widg, volume)..spacer
 end
 -- }}}

@@ -128,20 +128,26 @@ myawesomemenu = {
 }
 
 -- Main menu
-mymainmenu = awful.menu.new({ items = { { "Term"    , terminal },
-                                        { "FF" , browser },
-                                        { "PCManFM"     , fileManager },
-                                        { "Gvim"        , "gvim" },
-                                        { "Gimp"        , "gimp" },
-                                        { "Screen"      , terminal.." -e screen -RR" },
-                                        { "Awesome"     , myawesomemenu }
-                                      }
-                                      , border_width = beautiful.border_width_menu
-                            })
+mymainmenu = 
+awful.menu.new({ 
+items = 
+    { { "Term"        , terminal },
+      { "FF"          , browser },
+      { "PCManFM"     , fileManager },
+      { "Gvim"        , "gvim" },
+      { "Gimp"        , "gimp" },
+      { "Screen"      , terminal.." -e screen -RR" },
+      { "Awesome"     , myawesomemenu }
+    },
+    border_width = beautiful.border_width_menu
+})
 
-mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon)
-                                            , menu = mymainmenu 
-                                   })
+-- Launcher menu
+mylauncher = 
+awful.widget.launcher({ 
+    image = image(beautiful.awesome_icon),
+    menu = mymainmenu 
+})
 
 -- Create a systray
 mysystray = widget({ type = "systray", align = "right" })
@@ -182,7 +188,7 @@ memInfo()
 -- Create the File Sys Usage widget
 fswidget = widget({ type = 'textbox', align = 'right' })
 wicked.register(fswidget, wicked.widgets.fs, 
-    spacer..setFg(beautiful.fg_focus, "/:")..'${/ usep}%'..spacer..setFg(beautiful.fg_focus, "~:")..'${/home usep}%'..spacer, 
+    spacer..setFg(beautiful.fg_focus, "/:")..setFg(beautiful.fg_widg, '${/ usep}%')..spacer..setFg(beautiful.fg_focus, "~:")..setFg(beautiful.fg_widg, '${/home usep}%')..spacer, 
 15)
 fsic = widget({ type = "imagebox", align = "right" })
 fsic.image = image(beautiful.fsic)
@@ -251,7 +257,7 @@ for s = 1, screen.count() do
     -- Create the wibox
     mywibox[s] = wibox({ 
         position = "top", 
-        height = 14.6, 
+        height = 14.8, 
         fg = beautiful.fg_normal, 
         bg = beautiful.bg_normal, 
         border_color = beautiful.border_wibox, 
