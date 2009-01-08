@@ -17,7 +17,7 @@ export LANG=en_AU.UTF-8
 export LOCALE=en_AU.UTF-8
 export EDITOR=vim
 export BROWSER=firefox
-export OOO_FORCE_DESKTOP=gnome
+# export OOO_FORCE_DESKTOP=gnome
 # Firefox tweak
 export MOZ_DISABLE_PANGO=1
 

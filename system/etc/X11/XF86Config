@@ -40,7 +40,7 @@ EndSection
 
 Section "Device"
     Option         "NoLogo"			"True"
-    Option         "BackingStore"	"True"
+    Option         "BackingStore"	"False"
     Option	       "UseEdidDpi"		"false"
     Option		   "DPI"			"96 x 96"
 # Powermizer forcing to certain level always
@@ -48,6 +48,7 @@ Section "Device"
     Option 	   	   "RegistryDwords"	"PowerMizerLevelAC=0x3"
 	Option		   "RegistryDwords"	"PowerMizerLevel=0x3"
     #Option 	   "RegistryDwords"	"PerfLevelSrc=0x3333"
+    Option         "OnDemandVBlankInterrupts" "True"
     Identifier     "Device0"
     Driver         "nvidia"
     VendorName     "NVIDIA Corporation"

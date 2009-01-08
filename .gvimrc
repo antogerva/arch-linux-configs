@@ -102,10 +102,10 @@ set laststatus=2
 call <SID>SetStatusLine()
 
 " Turn off blinking
-set novb
+set visualbell
 " Turn off beep
-"set noerrorbells
-"set t_vb=
+set noerrorbells
+set t_vb=
 
 " highlight redundant whitespaces and tabs.
 " highlight RedundantSpaces ctermbg=red guibg=red

@@ -2,16 +2,20 @@
 -- STxza's Awesome Theme --
 ---------------------------
 
+# Font
 font                      = Monaco Bold 7
 
+# BG
 bg_normal                 = #000000AA
-bg_focus                  = #1B3E5AAA
+bg_focus                  = #383838AA
 bg_urgent                 = #FFC0CBAA
 
+# FG
 fg_normal                 = #FFFFFF
-fg_focus                  = #82C1FF
+fg_focus                  = #ADADAD
 fg_urgent                 = #1E90FF
 
+# Border
 border_width              = 1
 border_width_wibox        = 0
 border_normal             = #67676766
@@ -19,21 +23,33 @@ border_wibox              = #4D4D4D66
 border_focus              = #FFFFFF66
 border_marked             = #A020F066
 
-taglist_squares           = true
-taglist_squares_sel       = /usr/share/awesome/themes/default/taglist/squarefw.png
-taglist_squares_unsel     = /usr/share/awesome/themes/default/taglist/squarew.png
-
-tasklist_floating_icon    = /home/stxza/.config/awesome/icons/layouts/floatingw.png
-awesome_icon              = /home/stxza/.config/awesome/icons/awesome16.png
-arch_icon                 = /home/stxza/.config/awesome/icons/arch2.png
-
+# Menu
 menu_submenu_icon         = /home/stxza/.config/awesome/icons/submenu.png
 menu_height               = 15
 menu_width                = 88
 border_width_menu         = 1
 
-wallpaper_cmd             = awsetbg /home/stxza/pics/Walls/ForgottenCity.JPG
+# Taglist Icons
+taglist_squares           = true
+taglist_squares_sel       = /usr/share/awesome/themes/default/taglist/squarefw.png
+taglist_squares_unsel     = /usr/share/awesome/themes/default/taglist/squarew.png
 
+# Wibox Icons
+tasklist_floating_icon    = /home/stxza/.config/awesome/icons/layouts/floatingw.png
+awesome_icon              = /home/stxza/.config/awesome/icons/awesome16.png
+arch_icon                 = /home/stxza/.config/awesome/icons/arch2.png
+sepic                     = /home/stxza/.config/awesome/icons/separators/link14.png
+wifiic                    = /home/stxza/.config/awesome/icons/wifi.png
+tempic                    = /home/stxza/.config/awesome/icons/temp.png
+memic                     = /home/stxza/.config/awesome/icons/mem.png
+batic                     = /home/stxza/.config/awesome/icons/bat.png
+volic                     = /home/stxza/.config/awesome/icons/vol.png
+fsic                      = /home/stxza/.config/awesome/icons/accordion.png
+
+# Wall
+wallpaper_cmd             = awsetbg /home/stxza/pics/Walls/ARCHWalls/Diagonals_arch.jpg
+
+# Layout Icons
 layout_dwindle            = /usr/share/awesome/themes/default/layouts/dwindlew.png
 layout_fairh              = /usr/share/awesome/themes/default/layouts/fairhw.png
 layout_fairv              = /usr/share/awesome/themes/default/layouts/fairvw.png

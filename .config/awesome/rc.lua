@@ -78,7 +78,7 @@ apptags =
     ["geany"] = { screen = 1, tag = 3 },
     ["Gimp"] = { screen = 1, tag = 5 },
     ["Eclipse"] = { screen = 1, tag = 3 },
-    ["OpenOffice.org 3.1"] = { screen = 1, tag = 6 }
+    ["OpenOffice.org 3.0"] = { screen = 1, tag = 6 }
 }
 
 -- Define if we want to use titlebar on all applications.
@@ -151,7 +151,7 @@ spacer = " "
 
 -- Separator icon
 separator = widget({ type = "imagebox", align = "right" })
-separator.image = image(awful.util.getdir("config").."/icons/separators/link2.png")
+separator.image = image(beautiful.sepic)
 
 -- Create the clock widget
 clockwidget = widget({ type = "textbox", align = "right" })
@@ -160,16 +160,22 @@ clockInfo("%d/%m/%Y", "%T")
 
 -- Create the wifi widget
 wifiwidget = widget({ type = "textbox", align = "right" })
+wifiic = widget({ type = "imagebox", align = "right" })
+wifiic.image = image(beautiful.wifiic)
 -- Run it once so we don't have to wait for the hooks to see our signal strength
 wifiInfo("wlan0")
 
 -- Create the battery widget
 batterywidget = widget({ type = "textbox", align = "right" })
+batic = widget({ type = "imagebox", align = "right" })
+batic.image = image(beautiful.batic)
 -- Run it once so we don't have to wait for the hooks to see our percentage
 batteryInfo("BAT0")
 
 -- Create the memory widget
 memwidget = widget({ type = "textbox", align = "right" })
+memic = widget({ type = "imagebox", align = "right" })
+memic.image = image(beautiful.memic)
 -- Run it once so we don't have to wait for the hooks to see our memory usage
 memInfo()
 
@@ -178,14 +184,20 @@ fswidget = widget({ type = 'textbox', align = 'right' })
 wicked.register(fswidget, wicked.widgets.fs, 
     spacer..setFg(beautiful.fg_focus, "/:")..'${/ usep}%'..spacer..setFg(beautiful.fg_focus, "~:")..'${/home usep}%'..spacer, 
 15)
+fsic = widget({ type = "imagebox", align = "right" })
+fsic.image = image(beautiful.fsic)
 
 -- Create the CPU Usage, CPU Temps, GPU Temp widget
 syswidget = widget({ type = 'textbox', align = 'right' })
 wicked.register(syswidget, 'cpu', sysInfo, 15, nil, 2)
+tempic = widget({ type = "imagebox", align = "right" })
+tempic.image = image(beautiful.tempic)
 
 -- Create the volume widget
 volumewidget = widget({ type = 'textbox', align = 'right' })
 wicked.register(volumewidget, getVol, "$1", 15)
+volic = widget({ type = "imagebox", align = "right" })
+volic.image = image(beautiful.volic)
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -203,7 +215,7 @@ mytaglist.buttons = { button({ }, 1, awful.tag.viewonly),
                       
 mytasklist = {}
 mytasklist.buttons = { button({ }, 1, function (c) client.focus = c; c:raise() end),
-                       button({ }, 3, function () awful.menu.clients({ width=250 }) end),
+                       button({ }, 3, function () if instance then instance:hide() end instance = awful.menu.clients({ width=250 }) end),
                        button({ }, 4, function () awful.client.focus.byidx(1) end),
                        button({ }, 5, function () awful.client.focus.byidx(-1) end) 
                      }
@@ -226,16 +238,17 @@ for s = 1, screen.count() do
 
     -- Create a tasklist widget
     -- Mod: Only display currently focused client in tasklist
-    mytasklist[s] = awful.widget.tasklist.new(function(c)
-                                                if c == client.focus and awful.widget.tasklist.label.currenttags(c, s) then
-                                                    return spacer..setFg(beautiful.fg_focus, awful.widget.tasklist.label.currenttags(c, s))..spacer
-                                                end
-                                             end, mytasklist.buttons)
+    mytasklist[s] = awful.widget.tasklist.new(
+                      function(c)
+                        if c == client.focus and awful.widget.tasklist.label.currenttags(c, s) then
+                            return spacer..setFg(beautiful.fg_focus, awful.widget.tasklist.label.currenttags(c, s))..spacer
+                        end
+                      end, mytasklist.buttons)
 
     -- Create the wibox
     mywibox[s] = wibox({ 
         position = "top", 
-        height = 16, 
+        height = 14.8, 
         fg = beautiful.fg_normal, 
         bg = beautiful.bg_normal, 
         border_color = beautiful.border_wibox, 
@@ -247,17 +260,17 @@ for s = 1, screen.count() do
                             mytaglist[s],
                             mytasklist[s],
                             mypromptbox[s],
-                            separator,
+                            tempic,
                             syswidget,
-                            separator,
+                            memic,
                             memwidget,
-                            separator,
+                            fsic,
                             fswidget,
-                            separator,
+                            wifiic,
                             wifiwidget,
-                            separator,
+                            batic,
                             batterywidget,
-                            separator,
+                            volic,
                             volumewidget,
                             separator,
                             clockwidget,
@@ -340,7 +353,7 @@ table.insert(globalkeys, key({ modkey }              , "f"       , function () a
 table.insert(globalkeys, key({ modkey }              , "p"       , function () awful.util.spawn(fileManager) end))
 table.insert(globalkeys, key({ modkey }              , "g"       , function () awful.util.spawn("geany") end))
 table.insert(globalkeys, key({ modkey }              , "e"       , function () awful.util.spawn("eclipse") end))
-table.insert(globalkeys, key({ modkey }              , "o"       , function () awful.util.spawn("soffice-dev") end))
+table.insert(globalkeys, key({ modkey }              , "o"       , function () awful.util.spawn("soffice") end))
 
 -- Client control
 table.insert(globalkeys, key({ modkey }              , "c"       , function () client.focus:kill() end))

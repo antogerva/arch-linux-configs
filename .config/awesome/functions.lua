@@ -78,7 +78,7 @@ function wifiInfo(adapter)
     
     if wifiStrength == "0" then
         wifiStrength = setFg("#ff6565", wifiStrength)
-        naughty.notify({ title      = "Wifi Warning",
+        naughty.notify({ title      = "Warning",
                          text       = "Wifi Down! ("..wifiStrength.."% connectivity)",
                          timeout    = 3,
                          position   = "top_right",
@@ -87,7 +87,7 @@ function wifiInfo(adapter)
                        })
     end
     
-    wifiwidget.text = spacer..setFg(beautiful.fg_focus, "WFi:")..spacer..wifiStrength.."%"..spacer
+    wifiwidget.text = spacer..wifiStrength.."%"..spacer
 end
 -- }}}
 
@@ -129,7 +129,7 @@ function batteryInfo(adapter)
         battery = "A/C"
     end
     
-    batterywidget.text = spacer..setFg(beautiful.fg_focus, "Bat:")..spacer..dir..battery..dir..spacer
+    batterywidget.text = spacer..dir..battery..dir..spacer
 end
 -- }}}
 
@@ -154,7 +154,7 @@ function memInfo()
     memInUse = memTotal - memFree
     memUsePct = math.floor(memInUse / memTotal * 100)
 
-    memwidget.text = spacer..setFg(beautiful.fg_focus, "Mem:")..memUsePct.."%"..spacer.."("..memInUse.."M)"..spacer
+    memwidget.text = spacer..memUsePct.."%"..spacer.."("..memInUse.."M)"..spacer
 end
 -- }}}
 
@@ -171,7 +171,7 @@ function cputemp(core)
 	cpu = string.sub(cpu, pos, pos+3)
     
     if tonumber(cpu) >= 45 then
-        cpu = setFg("#994044", cpu)
+        cpu = setFg("#B9DCE7", cpu)
     end
     
 	return cpu
@@ -192,7 +192,7 @@ function gputemp()
 	end
     
     if tonumber(gpuTemp) >= 65 then
-        gpuTemp = setFg("#994044", gpuTemp)
+        gpuTemp = setFg("#B9DCE7", gpuTemp)
     end
     
     return gpuTemp
@@ -221,6 +221,6 @@ function getVol()
 		volume = volume.."M"
 	end
     
-    return spacer..setFg(beautiful.fg_focus, "Vol:")..volume..spacer
+    return volume..spacer
 end
 -- }}}
