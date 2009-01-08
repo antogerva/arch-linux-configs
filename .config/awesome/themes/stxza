@@ -11,8 +11,8 @@ bg_focus                  = #383838AA
 bg_urgent                 = #FFC0CBAA
 
 # FG
-fg_normal                 = #FFFFFF
-fg_focus                  = #ADADAD
+fg_normal                 = #ADADAD
+fg_focus                  = #FFFFFF
 fg_urgent                 = #1E90FF
 
 # Border

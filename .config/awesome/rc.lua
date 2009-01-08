@@ -240,8 +240,11 @@ for s = 1, screen.count() do
     -- Mod: Only display currently focused client in tasklist
     mytasklist[s] = awful.widget.tasklist.new(
                       function(c)
-                        if c == client.focus and awful.widget.tasklist.label.currenttags(c, s) then
-                            return spacer..setFg(beautiful.fg_focus, awful.widget.tasklist.label.currenttags(c, s))..spacer
+                        --if c == client.focus and awful.widget.tasklist.label.currenttags(c, s) then
+                        --    return spacer..setFg(beautiful.fg_focus, awful.widget.tasklist.label.currenttags(c, s))..spacer
+                        --end
+                        if c == client.focus then
+                            return spacer..setFg(beautiful.fg_focus, c.name)..spacer
                         end
                       end, mytasklist.buttons)
 
