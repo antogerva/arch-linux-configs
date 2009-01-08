@@ -251,7 +251,7 @@ for s = 1, screen.count() do
     -- Create the wibox
     mywibox[s] = wibox({ 
         position = "top", 
-        height = 14.8, 
+        height = 14.9, 
         fg = beautiful.fg_normal, 
         bg = beautiful.bg_normal, 
         border_color = beautiful.border_wibox, 

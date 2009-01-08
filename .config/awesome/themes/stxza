@@ -11,7 +11,7 @@ bg_focus                  = #383838AA
 bg_urgent                 = #FFC0CBAA
 
 # FG
-fg_normal                 = #ADADAD
+fg_normal                 = #757575
 fg_focus                  = #FFFFFF
 fg_urgent                 = #1E90FF
 
@@ -43,7 +43,7 @@ wifiic                    = /home/stxza/.config/awesome/icons/wifi.png
 tempic                    = /home/stxza/.config/awesome/icons/temp.png
 memic                     = /home/stxza/.config/awesome/icons/mem.png
 batic                     = /home/stxza/.config/awesome/icons/bat.png
-volic                     = /home/stxza/.config/awesome/icons/vol.png
+volic                     = /home/stxza/.config/awesome/icons/vol2.png
 fsic                      = /home/stxza/.config/awesome/icons/accordion.png
 
 # Wall
