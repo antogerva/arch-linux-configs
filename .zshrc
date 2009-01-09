@@ -17,8 +17,6 @@ setopt HIST_IGNORE_ALL_DUPS
 autoload -U compinit
 compinit
 autoload -U zcalc 	# Math			
-zstyle :compinstall filename '/home/stxza/.zshrc'
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # }}}
 
 # {{{ other opts
@@ -33,6 +31,7 @@ zstyle ':completion:*' completer _complete _prefix
 zstyle ':completion::prefix-1:*' completer _complete
 zstyle ':completion:incremental:*' completer _complete _correct
 zstyle ':completion:predict:*' completer _complete
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 # Expand partial paths
 zstyle ':completion:*' expand 'yes'
@@ -127,6 +126,7 @@ alias shutdownuni='sudo netcfg2 -d wifiuni && sleep 3 && sudo shutdown -hP now'
 alias rebootuni='sudo netcfg2 -d wifiuni && sleep 3 && sudo reboot'
 alias screenie='cd ~/bin/ && ./info.pl'
 alias pacman='sudo pacman-color'
+alias xpop='xprop | grep --color=none "WM_WINDOW_ROLE\|WM_CLASS" | xmessage -file - -center'
 # }}}
 
 # {{{ URXVT workaround - stop first line completion bug in tiling WMs

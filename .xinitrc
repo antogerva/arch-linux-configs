@@ -2,6 +2,7 @@
 #
 # ~/.xinitrc
 # Executed by startx (run your window manager from here)
+xrdb -load $HOME/.Xdefaults &
 xrdb -merge $HOME/.Xresources &
 xmodmap $HOME/.Xmodmap &
 xbindkeys &

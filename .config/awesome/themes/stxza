@@ -27,7 +27,7 @@ border_marked             = #A020F066
 # Menu
 menu_submenu_icon         = /home/stxza/.config/awesome/icons/submenu.png
 menu_height               = 15
-menu_width                = 88
+menu_width                = 100
 border_width_menu         = 1
 
 # Taglist Icons

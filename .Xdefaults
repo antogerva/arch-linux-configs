@@ -5,11 +5,6 @@
 ! vim:enc=utf-8:nu:ai:si:et:ts=4:sw=4:ft=xdefaults:
 ! ----------------------------------------------------------------------------
 
-Xft.dpi:                96
-Xft.antialias:          true
-Xft.hinting:            full
-Xft.hintstyle:          hintslight
-Xft.rgba:               rgb
 Xcursor.theme:          Neutral_Plus_Inverted
 Xcursor.size:           10
 
@@ -22,11 +17,12 @@ URxvt.saveLines:        32767
 URxvt.cursorBlink:      true
 URxvt.cursorColor:      #FFFFFF
 
-URxvt.background:       black
-URxvt.foreground:       white
+!URxvt.background:       black
+!URxvt.foreground:       white
 URxvt.shading:          26
-URxvt.tintColor:        #000000
+URxvt.tintColor:        white
 URxvt.depth:            24
+URxvt.xftAntialias:     true
 
 URxvt.visualBell:       true
 Urxvt.cutchars:         "()*,<>[]{}|'
@@ -40,10 +36,10 @@ URxvt.matcher.pattern.1:  \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
 ! }}}
 
 ! {{{ Fonts
-URxvt.font:            xft:Monaco:pixelsize=10.5:antialias=true:hinting=true
-URxvt.boldFont:        xft:Monaco:pixelsize=10.5:antialias=true:bold:hinting=true
-URxvt.italicFont:      xft:Monaco:pixelsize=10.5:antialias=true:italic:autohint=true:hinting=true
-URxvt.bolditalicFont:  xft:Monaco:pixelsize=10.5:antialias=true:bold:italic:autohint=true:hinting=true
+URxvt.font:            xft:Monaco:pixelsize=11:antialias=true:hinting=true
+URxvt.boldFont:        xft:Monaco:pixelsize=11:antialias=true:bold:hinting=true
+URxvt.italicFont:      xft:Monaco:pixelsize=11:antialias=true:italic:autohint=true:hinting=true
+URxvt.bolditalicFont:  xft:Monaco:pixelsize=11:antialias=true:bold:italic:autohint=true:hinting=true
 
 !URxvt*font:            -xos4-terminus-medium-r-normal--12-*-*-*-*-*-*-u
 !URxvt*boldFont:        -xos4-terminus-bold-r-normal--12-*-*-*-*-*-*-u
@@ -57,8 +53,8 @@ URxvt.bolditalicFont:  xft:Monaco:pixelsize=10.5:antialias=true:bold:italic:auto
 ! {{{ Colours
 
 ! ---| tangoesque scheme |--- {{{
-!*background: #1C1C1C
-!*foreground: #B4B4B4
+*background: #1C1C1C
+*foreground: #B4B4B4
 *color0:  #000000
 *color1:  #ff6565
 *color2:  #93d44f
