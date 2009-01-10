@@ -16,6 +16,7 @@ URxvt.scrollBar:        false
 URxvt.saveLines:        32767
 URxvt.cursorBlink:      true
 URxvt.cursorColor:      #FFFFFF
+URxvt.skipBuiltinGlyphs: true
 
 !URxvt.background:       black
 !URxvt.foreground:       white

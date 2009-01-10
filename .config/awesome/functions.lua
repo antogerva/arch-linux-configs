@@ -8,25 +8,25 @@
 -- {{{ Markup functions
 function setBg(bgcolor, text)
     if text then
-        return '<bg color="'..bgcolor..'" />'..text
+        return string.format('<bg color="%s" />%s', bgcolor, text)
     end
 end
 
 function setFg(fgcolor, text)
     if text then
-        return '<span color="'..fgcolor..'">'..text..'</span>'
+        return string.format('<span color="%s">%s</span>', fgcolor, text)
     end
 end
 
 function setBgFg(bgcolor, fgcolor, text)
     if text then
-        return '<bg color="'..bgcolor..'" /><span color="'..fgcolor..'">'..text..'</span>'
+        return string.format('<bg color="%s"/><span color="%s">%s</span>', bgcolor, fgcolor, text)
     end
 end
 
 function setFont(font, text)
     if text then
-        return '<span font_desc="'..font..'">'..text..'</span>'
+        return string.format('<span font_desc="%s">%s</span>', font, text)
     end
 end
 -- }}}
@@ -61,7 +61,8 @@ function add_calendar(inc_offset)
     local cal = awful.util.pread("cal -m " .. datespec)
     cal = string.gsub(cal, "^%s*(.-)%s*$", "%1")
     calendar = naughty.notify({
-        text     = string.format('<span font_desc="%s">%s</span>', "monospace", setFg(beautiful.fg_focus, os.date("%a, %d %B %Y")) .. "\n" .. setFg(beautiful.fg_widg, cal)),
+        text     = string.format('<span font_desc="%s">%s</span>', "monospace", 
+                   setFg(beautiful.fg_focus, os.date("%a, %d %B %Y")) .. "\n" .. setFg(beautiful.fg_widg, cal)),
         timeout  = 0, hover_timeout = 0.5,
         width    = 125,
         position = "top_right",

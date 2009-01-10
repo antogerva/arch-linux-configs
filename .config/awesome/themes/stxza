@@ -27,7 +27,7 @@ border_marked             = #A020F066
 # Menu
 menu_submenu_icon         = /home/stxza/.config/awesome/icons/submenu.png
 menu_height               = 15
-menu_width                = 100
+menu_width                = 96
 border_width_menu         = 1
 
 # Taglist Icons
@@ -37,8 +37,8 @@ taglist_squares_unsel     = /usr/share/awesome/themes/default/taglist/squarew.pn
 
 # Wibox Icons
 tasklist_floating_icon    = /home/stxza/.config/awesome/icons/layouts/floatingw.png
-awesome_icon              = /home/stxza/.config/awesome/icons/awesome16.png
-arch_icon                 = /home/stxza/.config/awesome/icons/arch2.png
+awesome_icon              = /home/stxza/.config/awesome/icons/awesome16_gray.png
+arch_icon                 = /home/stxza/.config/awesome/icons/arch_grey.png
 sepic                     = /home/stxza/.config/awesome/icons/separators/link14.png
 wifiic                    = /home/stxza/.config/awesome/icons/wifi.png
 tempic                    = /home/stxza/.config/awesome/icons/temp.png

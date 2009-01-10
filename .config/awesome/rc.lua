@@ -1,9 +1,8 @@
 --[[    $HOME/.config/awesome/rc.lua
         Awesome Window Manager configuration file by STxza        
         - only works with awesome-git newer than 09/01/2009 
-        - last update: 09/01/2009                                                ]]--
-        
-io.stderr:write("\n\r::: Awesome Loaded @ ", os.time(), " :::\r\n")
+                                                                                 ]]--        
+io.stderr:write("\n\r::: Awesome Loaded @ ", os.date(), " :::\r\n")
 -------------------------------------------------------------------------------------
 -- {{{ Imports
 
@@ -14,7 +13,7 @@ require("naughty")
 require("wicked")
 require("revelation")
 
--- Load my functions
+-- Load my widget functions
 require("functions")
 
 -- }}}
@@ -55,10 +54,7 @@ layouts =
     awful.layout.suit.floating
 }
 
--- Table of clients that should be set floating. The index may be either
--- the application class or instance. The instance is useful when running
--- a console app in a terminal like (Music on Console)
---    xterm -name mocp -e mocp
+-- Table of clients that should be set floating.
 floatapps =
 {
     ["gimp"] = true,
@@ -87,21 +83,30 @@ use_titlebar = false
 -------------------------------------------------------------------------------------
 -- {{{ Tags
 
+tag_names = {   
+    { name = "1:main" },
+    { name = "2:www" },
+    { name = "3:dev" }
+}
+
 -- Define tags table.
 tags = {}
-for s = 1, screen.count() do
+for s = 1, screen.count() do    
     -- Each screen has its own tag table.
     tags[s] = {}
-    -- Create 6 tags per screen.
-    for tagnumber = 1, 6 do
-        tags[s][tagnumber] = tag(tagnumber)
-        -- Add tags to screen one by one
+    for tagnumber = 1, 3 do
+        tags[s][tagnumber] = tag(tag_names[tagnumber].name)
         tags[s][tagnumber].screen = s
         -- Set mwfacts
         awful.tag.setmwfact(0.618033988769, tags[s][tagnumber])
     end
-    
-    -- I'm sure you want to see at least one tag.
+    for tagnumber = 4, 6 do
+        tags[s][tagnumber] = tag(tagnumber)
+        tags[s][tagnumber].screen = s
+        -- Set mwfacts
+        awful.tag.setmwfact(0.618033988769, tags[s][tagnumber])
+    end
+    -- Select at least one tag
     tags[s][1].selected = true
 end
 
@@ -116,10 +121,9 @@ awful.layout.set(awful.layout.suit.max, tags[1][6])
 -------------------------------------------------------------------------------------
 -- {{{ Wibox
 -- Please note the functions feeding some of the widgets are found in functions.lua
--- TODO: remove "my" from widget names ?
 
 -- Create a laucher widget and a main menu
-myawesomemenu = {
+awesomemenu = {
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awful.util.getdir("config") .. "/rc.lua" },
    { "restart", awesome.restart },
@@ -127,29 +131,29 @@ myawesomemenu = {
 }
 
 -- Main menu
-mymainmenu = 
+mainmenu = 
 awful.menu.new({ 
-items = 
-    { { "Term"        , terminal },
-      { "FF"          , browser },
-      { "PCManFM"     , fileManager },
-      { "Gvim"        , "gvim" },
-      { "Gimp"        , "gimp" },
-      { "Screen"      , terminal.." -e screen -RR" },
-      { "Awesome"     , myawesomemenu }
-    },
-    border_width = beautiful.border_width_menu
+    items = { 
+                { "Term"        , terminal },
+                { "FF"          , browser },
+                { "PCManFM"     , fileManager },
+                { "Gvim"        , "gvim" },
+                { "Gimp"        , "gimp" },
+                { "Screen"      , terminal.." -e screen -RR" },
+                { "Awesome"     , awesomemenu }
+            },
+            border_width = beautiful.border_width_menu
 })
 
 -- Launcher menu
-mylauncher = 
+launcher = 
 awful.widget.launcher({ 
-    image = image(beautiful.awesome_icon),
-    menu = mymainmenu 
+    image = image(beautiful.arch_icon),
+    menu = mainmenu 
 })
 
 -- Create a systray
-mysystray = widget({ type = "systray", align = "right" })
+systray = widget({ type = "systray", align = "right" })
 
 -- Simple spacer we can use to get cleaner code
 spacer = " "
@@ -206,55 +210,52 @@ volic.image = image(beautiful.volic)
 
 -- Create a wibox for each screen and add it
 mywibox = {}
-mypromptbox = {}
-mylayoutbox = {}
+promptbox = {}
+layoutbox = {}
 
-mytaglist = {}
-mytaglist.buttons = { button({ }, 1, awful.tag.viewonly),
-                      button({ modkey }, 1, awful.client.movetotag),
-                      button({ }, 3, function (tag) tag.selected = not tag.selected end),
-                      button({ modkey }, 3, awful.client.toggletag),
-                      button({ }, 4, awful.tag.viewnext),
-                      button({ }, 5, awful.tag.viewprev) 
-                    }
+taglist = {}
+taglist.buttons = { button({ }, 1, awful.tag.viewonly),
+                    button({ modkey }, 1, awful.client.movetotag),
+                    button({ }, 3, function (tag) tag.selected = not tag.selected end),
+                    button({ modkey }, 3, awful.client.toggletag),
+                    button({ }, 4, awful.tag.viewnext),
+                    button({ }, 5, awful.tag.viewprev) 
+                  }
                       
-mytasklist = {}
-mytasklist.buttons = { button({ }, 1, function (c) client.focus = c; c:raise() end),
-                       button({ }, 3, function () if instance then instance:hide() end instance = awful.menu.clients({ width=250 }) end),
-                       button({ }, 4, function () awful.client.focus.byidx(1) end),
-                       button({ }, 5, function () awful.client.focus.byidx(-1) end) 
-                     }
+tasklist = {}
+tasklist.buttons = { button({ }, 1, function (c) client.focus = c; c:raise() end),
+                     button({ }, 3, function () if instance then instance:hide() end instance = awful.menu.clients({ width=250 }) end),
+                     button({ }, 4, function () awful.client.focus.byidx(1) end),
+                     button({ }, 5, function () awful.client.focus.byidx(-1) end) 
+                   }
 
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
-    mypromptbox[s] = widget({ type = "textbox", align = "left" })
+    promptbox[s] = widget({ type = "textbox", align = "left" })
     
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
-    mylayoutbox[s] = widget({ type = "imagebox", align = "right" })
-    mylayoutbox[s]:buttons({ button({ }, 1, function () awful.layout.inc(layouts, 1) end),
-                             button({ }, 3, function () awful.layout.inc(layouts, -1) end),
-                             button({ }, 4, function () awful.layout.inc(layouts, 1) end),
-                             button({ }, 5, function () awful.layout.inc(layouts, -1) end) 
-                           })
+    layoutbox[s] = widget({ type = "imagebox", align = "right" })
+    layoutbox[s]:buttons({ button({ }, 1, function () awful.layout.inc(layouts, 1) end),
+                           button({ }, 3, function () awful.layout.inc(layouts, -1) end),
+                           button({ }, 4, function () awful.layout.inc(layouts, 1) end),
+                           button({ }, 5, function () awful.layout.inc(layouts, -1) end) 
+                         })
                              
     -- Create a taglist widget
-    mytaglist[s] = awful.widget.taglist.new(s, awful.widget.taglist.label.all, mytaglist.buttons)
+    taglist[s] = awful.widget.taglist.new(s, awful.widget.taglist.label.all, taglist.buttons)
 
     -- Create a tasklist widget
     -- Mod: Only display currently focused client in tasklist
-    mytasklist[s] = awful.widget.tasklist.new(
+    tasklist[s] = awful.widget.tasklist.new(
                       function(c)
-                        --if c == client.focus and awful.widget.tasklist.label.currenttags(c, s) then
-                        --    return spacer..setFg(beautiful.fg_focus, awful.widget.tasklist.label.currenttags(c, s))..spacer
-                        --end
                         if c == client.focus then
                             return spacer..setFg(beautiful.fg_focus, c.name)..spacer
                         end
-                      end, mytasklist.buttons)
+                      end, tasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = wibox({ 
+   mywibox[s] = wibox({ 
         position = "top", 
         height = 14.8, 
         fg = beautiful.fg_normal, 
@@ -264,10 +265,10 @@ for s = 1, screen.count() do
     })
     
     -- Add widgets to the wibox - order matters
-    mywibox[s].widgets = {  --mylauncher,
-                            mytaglist[s],
-                            mytasklist[s],
-                            mypromptbox[s],
+   mywibox[s].widgets = {   launcher,
+                            taglist[s],
+                            tasklist[s],
+                            promptbox[s],
                             tempic,
                             syswidget,
                             memic,
@@ -282,10 +283,10 @@ for s = 1, screen.count() do
                             volumewidget,
                             separator,
                             clockwidget,
-                            s == 1 and mysystray or nil,
-                            mylayoutbox[s] 
-                         }
-    mywibox[s].screen = s
+                            s == 1 and systray or nil,
+                            layoutbox[s] 
+                        }
+   mywibox[s].screen = s
 end
 
 -- }}}
@@ -293,7 +294,7 @@ end
 -- {{{ Mouse bindings
 
 root.buttons({
-    button({ }, 3, function () mymainmenu:toggle() end),
+    button({ }, 3, function () mainmenu:toggle() end),
     button({ }, 4, awful.tag.viewnext),
     button({ }, 5, awful.tag.viewprev)
 })
@@ -303,12 +304,7 @@ root.buttons({
 -- {{{ Key bindings
 
 -- Bind keyboard digits
--- Compute the maximum number of digit we need, limited to 9
-keynumber = 0
-for s = 1, screen.count() do
-   keynumber = math.min(6, math.max(#tags[s], keynumber));
-end
-
+keynumber = 6
 globalkeys = {}
 clientkeys = {}
 
@@ -373,12 +369,12 @@ table.insert(globalkeys, key({ modkey }              , "m"       , function () i
                                                              client.focus.maximized_vertical = not client.focus.maximized_vertical end end))
                                                              
 -- Awesome control
-table.insert(globalkeys, key({ modkey, "Control" }   , "r"       , function () mypromptbox[mouse.screen].text = awful.util.escape(awful.util.restart()) end))
+table.insert(globalkeys, key({ modkey, "Control" }   , "r"       , function () promptbox[mouse.screen].text = awful.util.escape(awful.util.restart()) end))
 table.insert(globalkeys, key({ modkey, "Shift" }     , "q"       , awesome.quit))
 
 -- Prompt
 table.insert(globalkeys, key({ modkey }              , "r"       , function () awful.prompt.run({ prompt = "Run: " },
-                                                                                mypromptbox[mouse.screen],
+                                                                                promptbox[mouse.screen],
                                                                                 awful.util.spawn, awful.completion.bash,
                                                                                 awful.util.getdir("cache") .. "/history")
                                                                     end))
@@ -396,10 +392,10 @@ table.insert(globalkeys, key({ modkey, "Control" }   , "l"       , function () a
 -- Shows or hides the statusbar
 table.insert(globalkeys,
     key({ modkey }, "b", function () 
-        if mywibox[mouse.screen].screen == nil then 
-            mywibox[mouse.screen].screen = mouse.screen
+        if wibox[mouse.screen].screen == nil then 
+            wibox[mouse.screen].screen = mouse.screen
         else
-            mywibox[mouse.screen].screen = nil
+            wibox[mouse.screen].screen = nil
         end
     end))
 
@@ -544,9 +540,9 @@ end)
 awful.hooks.arrange.register(function (screen)
     local layout = awful.layout.getname(awful.layout.get(screen))
     if layout and beautiful["layout_" ..layout] then
-        mylayoutbox[screen].image = image(beautiful["layout_" .. layout])
+        layoutbox[screen].image = image(beautiful["layout_" .. layout])
     else
-        mylayoutbox[screen].image = nil
+        layoutbox[screen].image = nil
     end
 
     -- Give focus to the latest client in history if no window has focus
