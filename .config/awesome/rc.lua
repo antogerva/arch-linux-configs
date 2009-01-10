@@ -84,9 +84,9 @@ use_titlebar = false
 -- {{{ Tags
 
 tag_names = {   
-    { name = "1:main" },
-    { name = "2:www" },
-    { name = "3:dev" }
+    { name = "main" },
+    { name = "www" },
+    { name = "dev" }
 }
 
 -- Define tags table.
@@ -189,24 +189,31 @@ memic.image = image(beautiful.memic)
 memInfo()
 
 -- Create the File Sys Usage widget
-fswidget = widget({ type = 'textbox', align = 'right' })
+fswidget = widget({ type = "textbox", align = "right" })
 wicked.register(fswidget, wicked.widgets.fs, 
     spacer..setFg(beautiful.fg_focus, "/:")..setFg(beautiful.fg_widg, '${/ usep}%')..spacer..setFg(beautiful.fg_focus, "~:")..setFg(beautiful.fg_widg, '${/home usep}%')..spacer, 
-15)
+20)
 fsic = widget({ type = "imagebox", align = "right" })
 fsic.image = image(beautiful.fsic)
 
 -- Create the CPU Usage, CPU Temps, GPU Temp widget
-syswidget = widget({ type = 'textbox', align = 'right' })
-wicked.register(syswidget, 'cpu', sysInfo, 15, nil, 2)
+syswidget = widget({ type = "textbox", align = "right" })
+wicked.register(syswidget, 'cpu', sysInfo, 20, nil, 2)
 tempic = widget({ type = "imagebox", align = "right" })
 tempic.image = image(beautiful.tempic)
 
 -- Create the volume widget
-volumewidget = widget({ type = 'textbox', align = 'right' })
-wicked.register(volumewidget, getVol, "$1", 15)
+volumewidget = widget({ type = "textbox", align = "right" })
+wicked.register(volumewidget, getVol, "$1", 20)
 volic = widget({ type = "imagebox", align = "right" })
 volic.image = image(beautiful.volic)
+
+--TODO:
+-- Create the Pacman Upgrade Query widget
+--pacwidget = widget({ type = "textbox", name = "pacwidget", align = "right" })
+--wicked.register(pacwidget, pacinfo, "$1", 1800)
+--pacic = widget({ type = "imagebox", align = "right" })
+--pacic.image = image(beautiful.pacic)
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -265,7 +272,7 @@ for s = 1, screen.count() do
     })
     
     -- Add widgets to the wibox - order matters
-   mywibox[s].widgets = {   launcher,
+   mywibox[s].widgets = {   --launcher,
                             taglist[s],
                             tasklist[s],
                             promptbox[s],
@@ -365,15 +372,20 @@ table.insert(globalkeys, key({ modkey, "Shift" }     , "r"       , function () c
 table.insert(globalkeys, key({ modkey, "Control" }   , "space"   , awful.client.floating.toggle))
 table.insert(globalkeys, key({ modkey }              , "j"       , function () awful.client.focus.byidx(1); client.focus:raise() end))
 table.insert(globalkeys, key({ modkey }              , "k"       , function () awful.client.focus.byidx(-1);  client.focus:raise() end))
-table.insert(globalkeys, key({ modkey }              , "m"       , function () if client.focus then client.focus.maximized_horizontal = not client.focus.maximized_horizontal
-                                                             client.focus.maximized_vertical = not client.focus.maximized_vertical end end))
+table.insert(globalkeys, key({ modkey }              , "m"       , function () 
+                                                                        if client.focus then 
+                                                                            client.focus.maximized_horizontal = not client.focus.maximized_horizontal
+                                                                            client.focus.maximized_vertical = not client.focus.maximized_vertical 
+                                                                        end 
+                                                                   end))
+table.insert(globalkeys, key({ modkey }              , "u"       , awful.client.urgent.jumpto))                                                             
                                                              
 -- Awesome control
 table.insert(globalkeys, key({ modkey, "Control" }   , "r"       , function () promptbox[mouse.screen].text = awful.util.escape(awful.util.restart()) end))
 table.insert(globalkeys, key({ modkey, "Shift" }     , "q"       , awesome.quit))
 
 -- Prompt
-table.insert(globalkeys, key({ modkey }              , "r"       , function () awful.prompt.run({ prompt = "Run: " },
+table.insert(globalkeys, key({ modkey }              , "r"       , function () awful.prompt.run({ prompt = setFg(beautiful.fg_focus, spacer.."Run:"..spacer) },
                                                                                 promptbox[mouse.screen],
                                                                                 awful.util.spawn, awful.completion.bash,
                                                                                 awful.util.getdir("cache") .. "/history")
@@ -416,24 +428,6 @@ table.insert(globalkeys, key({ modkey }, "Tab",
     --awful.client.focus.byidx(-1)
   end))
 
--- The other way 'round!
-table.insert(globalkeys, key({ modkey, "Shift" }, "Tab", 
-  function ()
-    local allclients = awful.client.visible(client.focus.screen)
-    local toswap
-
-    for i,v in ipairs(allclients) do
-      if toswap then
-        toswap:swap(v)
-        toswap = v
-      else
-        toswap = v
-      end
-    end
-    -- dont want currently - want to keep focus of currently focused client
-    --awful.client.focus.byidx(-1)
-  end))
-  
 -- Set keys
 root.keys(globalkeys)
 

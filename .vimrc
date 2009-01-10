@@ -9,7 +9,7 @@ filetype on
 
 set t_Co=256
 set mouse=a         
-colorscheme ir_black
+colorscheme candycode
 set termencoding=utf-8 
 
 " Indenting, Folding..

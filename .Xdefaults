@@ -9,7 +9,7 @@ Xcursor.theme:          Neutral_Plus_Inverted
 Xcursor.size:           10
 
 URxvt.termName:         rxvt-unicode
-URxvt.transparent:      true
+URxvt.transparent:      false
 URxvt.inheritPixmap:    true
 URxvt.imLocale:         en_AU.UTF-8
 URxvt.scrollBar:        false
@@ -20,9 +20,9 @@ URxvt.skipBuiltinGlyphs: true
 
 !URxvt.background:       black
 !URxvt.foreground:       white
-URxvt.shading:          26
+URxvt.shading:          20
 URxvt.tintColor:        white
-URxvt.depth:            24
+URxvt.depth:            32
 URxvt.xftAntialias:     true
 
 URxvt.visualBell:       true

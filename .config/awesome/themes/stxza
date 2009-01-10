@@ -6,22 +6,22 @@
 font                      = Monaco Bold 7
 
 # BG
-bg_normal                 = #000000AA
-bg_focus                  = #505050AA
+bg_normal                 = #121212AA
+bg_focus                  = #5A5A5AAA
 bg_urgent                 = #FFC0CBAA
 
 # FG
-fg_normal                 = #505050
+fg_normal                 = #5A5A5A
 fg_focus                  = #FFFFFF
 fg_urgent                 = #1E90FF
 fg_widg                   = #949494
 
 # Border
-border_width              = 1
+border_width              = 2
 border_width_wibox        = 0
 border_normal             = #29292966
-border_wibox              = #00000066
-border_focus              = #50505066
+border_wibox              = #5A5A5A66
+border_focus              = #5A5A5A66
 border_marked             = #A020F066
 
 # Menu
@@ -39,6 +39,7 @@ taglist_squares_unsel     = /usr/share/awesome/themes/default/taglist/squarew.pn
 tasklist_floating_icon    = /home/stxza/.config/awesome/icons/layouts/floatingw.png
 awesome_icon              = /home/stxza/.config/awesome/icons/awesome16_gray.png
 arch_icon                 = /home/stxza/.config/awesome/icons/arch_grey.png
+pacic                     = /home/stxza/.config/awesome/icons/pacman.png
 sepic                     = /home/stxza/.config/awesome/icons/separators/link14.png
 wifiic                    = /home/stxza/.config/awesome/icons/wifi.png
 tempic                    = /home/stxza/.config/awesome/icons/temp.png
@@ -48,7 +49,7 @@ volic                     = /home/stxza/.config/awesome/icons/vol2.png
 fsic                      = /home/stxza/.config/awesome/icons/accordion.png
 
 # Wall
-wallpaper_cmd             = awsetbg /home/stxza/pics/Walls/ARCHWalls/Diagonals_arch.jpg
+wallpaper_cmd             = awsetbg -f /home/stxza/pics/Walls/ARCHWalls/thinknew.jpg
 
 # Layout Icons
 layout_fairh              = /usr/share/awesome/themes/default/layouts/fairhw.png

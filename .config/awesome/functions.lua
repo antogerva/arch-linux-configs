@@ -1,8 +1,8 @@
 --[[    $HOME/.config/awesome/functions.lua
         Awesome Window Manager configuration functions file by STxza        
         - only works with awesome-git newer than 07/01/2009 
-        - last update: 07/01/2009                                                ]]--
-        
+                                                                    ]]--
+
 ---- Functions
 
 -- {{{ Markup functions
@@ -81,9 +81,9 @@ function wifiInfo(adapter)
         wifiStrength = setFg("#ff6565", wifiStrength)
         naughty.notify({ title      = setFg(beautiful.fg_widg, "Warning"),
                          text       = setFg(beautiful.fg_widg, "Wifi Down! (")..wifiStrength..setFg(beautiful.fg_widg, "% connectivity)"),
-                         timeout    = 3,
+                         timeout    = 5,
                          position   = "top_right",
-                         fg         = beautiful.fg_focus,
+                         --fg         = beautiful.fg_focus,
                          bg         = beautiful.bg_focus
                        })
     end
@@ -115,11 +115,12 @@ function batteryInfo(adapter)
             battery = setFg("#e6d51d", battery)
         elseif tonumber(battery) < 25 then
             if tonumber(battery) <= 10 then
+                -- Naughtify me when battery gets really low
                 naughty.notify({ title      = setFg(beautiful.fg_widg, "Battery Warning"),
                                  text       = setFg(beautiful.fg_widg, "Battery low!")..spacer..battery..setFg(beautiful.fg_widg, "%")..spacer..setFg(beautiful.fg_widg, "left!"),
                                  timeout    = 5,
                                  position   = "top_right",
-                                 fg         = beautiful.fg_focus,
+                                 --fg         = beautiful.fg_focus,
                                  bg         = beautiful.bg_focus
                                })
             end
@@ -184,25 +185,23 @@ function gputemp()
     gT:close() 
     
     -- pL is the nvidia performance setting thats currently being employed by the driver
-    -- local pL = io.popen("nvidia-settings -q GPUCurrentPerfLevel | grep -m1 PerfLevel | cut -d' ' -f6 | cut -d'.' -f1")
-    -- local perfL = pL:read()
-    -- pL:close()
+    local pL = io.popen("nvidia-settings -q GPUCurrentPerfLevel | grep -m1 PerfLevel | cut -d' ' -f6 | cut -d'.' -f1")
+    local perfL = pL:read()
+    pL:close()
     
     if (gpuTemp == nil) then
         return ''
-	end
-    
-    if tonumber(gpuTemp) >= 65 then
+    elseif tonumber(gpuTemp) >= 65 then
         gpuTemp = setFg("#B9DCE7", gpuTemp)
     end
     
-    return gpuTemp
+    return gpuTemp.."°/"..perfL
 end
 
 function sysInfo(widget, args)
     local core1 = spacer..setFg(beautiful.fg_focus, "C1:")..setFg(beautiful.fg_widg, ""..args[2].."%")..spacer..setFg(beautiful.fg_widg, ""..cputemp(0).."°")
     local core2 = spacer..setFg(beautiful.fg_focus, "C2:")..setFg(beautiful.fg_widg, ""..args[3].."%")..spacer..setFg(beautiful.fg_widg, ""..cputemp(1).."°")
-    local gpu = spacer..setFg(beautiful.fg_focus, "G:")..setFg(beautiful.fg_widg, ""..gputemp().."°")..spacer
+    local gpu = spacer..setFg(beautiful.fg_focus, "G:")..setFg(beautiful.fg_widg, gputemp())..spacer
     local sysinfo = core1..core2..gpu 
     
 	return sysinfo
@@ -225,3 +224,25 @@ function getVol()
     return setFg(beautiful.fg_widg, volume)..spacer
 end
 -- }}}
+
+-- {{{ Pacman Upgrade Query
+--[[
+function pacinfo()
+    local puSy = io.popen("pacman -Sy")
+    local pu = io.popen("pacman -Qu")
+	local pu_text = pu:read("*a")
+    io.close(pu)
+    io.close(puSy)
+	
+	local pacup = string.match(pu_text, "Targets %((%d+)%)")	
+	if pu_text:match("no upgrades found.") then
+		pacman = "0"
+	else
+		pacman = setFg(beautiful.fg_urgent, pacup)
+	end
+    
+    pacman = "Y"
+    	
+	return spacer..pacman
+end
+--]]
