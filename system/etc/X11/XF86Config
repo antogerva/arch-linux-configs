@@ -3,7 +3,7 @@
 
 Section "ServerLayout"
     Identifier     "X.org Configured"
-    Screen          0   "Screen0"
+    Screen          0 "Screen0" 0 0
 EndSection
 
 Section "Files"
@@ -32,10 +32,10 @@ Section "Monitor"
     Identifier     "Monitor0"
     VendorName     "Unknown"
     ModelName      "Unknown"
+    DisplaySize    338 211
     HorizSync      30.0 - 110.0
     VertRefresh    50.0 - 150.0
     Option         "DPMS"			"True"
-    DisplaySize    338 211          #96 DPI
 EndSection
 
 Section "Device"
@@ -64,7 +64,3 @@ Section "Screen"
         Depth       24
     EndSubSection
 EndSection
-
-#Section "Extensions"
-#  Option "Composite" "Enable"
-#EndSection

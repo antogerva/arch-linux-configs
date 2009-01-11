@@ -1,7 +1,5 @@
 #!/usr/bin/perl
 #
-# ~/.script-info.pl
-#
 # @title : Theme info script 0.1.2 revisited
 # @author: rab
 # @date  : 08/04/08
@@ -24,10 +22,10 @@ my %display = (
 # Escape ' with a backslash, \'
 # Leave blank if you don't want a screenshot taken
 #my $screenshot = 'scrot screen-%H-%M-%S.png -e \'mv $f ~/media/screens/\'';
-my $screenshot = 'scrot screen-%H-%M-%S.png -q 90 -e \'mv $f ~/pics/Screens/\'';
+my $screenshot = 'scrot -cd 5 "/home/ftp/screen/%Y-%m-%d.png"';
 
 # The Color to use for the variables, needs to be global for logos.pl
-@colors = ( "\e[37;1;37m", "\e[37;0;36m", "\e[m" );
+@colors = ( "\e[36;1;36m", "\e[37;0;37m", "\e[37m", "\e[34m" );
 
 # Debugging
 my $debug = 1;
@@ -68,16 +66,16 @@ my %DElist = ("Gnome"   => "gnome-session",
 
 ## Get Kernel version ##
 if( $display{KL} ) {
-    print "::$colors[0] Finding Kernel version$nocolor\n" 
-        if $debug;
+	#print "$colors[3]  ❱$colors[0] Finding Kernel version$nocolor\n" 
+	#if $debug;
 
     my $kernel = `uname -r`; $kernel =~ s/\s+/ /g;
-    push @info, "$colors[0]Kernel\t\t\t$colors[1]$kernel$nocolor";
+    push @info, "$colors[0]Kernel\t\t$colors[3]  ❱\t$colors[2]$kernel$nocolor";
 }
 
 ## Find running processes ##
-print "::$colors[0] Getting processes$nocolor\n" 
-    if $debug;
+#print "$colors[3]  ❱$colors[0] Getting processes$nocolor\n" 
+#    if $debug;
 my $processes = `ps -A | awk {'print \$4'}`;
 
 
@@ -88,9 +86,9 @@ while(my($DEname,$DEprocess) = each(%DElist)) {
     next if $processes !~ /$DEprocess/s;
 
     $DE = $DEname;
-    print "::$colors[0] Desktop Environment found as $colors[1]$DEname$nocolor\n" 
-        if $debug;
-    push @info, "$colors[0]Desktop Environment\t$colors[1]$DEname$nocolor";
+#    print "$colors[3]  ❱$colors[0] Desktop Environment found as $colors[2]$DEname$nocolor\n" 
+#        if $debug;
+    push @info, "$colors[0]Desktop Environment$colors[3] ❱\t$colors[2]$DEname$nocolor";
     last;
 }
 
@@ -101,17 +99,17 @@ while(my($WMname,$WMprocess) = each(%WMlist)) {
     next if $processes !~ /$WMprocess/sg;
 
     $WM = $WMname;
-    print "::$colors[0] Window Manager found as $colors[1]$WMname$nocolor\n" 
-        if $debug;
-    push @info, "$colors[0]Window Manager\t\t$colors[1]$WMname$nocolor";
+#    print "$colors[3]  ❱$colors[0] Window Manager found as $colors[2]$WMname$nocolor\n" 
+#        if $debug;
+    push @info, "$colors[0]Window Manager\t$colors[3]  ❱\t$colors[2]$WMname$nocolor";
     last;
 }
 
 ## Find a Window Manager Theme ##
 WINDOWMT:
 goto ICON if !$display{WMT} || !$display{WM} || $WM eq "";
-print "::$colors[0] Finding $WM theme$nocolor\n" 
-    if $debug;
+#print "$colors[3]  ❱$colors[0] Finding $WM theme$nocolor\n" 
+#    if $debug;
 
 $WM eq "Openbox" && do {
     ($theme) = fgrep(["$ENV{HOME}/.config/openbox/rc.xml"], ["<name>(.+?)</name>"]);
@@ -177,9 +175,9 @@ $WM eq "Awesome" && do {
 
 ICON:
 if( $theme ne "" ) {
-    print "::$colors[0] $WM Theme found as $colors[1]$theme$nocolor\n" 
+    print "$colors[3]  ❱$colors[0] $WM Theme found as $colors[2]$theme$nocolor\n" 
         if $debug;
-    push @info, "$colors[0]$WM Theme $colors[1]\t\t$theme$nocolor";
+    push @info, "$colors[0]$WM Theme $colors[2]\t\t$theme$nocolor";
 }
 
 $DE eq "Gnome" && do {
@@ -220,13 +218,13 @@ $font  = $vars[2] ? $vars[2] : $vars[5] ? $vars[5] : "";
 
 ## Lets print this bitch ##
 PRINT:
-push @info, $colors[0].($DE ? $DE : "GTK")." Theme \t\t$colors[1]".($DE eq "KDE" ? "$theme/$cscheme" : $theme).$nocolor
+push @info, $colors[0].($DE ? $DE : "GTK")." Theme \t$colors[3]  ❱\t$colors[2]".($DE eq "KDE" ? "$theme/$cscheme" : $theme).$nocolor
     if $display{UI} && $theme ne "";
 
-push @info, "$colors[0]Icons\t\t\t$colors[1]$icon$nocolor"
+push @info, "$colors[0]Icons\t\t$colors[3]  ❱\t$colors[2]$icon$nocolor"
     if $display{IC} && $icon ne "";
 
-push @info, "$colors[0]Font\t\t\t$colors[1]$font$nocolor"
+push @info, "$colors[0]Font\t\t$colors[3]  ❱\t$colors[2]$font$nocolor"
     if $display{FN} && $font ne "";
 
 printf $distro, @info; sleep 3;
@@ -241,7 +239,7 @@ sub fgrep(\@\@) {
     foreach my $file (@$files) {
         next if !(-e $file);
 
-        open FILE, "<", $file || die "$colors[0]Error opening $colors[1]'$file', $colors[0]$!$nocolor\n";
+        open FILE, "<", $file || die "$colors[0]Error opening $colors[2]'$file', $colors[0]$!$nocolor\n";
         $content = <FILE>;
         close FILE;
 
@@ -265,7 +263,7 @@ sub distro {
         next if !(-e @$ops[1]);
 
         $fdistro = $distro = @$ops[0];
-        open FILE, "<", @$ops[1] || die "$colors[0]Error opening $colors[1]'@$ops[1]', $colors[0]$!$nocolor\n";
+        open FILE, "<", @$ops[1] || die "$colors[0]Error opening $colors[2]'@$ops[1]', $colors[0]$!$nocolor\n";
         $content = <FILE>;
         close FILE;
         
@@ -283,6 +281,6 @@ sub distro {
 
     $/ = $slurp; $distro = lc $distro;
     eval "\$distro = \$$distro;";
-    push @info, "$colors[0]Distro\t\t\t$colors[1]$fdistro$nocolor";
+    push @info, "$colors[0]Distro\t\t$colors[3]  ❱\t$colors[2]$fdistro$nocolor";
     $distro;
 }

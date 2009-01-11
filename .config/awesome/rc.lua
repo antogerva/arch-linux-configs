@@ -1,5 +1,5 @@
 --[[    $HOME/.config/awesome/rc.lua
-        Awesome Window Manager configuration file by STxza        
+        Awesome Window Manager configuration file by STxza/ST.x        
         - only works with awesome-git newer than 09/01/2009 
                                                                                  ]]--        
 io.stderr:write("\n\r::: Awesome Loaded @ ", os.date(), " :::\r\n")
@@ -191,20 +191,20 @@ memInfo()
 -- Create the File Sys Usage widget
 fswidget = widget({ type = "textbox", align = "right" })
 wicked.register(fswidget, wicked.widgets.fs, 
-    spacer..setFg(beautiful.fg_focus, "/:")..setFg(beautiful.fg_widg, '${/ usep}%')..spacer..setFg(beautiful.fg_focus, "~:")..setFg(beautiful.fg_widg, '${/home usep}%')..spacer, 
-20)
+    setFg(beautiful.fg_focus, "/:")..setFg(beautiful.fg_widg, '${/ usep}%')..spacer..setFg(beautiful.fg_focus, "~:")..setFg(beautiful.fg_widg, '${/home usep}%')..spacer, 
+25)
 fsic = widget({ type = "imagebox", align = "right" })
 fsic.image = image(beautiful.fsic)
 
 -- Create the CPU Usage, CPU Temps, GPU Temp widget
 syswidget = widget({ type = "textbox", align = "right" })
-wicked.register(syswidget, 'cpu', sysInfo, 20, nil, 2)
+wicked.register(syswidget, 'cpu', sysInfo, 25, nil, 2)
 tempic = widget({ type = "imagebox", align = "right" })
 tempic.image = image(beautiful.tempic)
 
 -- Create the volume widget
 volumewidget = widget({ type = "textbox", align = "right" })
-wicked.register(volumewidget, getVol, "$1", 20)
+wicked.register(volumewidget, getVol, "$1", 40)
 volic = widget({ type = "imagebox", align = "right" })
 volic.image = image(beautiful.volic)
 
@@ -568,14 +568,14 @@ awful.hooks.timer.register(1, function ()
     clockInfo("%T")
 end)
 
--- 5 seconds
-awful.hooks.timer.register(15, function()
-    memInfo()
+-- 25 seconds
+awful.hooks.timer.register(25, function()
     wifiInfo("wlan0")
 end)
 
 -- 20 seconds
 awful.hooks.timer.register(20, function()
+    memInfo()
     batteryInfo("BAT0")
 end)
 

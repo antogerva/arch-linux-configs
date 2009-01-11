@@ -10,7 +10,7 @@ filetype on
 
 " Theme
 let &guicursor = &guicursor . ",a:blinkon0"
-colorscheme candycode 
+colorscheme xoria256 
 set guioptions-=T
 "set guioptions+=g
 "set guioptions-=t
