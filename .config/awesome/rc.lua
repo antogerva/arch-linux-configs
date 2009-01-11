@@ -58,7 +58,16 @@ layouts =
 floatapps =
 {
     ["gimp"] = true,
-    ["transmission"] = true
+    ["transmission"] = true,
+    -- FF windows
+    ["Saved Passwords"] = true,
+    ["Cookies"] = true,
+    ["Browser"] = true,
+    ["Downloads"] = true,
+    ["Download"] = true,
+    ["Library"] = true,
+    ["Places"] = true,
+    ["Greasemonkey"] = true
 }
 
 -- Applications to be moved to a pre-defined tag by class or instance.
@@ -139,7 +148,7 @@ awful.menu.new({
                 { "PCManFM"     , fileManager },
                 { "Gvim"        , "gvim" },
                 { "Gimp"        , "gimp" },
-                { "Screen"      , terminal.." -e screen -RR" },
+                { "Screen"      , terminal.." -e screen -RR -A -a" },
                 { "Awesome"     , awesomemenu }
             },
             border_width = beautiful.border_width_menu
@@ -151,6 +160,7 @@ awful.widget.launcher({
     image = image(beautiful.arch_icon),
     menu = mainmenu 
 })
+launcher.resize = false
 
 -- Create a systray
 systray = widget({ type = "systray", align = "right" })
@@ -171,6 +181,7 @@ clockInfo("%d/%m/%Y", "%T")
 wifiwidget = widget({ type = "textbox", align = "right" })
 wifiic = widget({ type = "imagebox", align = "right" })
 wifiic.image = image(beautiful.wifiic)
+wifiic.resize = false
 -- Run it once so we don't have to wait for the hooks to see our signal strength
 wifiInfo("wlan0")
 
@@ -178,6 +189,7 @@ wifiInfo("wlan0")
 batterywidget = widget({ type = "textbox", align = "right" })
 batic = widget({ type = "imagebox", align = "right" })
 batic.image = image(beautiful.batic)
+batic.resize = false
 -- Run it once so we don't have to wait for the hooks to see our percentage
 batteryInfo("BAT0")
 
@@ -185,6 +197,7 @@ batteryInfo("BAT0")
 memwidget = widget({ type = "textbox", align = "right" })
 memic = widget({ type = "imagebox", align = "right" })
 memic.image = image(beautiful.memic)
+memic.resize = false
 -- Run it once so we don't have to wait for the hooks to see our memory usage
 memInfo()
 
@@ -195,18 +208,21 @@ wicked.register(fswidget, wicked.widgets.fs,
 25)
 fsic = widget({ type = "imagebox", align = "right" })
 fsic.image = image(beautiful.fsic)
+fsic.resize = false
 
 -- Create the CPU Usage, CPU Temps, GPU Temp widget
 syswidget = widget({ type = "textbox", align = "right" })
 wicked.register(syswidget, 'cpu', sysInfo, 25, nil, 2)
 tempic = widget({ type = "imagebox", align = "right" })
 tempic.image = image(beautiful.tempic)
+tempic.resize = false
 
 -- Create the volume widget
 volumewidget = widget({ type = "textbox", align = "right" })
 wicked.register(volumewidget, getVol, "$1", 40)
 volic = widget({ type = "imagebox", align = "right" })
 volic.image = image(beautiful.volic)
+volic.resize = false
 
 --TODO:
 -- Create the Pacman Upgrade Query widget
@@ -264,7 +280,7 @@ for s = 1, screen.count() do
     -- Create the wibox
    mywibox[s] = wibox({ 
         position = "top", 
-        height = 14.8, 
+        height = 14.7, 
         fg = beautiful.fg_normal, 
         bg = beautiful.bg_normal, 
         border_color = beautiful.border_wibox, 

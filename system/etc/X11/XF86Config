@@ -25,34 +25,38 @@ Section "Module"
     Load           "extmod"
     Load           "freetype"
     Load           "glx"
-	Load		   "synaptics"
+    Load           "synaptics"
+EndSection
+
+Section "ServerFlags"
+    Option         "Xinerama" "0"
 EndSection
 
 Section "Monitor"
     Identifier     "Monitor0"
     VendorName     "Unknown"
-    ModelName      "Unknown"
+    ModelName      "LCD"
     DisplaySize    338 211
     HorizSync      30.0 - 110.0
     VertRefresh    50.0 - 150.0
-    Option         "DPMS"			"True"
+    Option         "DPMS" "True"
 EndSection
 
 Section "Device"
-    Option         "NoLogo"			"True"
-    Option         "BackingStore"	"False"
-    Option	       "UseEdidDpi"		"false"
-    Option		   "DPI"			"96 x 96"
-    # Powermizer forcing to certain level always
-    # level: 0x1 (highest) | 0x2 (med) | 0x3 (lowest)
-    Option 	       "RegistryDwords"	"PowerMizerLevelAC=0x3"
-	Option		   "RegistryDwords"	"PowerMizerLevel=0x3"
-    #Option 	   "RegistryDwords"	"PerfLevelSrc=0x3333"
-    #Option        "Coolbits"       "1"
-    Option         "OnDemandVBlankInterrupts" "True"
     Identifier     "Device0"
     Driver         "nvidia"
     VendorName     "NVIDIA Corporation"
+    BoardName      "GeForce 8400M GS"
+    Option         "NoLogo" "True"
+    Option         "BackingStore" "False"
+    Option         "UseEdidDpi" "false"
+    Option         "DPI" "96 x 96"
+    # Powermizer forcing to certain level always
+    # level: 0x1 (highest) | 0x2 (med) | 0x3 (lowest)
+    Option         "RegistryDwords" "PowerMizerLevelAC=0x3"
+    Option		   "RegistryDwords"	"PowerMizerLevel=0x3"
+    Option         "OnDemandVBlankInterrupts" "True"
+    #Option        "Coolbits"       "1"
 EndSection
 
 Section "Screen"
@@ -60,6 +64,8 @@ Section "Screen"
     Device         "Device0"
     Monitor        "Monitor0"
     DefaultDepth    24
+    Option         "TwinView" "0"
+    Option         "metamodes" "nvidia-auto-select +0+0"
     SubSection     "Display"
         Depth       24
     EndSubSection

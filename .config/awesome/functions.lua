@@ -61,7 +61,7 @@ function add_calendar(inc_offset)
     local cal = awful.util.pread("cal -m " .. datespec)
     cal = string.gsub(cal, "^%s*(.-)%s*$", "%1")
     calendar = naughty.notify({
-        text     = string.format('<span font_desc="%s">%s</span>', "monospace", 
+        text     = string.format('<span font_desc="%s">%s</span>', "monaco", 
                    setFg(beautiful.fg_focus, os.date("%a, %d %B %Y")) .. "\n" .. setFg(beautiful.fg_widg, cal)),
         timeout  = 0, hover_timeout = 0.5,
         width    = 125,
@@ -109,11 +109,11 @@ function batteryInfo(adapter)
     
     if sta:match("Charging") then
         dir = setFg("#00ff00", "^")
-        battery = "AC"..spacer.."("..battery..")"
+        battery = "AC".."("..battery.."%)"
     elseif sta:match("Discharging") then
         dir = setFg("#a52a2a", "v")
         if tonumber(battery) >= 25 and tonumber(battery) <= 50 then
-            battery = setFg("#e6d51d", battery)
+            battery = setFg("#e6d51d", battery).."%"
         elseif tonumber(battery) < 25 then
             if tonumber(battery) <= 10 then
                 -- Naughtify me when battery gets really low
@@ -125,14 +125,14 @@ function batteryInfo(adapter)
                                  bg         = beautiful.bg_focus
                                })
             end
-            battery = setFg("#ff6565", battery)
+            battery = setFg("#ff6565", battery).."%"
         end
     else
         dir = "="
-        battery = "A/C"
+        battery = "AC"
     end
     
-    batterywidget.text = setFg(beautiful.fg_widg, ""..dir..""..battery.."%")..spacer
+    batterywidget.text = dir..setFg(beautiful.fg_widg, battery)..dir..spacer
 end
 -- }}}
 
@@ -210,8 +210,8 @@ function sysInfo(widget, args)
     
     local core1 = setFg(beautiful.fg_focus, "C1:")..setFg(beautiful.fg_widg, ""..args[2].."%").." ("..setFg(beautiful.fg_widg, ""..cputemp(0).."°")..")"
     local core2 = spacer..setFg(beautiful.fg_focus, "C2:")..setFg(beautiful.fg_widg, ""..args[3].."%").." ("..setFg(beautiful.fg_widg, ""..cputemp(1).."°")..")"
-    local gpu = spacer..setFg(beautiful.fg_focus, "G:")..setFg(beautiful.fg_widg, gputemp()).."("..perfL()..")"..spacer
-    local sysinfo = core1..core2..cpufr..gpu 
+    local gpu = spacer..setFg(beautiful.fg_focus, "G:")..setFg(beautiful.fg_widg, gputemp()).."("..perfL()..")"
+    local sysinfo = core1..core2..cpufr..gpu..spacer 
     
 	return sysinfo
 end
@@ -230,7 +230,7 @@ function getVol()
 		volume = volume.."M"
 	end
     
-    return setFg(beautiful.fg_widg, volume)..spacer
+    return setFg(beautiful.fg_widg, volume:gsub("^%s*(.-)%s*$", "%1"))..spacer
 end
 -- }}}
 

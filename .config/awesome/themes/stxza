@@ -38,14 +38,14 @@ taglist_squares_unsel     = /usr/share/awesome/themes/default/taglist/squarew.pn
 # Wibox Icons
 tasklist_floating_icon    = /home/stxza/.config/awesome/icons/layouts/floatingw.png
 awesome_icon              = /home/stxza/.config/awesome/icons/awesome16_gray.png
-arch_icon                 = /home/stxza/.config/awesome/icons/arch_grey.png
+arch_icon                 = /home/stxza/.config/awesome/icons/arch_10x10.png
 pacic                     = /home/stxza/.config/awesome/icons/pacman.png
 sepic                     = /home/stxza/.config/awesome/icons/separators/link14.png
 wifiic                    = /home/stxza/.config/awesome/icons/wifi.png
 tempic                    = /home/stxza/.config/awesome/icons/temp.png
 memic                     = /home/stxza/.config/awesome/icons/mem.png
 batic                     = /home/stxza/.config/awesome/icons/bat.png
-volic                     = /home/stxza/.config/awesome/icons/vol2.png
+volic                     = /home/stxza/.config/awesome/icons/vol.png
 fsic                      = /home/stxza/.config/awesome/icons/accordion.png
 
 # Wall
