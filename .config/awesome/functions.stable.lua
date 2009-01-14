@@ -160,12 +160,13 @@ function memInfo()
 end
 -- }}}
 
+--[[
 -- {{{ CPU Usage, CPU & GPU Temps
 function sysInfo()
 	-- CPU Temps
-    local comm0 = 'sensors \'coretemp-isa-*\' | grep \'Core 0\''
+    local comm0 = "sensors 'coretemp-isa-*' | grep 'Core 0'"
 	local core0 = io.popen(comm0):read("*all")    
-    local comm1 = 'sensors \'coretemp-isa-*\' | grep \'Core 1\''
+    local comm1 = "sensors 'coretemp-isa-*' | grep 'Core 1'"
 	local core1 = io.popen(comm1):read("*all")
 
 	if ((core0 == nil) or (core1 == nil)) then
@@ -176,27 +177,42 @@ function sysInfo()
         local pos1 = core1:find('+')+1
         core1 = string.sub(core1, pos1, pos1+3)
         
-        if tonumber(core0) >= 40 then
+        if tonumber(core0) then
             core0 = setFg("#B9DCE7", core0)
         end
-        if tonumber(core1) >= 40 then
+        if tonumber(core1) then
             core1 = setFg("#B9DCE7", core1)
         end
+        
+       core0 = tonumber(core0)
+       core1 = tonumber(core1)
     end
     core0 = setFg(beautiful.fg_focus, "C:")..setFg(beautiful.fg_widg, ""..core0.."°").."/"
     core1 = setFg(beautiful.fg_widg, ""..core1.."°")..spacer
     
     -- GPU Temp
-    --local comm3 = io.popen('nvidia-settings -q gpucoretemp | grep \'):\' | awk \'{print $4}\' | cut -d\'.\' -f1')
-    --local gpuTemp = comm3:read()
-    --local gpu = setFg(beautiful.fg_focus, "G:")..setFg(beautiful.fg_widg, gpuTemp:gsub("^%s*(.-)%s*$", "%1"))..spacer
-    --local gpu = gpuTemp..spacer
+    local gpuTemp = io.popen("nvidia-settings -q gpucoretemp | grep '):' | awk '{print $4}' | cut -d'.' -f1"):read("*all")    
+    if (gpuTemp == nil) then
+        return ''
+    elseif tonumber(gpuTemp) >= 65 then
+        gpuTemp = setFg("#B9DCE7", gpuTemp)
+    end
+    gpuTemp = tonumber(gpuTemp).."°"    
 
-    local sysinfo = core0..core1
+    -- pL is the nvidia performance setting thats currently being employed by the driver
+    local perfL = io.popen("nvidia-settings -q GPUCurrentPerfLevel | grep -m1 PerfLevel | cut -d' ' -f6 | cut -d'.' -f1"):read("*all")	
+    if (perfL == nil) then
+       return ''
+    end
 
-    return sysinfo
+    local gpu = setFg(beautiful.fg_focus, "G:")..setFg(beautiful.fg_widg, gpuTemp).."("..perfL..")"..spacer
+
+    local sysinfo = core0..core1..gpu
+
+    return (sysinfo)
 end
 -- }}}
+]]--
 
 -- {{{ CPU Usage & Speed
 function cpuUsg(widget, args)

@@ -212,12 +212,14 @@ cpuic = widget({ type = "imagebox", align = "right" })
 cpuic.image = image(beautiful.cpuic)
 cpuic.resize = false
 
+--[[
 -- Create CPU Temps, GPU Temp widget
 tempwidget = widget({ type = "textbox", align = "right" })
 wicked.register(tempwidget, sysInfo, "$1", 25)
 tempic = widget({ type = "imagebox", align = "right" })
 tempic.image = image(beautiful.tempic)
 tempic.resize = false
+]]--
 
 -- Create the File Sys Usage widget
 fswidget = widget({ type = "textbox", align = "right" })
@@ -307,8 +309,8 @@ for s = 1, screen.count() do
                             promptbox[s],
                             cpuic,
                             usgwidget,
-                            tempic,
-                            tempwidget,                            
+                            --tempic,
+                            --tempwidget,                            
                             memic,
                             memwidget,
                             fsic,
