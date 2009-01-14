@@ -4,6 +4,11 @@
 # Author:   Seynthan "ST.x" Thanapalan <seynthan.tx@gmail.com>     #
 #------------------------------------------------------------------#
 
+# {{{ Autoload
+autoload -U compinit
+compinit
+# }}}
+
 # {{{ History
 HISTFILE=~/.zsh_history
 HISTSIZE=5000
@@ -11,12 +16,6 @@ SAVEHIST=5000
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
-# }}}
-
-# {{{ Autoload
-autoload -U compinit
-compinit
-autoload -U zcalc 	# Math			
 # }}}
 
 # {{{ other opts
@@ -117,7 +116,7 @@ bindkey "\e[7~" beginning-of-line
 # }}}
 
 # {{{ Aliases
-alias startx='SHELL=/bin/sh startx'
+#alias startx='SHELL=/bin/sh startx'
 alias ll='ls --color=auto -a -lhX'
 alias egrep='egrep --color=auto'
 alias shutdownhome='sudo netcfg2 -d wifihome && sleep 3 && sudo shutdown -hP now'

@@ -1,6 +1,6 @@
 --[[ $HOME/.config/awesome/functions.lua
      Awesome Window Manager configuration functions file by STxza/ST.x        
-     - only works with awesome-git newer than 09/01/2009 
+     - only works with awesome-git newer than 12/01/2009
                                                                     ]]--
 
 ---- Functions
@@ -84,7 +84,6 @@ function wifiInfo(adapter)
                          text       = setFg(beautiful.fg_widg, "Wifi Down! (")..wifiStrength..setFg(beautiful.fg_widg, "% connectivity)"),
                          timeout    = 5,
                          position   = "top_right",
-                         --fg         = beautiful.fg_focus,
                          bg         = beautiful.bg_focus
                        })
     end
@@ -108,12 +107,12 @@ function batteryInfo(adapter)
     local battery = math.floor(cur * 100 / cap)
     
     if sta:match("Charging") then
-        dir = setFg("#00ff00", "^")
-        battery = "AC".."("..battery.."%)"
+        dir = setFg("#00FF00", "^")
+        battery = battery.."%"
     elseif sta:match("Discharging") then
-        dir = setFg("#a52a2a", "v")
-        if tonumber(battery) >= 25 and tonumber(battery) <= 50 then
-            battery = setFg("#e6d51d", battery).."%"
+        dir = setFg("#A52A2A", "v")
+        if tonumber(battery) > 25 and tonumber(battery) < 50 then
+            battery = setFg("#E6E51E", battery).."%"
         elseif tonumber(battery) < 25 then
             if tonumber(battery) <= 10 then
                 -- Naughtify me when battery gets really low
@@ -121,12 +120,12 @@ function batteryInfo(adapter)
                                  text       = setFg(beautiful.fg_widg, "Battery low!")..spacer..battery..setFg(beautiful.fg_widg, "%")..spacer..setFg(beautiful.fg_widg, "left!"),
                                  timeout    = 5,
                                  position   = "top_right",
-                                 --fg         = beautiful.fg_focus,
                                  bg         = beautiful.bg_focus
                                })
             end
-            battery = setFg("#ff6565", battery).."%"
+            battery = setFg("#FF6565", battery).."%"
         end
+        battery = battery.."%"
     else
         dir = "="
         battery = "AC"
@@ -161,59 +160,71 @@ function memInfo()
 end
 -- }}}
 
+--[[
 -- {{{ CPU Usage, CPU & GPU Temps
-function cputemp(core)
-	local command = "sensors coretemp-isa-* | grep 'Core "..tostring(core).."'"
-	local cpu = io.popen(command):read("*all")
+function sysInfo()
+	-- CPU Temps
+    local comm0 = "sensors 'coretemp-isa-*' | grep 'Core 0'"
+	local core0 = io.popen(comm0):read("*all")    
+    local comm1 = "sensors 'coretemp-isa-*' | grep 'Core 1'"
+	local core1 = io.popen(comm1):read("*all")
 
-	if (cpu == nil) then
+	if ((core0 == nil) or (core1 == nil)) then
 		return ''
 	else
-        local pos = cpu:find('+')+1
-        cpu = string.sub(cpu, pos, pos+3)
+        local pos0 = core0:find('+')+1
+        core0 = string.sub(core0, pos0, pos0+3)
+        local pos1 = core1:find('+')+1
+        core1 = string.sub(core1, pos1, pos1+3)
         
-        if tonumber(cpu) >= 45 then
-            cpu = setFg("#B9DCE7", cpu)
+        if tonumber(core0) then
+            core0 = setFg("#B9DCE7", core0)
         end
-        cpu = tonumber(cpu)
+        if tonumber(core1) then
+            core1 = setFg("#B9DCE7", core1)
+        end
+        
+       core0 = tonumber(core0)
+       core1 = tonumber(core1)
     end
+    core0 = setFg(beautiful.fg_focus, "C:")..setFg(beautiful.fg_widg, ""..core0.."°").."/"
+    core1 = setFg(beautiful.fg_widg, ""..core1.."°")..spacer
     
-	return cpu
-end
-
-function gputemp()
-    local gT = io.popen("nvidia-settings -q gpucoretemp | grep '):' | awk '{print $4}' | cut -d'.' -f1")
-    local gpuTemp = gT:read()
-    gT:close() 
-    
+    -- GPU Temp
+    local gpuTemp = io.popen("nvidia-settings -q gpucoretemp | grep '):' | awk '{print $4}' | cut -d'.' -f1"):read("*all")    
     if (gpuTemp == nil) then
         return ''
     elseif tonumber(gpuTemp) >= 65 then
         gpuTemp = setFg("#B9DCE7", gpuTemp)
     end
-    
-    return gpuTemp.."°"
-end
+    gpuTemp = tonumber(gpuTemp).."°"    
 
-function perfL()
     -- pL is the nvidia performance setting thats currently being employed by the driver
-    local pL = io.popen("nvidia-settings -q GPUCurrentPerfLevel | grep -m1 PerfLevel | cut -d' ' -f6 | cut -d'.' -f1")
-    local perfL = pL:read()
-    pL:close()
-    
-    return perfL
-end
+    local perfL = io.popen("nvidia-settings -q GPUCurrentPerfLevel | grep -m1 PerfLevel | cut -d' ' -f6 | cut -d'.' -f1"):read("*all")	
+    if (perfL == nil) then
+       return ''
+    end
 
-function sysInfo(widget, args)
-    local cpufr = io.open("/proc/cpuinfo"):read("*a"):match("cpu MHz%s*:%s*([^%s]*)")
-    cpufr = " @"..setFg(beautiful.fg_widg, tonumber(cpufr).."MHz")
+    local gpu = setFg(beautiful.fg_focus, "G:")..setFg(beautiful.fg_widg, gpuTemp).."("..perfL..")"..spacer
+
+    local sysinfo = core0..core1..gpu
+
+    return (sysinfo)
+end
+-- }}}
+]]--
+
+-- {{{ CPU Usage & Speed
+function cpuUsg(widget, args)
+    local fcpufr = io.open("/proc/cpuinfo")
+    local cpufr = fcpufr:read("*a"):match("cpu MHz%s*:%s*([^%s]*)")
+    fcpufr:close()
+    cpufr = setFg(beautiful.fg_widg, tonumber(cpufr).."MHz")..spacer
+    local core1 = setFg(beautiful.fg_focus, "C1:")..setFg(beautiful.fg_widg, ""..args[2].."%")
+    local core2 = spacer..setFg(beautiful.fg_focus, "C2:")..setFg(beautiful.fg_widg, ""..args[3].."%")
+    local cpuUsg = cpufr..core1..core2..spacer 
     
-    local core1 = setFg(beautiful.fg_focus, "C1:")..setFg(beautiful.fg_widg, ""..args[2].."%").." ("..setFg(beautiful.fg_widg, ""..cputemp(0).."°")..")"
-    local core2 = spacer..setFg(beautiful.fg_focus, "C2:")..setFg(beautiful.fg_widg, ""..args[3].."%").." ("..setFg(beautiful.fg_widg, ""..cputemp(1).."°")..")"
-    local gpu = spacer..setFg(beautiful.fg_focus, "G:")..setFg(beautiful.fg_widg, gputemp()).."("..perfL()..")"
-    local sysinfo = core1..core2..cpufr..gpu..spacer 
-    
-	return sysinfo
+	return cpuUsg
 end
 -- }}}
 
@@ -223,11 +234,11 @@ function getVol()
 	local volume = string.match(status, "(%d?%d?%d)%%")
 	volume = string.format("% 3d", volume)
 	status = string.match(status, "%[(o[^%]]*)%]")
-    
+   
 	if string.find(status, "on", 1, true) then
         volume = volume.."%"
 	else
-		volume = volume.."M"
+        volume = volume.."M"
 	end
     
     return setFg(beautiful.fg_widg, volume:gsub("^%s*(.-)%s*$", "%1"))..spacer
@@ -235,10 +246,10 @@ end
 -- }}}
 
 -- {{{ Pacman Upgrade Query
---[[
+--[[ added sudo
 function pacinfo()
-    local puSy = io.popen("pacman -Sy")
-    local pu = io.popen("pacman -Qu")
+    local puSy = io.popen("sudo pacman -Sy")
+    local pu = io.popen("sudo pacman -Qu")
 	local pu_text = pu:read("*a")
     io.close(pu)
     io.close(puSy)
@@ -249,8 +260,6 @@ function pacinfo()
 	else
 		pacman = setFg(beautiful.fg_urgent, pacup)
 	end
-    
-    pacman = "Y"
     	
 	return spacer..pacman
 end

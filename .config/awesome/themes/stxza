@@ -42,6 +42,7 @@ arch_icon                 = /home/stxza/.config/awesome/icons/arch_10x10.png
 pacic                     = /home/stxza/.config/awesome/icons/pacman.png
 sepic                     = /home/stxza/.config/awesome/icons/separators/link14.png
 wifiic                    = /home/stxza/.config/awesome/icons/wifi.png
+cpuic                     = /home/stxza/.config/awesome/icons/cpu.png
 tempic                    = /home/stxza/.config/awesome/icons/temp.png
 memic                     = /home/stxza/.config/awesome/icons/mem.png
 batic                     = /home/stxza/.config/awesome/icons/bat.png
@@ -49,7 +50,7 @@ volic                     = /home/stxza/.config/awesome/icons/vol.png
 fsic                      = /home/stxza/.config/awesome/icons/accordion.png
 
 # Wall
-wallpaper_cmd             = awsetbg -f /home/stxza/pics/Walls/ARCHWalls/thinknew.jpg
+wallpaper_cmd             = awsetbg -f /home/stxza/pics/Walls/td.png
 
 # Layout Icons
 layout_fairh              = /usr/share/awesome/themes/default/layouts/fairhw.png

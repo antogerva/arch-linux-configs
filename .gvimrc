@@ -1,16 +1,7 @@
-" Basics
-syntax on               " enable syntax highlighting
-set showmatch           " show matching brackets (),{},[]
-set number
-set nocompatible
-set background=dark
-set encoding=utf-8
-set guifont=Monaco\ 9
-filetype on
-
-" Theme
+" {{{ GVIM
 let &guicursor = &guicursor . ",a:blinkon0"
-colorscheme xoria256 
+colorscheme xoria256
+set guifont=Monaco\ 9
 set guioptions-=T
 "set guioptions+=g
 "set guioptions-=t
@@ -22,21 +13,40 @@ set guioptions-=R
 set guitablabel=%t " set label for tab to just file name
 set anti " Antialias font
 "set transparency=0
+" {{{ GVIM
+
+" Basics
+syntax on               " enable syntax highlighting
+set showmatch           " show matching brackets (),{},[]
+set number
+set nocompatible
+set background=dark
+set encoding=utf-8
+filetype on
+set complete=k          " global autocompletion
+set completeopt+=longest
 
 " Indenting, Folding..
 set tabstop=4           " numbers of spaces of tab character
 set shiftwidth=4        " numbers of spaces to (auto)indent
+set softtabstop=4       " counts n spaces when DELETE or BCKSPCE is used
 set expandtab           " insert spaces instead of tab chars
 set autoindent         	" always set autoindenting on
-set cindent            	" cindent
+set nosmartindent       " intelligent indenting -- DEPRECATED by cindent
+set nocindent           " set C style indenting off
 set foldenable
 set foldmethod=marker
+
+" searching
 set hlsearch            " highlight all search results
+set incsearch           " increment search
+set ignorecase          " case-insensitive search
+set smartcase           " upper-case sensitive search
 
 set laststatus=2        " occasions to show status line, 2=always.
 set cmdheight=1         " command line height
-" set ruler               " ruler display in status line
-" set showmode            " show mode at bottom of screen
+set ruler               " ruler display in status line
+set showmode            " show mode at bottom of screen
 " set previewheight=5
 
 " Set taglist plugin options

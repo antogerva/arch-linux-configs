@@ -1,6 +1,6 @@
 --[[    $HOME/.config/awesome/rc.lua
         Awesome Window Manager configuration file by STxza/ST.x        
-        - only works with awesome-git newer than 09/01/2009 
+        - only works with awesome-git newer than 12/01/2009 
                                                                                  ]]--        
 io.stderr:write("\n\r::: Awesome Loaded @ ", os.date(), " :::\r\n")
 -------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ theme_path = os.getenv("HOME").."/.config/awesome/themes/stxza"
 beautiful.init(theme_path)
 
 -- Apps
-terminal = "SHELL=/bin/zsh urxvtc"
+terminal = "urxvtc"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 browser = "/usr/bin/firefox"
@@ -76,13 +76,13 @@ apptags =
 {
     ["Firefox"] = { screen = 1, tag = 2 },
     ["transmission"] = { screen = 1, tag = 2 },
-    ["pcmanfm"] = { screen = 1, tag = 4 },
-    ["geeqie"] = { screen = 1, tag = 6 },
+    ["pcmanfm"] = { screen = 1, tag = 1 },
+    ["geeqie"] = { screen = 1, tag = 4 },
     ["gvim"] = { screen = 1, tag = 3 },
     ["geany"] = { screen = 1, tag = 3 },
     ["Gimp"] = { screen = 1, tag = 5 },
     ["Eclipse"] = { screen = 1, tag = 3 },
-    ["OpenOffice.org 3.0"] = { screen = 1, tag = 6 }
+    ["OpenOffice.org 3.0"] = { screen = 1, tag = 4 }
 }
 
 -- Define if we want to use titlebar on all applications.
@@ -92,39 +92,43 @@ use_titlebar = false
 -------------------------------------------------------------------------------------
 -- {{{ Tags
 
-tag_names = {   
-    { name = "main" },
-    { name = "www" },
-    { name = "dev" }
-}
+tag_properties = { { name = "main"
+                   , layout = layouts[1]
+                   , mwfact = 0.618033988769
+                   }
+                 , { name = "www"
+                   , layout = layouts[7]
+                   , nmaster = 1
+                   }
+                 , { name = "dev"
+                   , layout = layouts[5]
+                   , ncols = 2
+                   }
+                 , { name = "4"
+                   , layout = layouts[1]
+                   }
+                 , { name = "5"
+                   , layout = layouts[9]
+                   }
+                 , { name = "6"
+                   , layout = layouts[9]
+                   }
+                 }
 
 -- Define tags table.
 tags = {}
-for s = 1, screen.count() do    
-    -- Each screen has its own tag table.
-    tags[s] = {}
-    for tagnumber = 1, 3 do
-        tags[s][tagnumber] = tag(tag_names[tagnumber].name)
-        tags[s][tagnumber].screen = s
-        -- Set mwfacts
-        awful.tag.setmwfact(0.618033988769, tags[s][tagnumber])
+for s = 1, screen.count() do
+    tags[s] = { }
+    for i, v in ipairs(tag_properties) do
+        tags[s][i] = tag(v.name)
+        tags[s][i].screen = s
+        awful.tag.setproperty(tags[s][i], "layout", v.layout)
+        awful.tag.setproperty(tags[s][i], "mwfact", v.mwfact)
+        awful.tag.setproperty(tags[s][i], "nmaster", v.nmaster)
+        awful.tag.setproperty(tags[s][i], "ncols", v.ncols)
     end
-    for tagnumber = 4, 6 do
-        tags[s][tagnumber] = tag(tagnumber)
-        tags[s][tagnumber].screen = s
-        -- Set mwfacts
-        awful.tag.setmwfact(0.618033988769, tags[s][tagnumber])
-    end
-    -- Select at least one tag
     tags[s][1].selected = true
 end
-
--- Layout presets
-awful.layout.set(awful.layout.suit.tile.bottom, tags[1][1])
-awful.layout.set(awful.layout.suit.tiled, tags[1][2])
-awful.layout.set(awful.layout.suit.max, tags[1][4])
-awful.layout.set(awful.layout.suit.floating, tags[1][5])
-awful.layout.set(awful.layout.suit.max, tags[1][6])
 
 -- }}}
 -------------------------------------------------------------------------------------
@@ -201,6 +205,22 @@ memic.resize = false
 -- Run it once so we don't have to wait for the hooks to see our memory usage
 memInfo()
 
+-- Create the CPU Usage widget
+usgwidget = widget({ type = "textbox", align = "right" })
+wicked.register(usgwidget, wicked.widgets.cpu, cpuUsg, 15, nil, 2)
+cpuic = widget({ type = "imagebox", align = "right" })
+cpuic.image = image(beautiful.cpuic)
+cpuic.resize = false
+
+--[[
+-- Create CPU Temps, GPU Temp widget
+tempwidget = widget({ type = "textbox", align = "right" })
+wicked.register(tempwidget, sysInfo, "$1", 25)
+tempic = widget({ type = "imagebox", align = "right" })
+tempic.image = image(beautiful.tempic)
+tempic.resize = false
+]]--
+
 -- Create the File Sys Usage widget
 fswidget = widget({ type = "textbox", align = "right" })
 wicked.register(fswidget, wicked.widgets.fs, 
@@ -210,16 +230,10 @@ fsic = widget({ type = "imagebox", align = "right" })
 fsic.image = image(beautiful.fsic)
 fsic.resize = false
 
--- Create the CPU Usage, CPU Temps, GPU Temp widget
-syswidget = widget({ type = "textbox", align = "right" })
-wicked.register(syswidget, 'cpu', sysInfo, 25, nil, 2)
-tempic = widget({ type = "imagebox", align = "right" })
-tempic.image = image(beautiful.tempic)
-tempic.resize = false
-
 -- Create the volume widget
+-- maybe make it a normal widget instead of wickedwidget
 volumewidget = widget({ type = "textbox", align = "right" })
-wicked.register(volumewidget, getVol, "$1", 40)
+wicked.register(volumewidget, getVol, "$1", 30)
 volic = widget({ type = "imagebox", align = "right" })
 volic.image = image(beautiful.volic)
 volic.resize = false
@@ -275,6 +289,7 @@ for s = 1, screen.count() do
                         if c == client.focus then
                             return spacer..setFg(beautiful.fg_focus, c.name)..spacer
                         end
+                        --return awful.widget.tasklist.label.currenttags(c, s)
                       end, tasklist.buttons)
 
     -- Create the wibox
@@ -292,8 +307,10 @@ for s = 1, screen.count() do
                             taglist[s],
                             tasklist[s],
                             promptbox[s],
-                            tempic,
-                            syswidget,
+                            cpuic,
+                            usgwidget,
+                            --tempic,
+                            --tempwidget,                            
                             memic,
                             memwidget,
                             fsic,
@@ -383,18 +400,21 @@ table.insert(globalkeys, key({ modkey }              , "e"       , function () a
 table.insert(globalkeys, key({ modkey }              , "o"       , function () awful.util.spawn("soffice") end))
 
 -- Client control
-table.insert(globalkeys, key({ modkey }              , "c"       , function () client.focus:kill() end))
-table.insert(globalkeys, key({ modkey, "Shift" }     , "r"       , function () client.focus:redraw() end))
+table.insert(globalkeys, key({ modkey }              , "c"       , function (c) client.focus:kill() end))
+table.insert(clientkeys, key({ modkey, "Shift" }     , "r"       , function (c) c:redraw() end))
 table.insert(globalkeys, key({ modkey, "Control" }   , "space"   , awful.client.floating.toggle))
+table.insert(clientkeys, key({ modkey, "Control" }   , "Return"  , function (c) c:swap(awful.client.getmaster()) end))
+table.insert(clientkeys, key({ modkey, "Control" }   , "f"       , function (c) c.fullscreen = not c.fullscreen end))
+table.insert(globalkeys, key({ modkey }              , "u"       , awful.client.urgent.jumpto))     
 table.insert(globalkeys, key({ modkey }              , "j"       , function () awful.client.focus.byidx(1); client.focus:raise() end))
 table.insert(globalkeys, key({ modkey }              , "k"       , function () awful.client.focus.byidx(-1);  client.focus:raise() end))
-table.insert(globalkeys, key({ modkey }              , "m"       , function () 
+table.insert(globalkeys, key({ modkey }              , "m"       , function (c) 
                                                                         if client.focus then 
                                                                             client.focus.maximized_horizontal = not client.focus.maximized_horizontal
                                                                             client.focus.maximized_vertical = not client.focus.maximized_vertical 
                                                                         end 
                                                                    end))
-table.insert(globalkeys, key({ modkey }              , "u"       , awful.client.urgent.jumpto))                                                             
+                                                        
                                                              
 -- Awesome control
 table.insert(globalkeys, key({ modkey, "Control" }   , "r"       , function () promptbox[mouse.screen].text = awful.util.escape(awful.util.restart()) end))
@@ -420,10 +440,10 @@ table.insert(globalkeys, key({ modkey, "Control" }   , "l"       , function () a
 -- Shows or hides the statusbar
 table.insert(globalkeys,
     key({ modkey }, "b", function () 
-        if wibox[mouse.screen].screen == nil then 
-            wibox[mouse.screen].screen = mouse.screen
+        if mywibox[mouse.screen].screen == nil then 
+            mywibox[mouse.screen].screen = mouse.screen
         else
-            wibox[mouse.screen].screen = nil
+            mywibox[mouse.screen].screen = nil
         end
     end))
 
@@ -433,8 +453,7 @@ table.insert(globalkeys, key({ modkey, "Control" }, "z", revelation.revelation))
 -- Rotate clients and focus master
 table.insert(globalkeys, key({ modkey }, "Tab", 
   function ()
-    local allclients = awful.client.visible(client.focus.screen)
-  
+    local allclients = awful.client.visible(client.focus.screen)  
     for i,v in ipairs(allclients) do
       if allclients[i+1] then
         allclients[i+1]:swap(v)
@@ -492,19 +511,17 @@ awful.hooks.manage.register(function (c, startup)
     if not startup and awful.client.focus.filter(c) then
         c.screen = mouse.screen
     end
-    
+
     if use_titlebar then
         -- Add a titlebar
         awful.titlebar.add(c, { modkey = modkey })
     end
-    
     -- Add mouse bindings
     c:buttons({
         button({ }, 1, function (c) client.focus = c; c:raise() end),
         button({ modkey }, 1, awful.mouse.client.move),
         button({ modkey }, 3, awful.mouse.client.resize)
     })
-    
     -- New client may not receive focus
     -- if they're not focusable, so set border anyway.
     c.border_width = beautiful.border_width
@@ -542,7 +559,7 @@ awful.hooks.manage.register(function (c, startup)
     awful.client.setslave(c)
 
     -- Honor size hints: if you want to drop the gaps between windows, set this to false.
-    c.honorsizehints = false
+    c.size_hints_honor = false
 end)
 
 -- Hook function to execute when arranging the screen.

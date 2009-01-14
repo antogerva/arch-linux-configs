@@ -7,19 +7,24 @@
 typeset -U path
 path=(/bin /sbin /usr/bin /usr/sbin /usr/local/bin /home/stxza/bin $path)
 
-# Dircolors
-eval `dircolors -b ~/.dir_colors`
-
 export LC_ALL=en_AU.UTF-8
 export LC_COLLATE="C"
-export LESS="-R"
 export LANG=en_AU.UTF-8
 export LOCALE=en_AU.UTF-8
+export LESS="-R"
+
+# Export default pkg-config path
+PKG_CONFIG_PATH="/usr/lib/pkgconfig"
+export PKG_CONFIG_PATH
+
 export EDITOR=vim
 export BROWSER=firefox
 # export OOO_FORCE_DESKTOP=gnome
 # Firefox tweak
 export MOZ_DISABLE_PANGO=1
+
+# Dircolors
+eval `dircolors -b ~/.dir_colors`
 
 # Make framebuffer colors look like in X
 #if [ "$TERM" = "linux" ]; then
