@@ -5,10 +5,10 @@
 xrdb -merge $HOME/.Xresources &
 xmodmap $HOME/.Xmodmap &
 xbindkeys &
-xsetroot -cursor_name left_ptr &
+xsetroot -bg black -cursor_name left_ptr &
 nvidia-settings --load-config-only &
 urxvtd -q -o -f &
-parcellite &
+# parcellite &
 # D-bus
 if which dbus-launch >/dev/null && test -z "$DBUS_SESSION_BUS_ADDRESS"; then
        eval `dbus-launch --sh-syntax --exit-with-session`

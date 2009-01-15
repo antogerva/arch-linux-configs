@@ -44,18 +44,18 @@ URxvt.matcher.pattern.1:  \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
 ! }}}
 
 ! {{{ Fonts
-URxvt.font:            xft:Monaco:pixelsize=11:antialias=true:hinting=true
-URxvt.boldFont:        xft:Monaco:pixelsize=11:antialias=true:bold:hinting=true
-URxvt.italicFont:      xft:Monaco:pixelsize=11:antialias=true:italic:autohint=true:hinting=true
-URxvt.bolditalicFont:  xft:Monaco:pixelsize=11:antialias=true:bold:italic:autohint=true:hinting=true
+!URxvt.font:            xft:Monaco:pixelsize=11:antialias=true:hinting=true
+!URxvt.boldFont:        xft:Monaco:pixelsize=11:antialias=true:bold:hinting=true
+!URxvt.italicFont:      xft:Monaco:pixelsize=11:antialias=true:italic:autohint=true:hinting=true
+!URxvt.bolditalicFont:  xft:Monaco:pixelsize=11:antialias=true:bold:italic:autohint=true:hinting=true
 
 !URxvt*font:            -xos4-terminus-medium-r-normal--12-*-*-*-*-*-*-u
 !URxvt*boldFont:        -xos4-terminus-bold-r-normal--12-*-*-*-*-*-*-u
 !URxvt*italicFont:      -xos4-terminus-medium-r-normal--12-*-*-*-*-*-*-u
 !URxvt*boldItalicFont:  -xos4-terminus-medium-r-normal--12-*-*-*-*-*-*-u
 
-!URxvt.font:             -*-terminus-medium-r-*-*-12-120-*-*-*-*-*-*
-!URxvt.boldFont:         -*-terminus-medium-r-*-*-12-120-*-*-*-*-*-*
+URxvt.font:             -*-terminus-medium-r-*-*-12-120-*-*-*-*-*-*
+URxvt.boldFont:         -*-terminus-medium-r-*-*-12-120-*-*-*-*-*-*
 ! }}}
 
 ! {{{ Colours

@@ -3,7 +3,7 @@
 ---------------------------
 
 # Font
-font                      = Monaco Bold 7
+font                      = Terminus Bold 6
 
 # BG
 bg_normal                 = #12121288
@@ -50,7 +50,7 @@ volic                     = /home/stxza/.config/awesome/icons/vol.png
 fsic                      = /home/stxza/.config/awesome/icons/accordion.png
 
 # Wall
-wallpaper_cmd             = awsetbg -f /home/stxza/pics/Walls/td.png
+wallpaper_cmd             = awsetbg -c ~/pics/Walls/Gradients/Grey/gradplain1920.jpg
 
 # Layout Icons
 layout_fairh              = /usr/share/awesome/themes/default/layouts/fairhw.png

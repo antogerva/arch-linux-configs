@@ -36,6 +36,7 @@ TERM xterm
 TERM xterm-256color
 TERM xterm-color
 TERM xterm-debian
+
 # Below are the color init strings for the basic file types. A color init
 # string consists of one or more of the following numeric codes:
 # Attribute codes:
@@ -44,10 +45,12 @@ TERM xterm-debian
 # 30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
 # Background color codes:
 # 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
+
 NORMAL 00 # global default, although everything should be something.
 FILE 00 # normal file
 DIR 01;34 # directory
 LINK 01;36 # symbolic link. (If you set this to 'target' instead of a
+
  # numerical value, the color is as for the file pointed to.)
 FIFO 40;33 # pipe
 SOCK 01;35 # socket
@@ -60,6 +63,7 @@ SETGID 30;43 # file that is setgid (g+s)
 STICKY_OTHER_WRITABLE 30;42 # dir that is sticky and other-writable (+t,o+w)
 OTHER_WRITABLE 34;42 # dir that is other-writable (o+w) and not sticky
 STICKY 37;44 # dir with the sticky bit set (+t) and not other-writable
+
 # This is for files with execute permission:
 EXEC 01;32
 # List any file extensions like '.gz' or '.tar' that you would like ls
@@ -75,7 +79,8 @@ EXEC 01;32
 # executable bit actually set.
 #.sh 01;32
 #.csh 01;32
- # archives or compressed (bright red)
+
+# archives or compressed (bright red)
 .tar 01;31
 .tgz 01;31
 .arj 01;31
@@ -98,6 +103,7 @@ EXEC 01;32
 .cpio 01;31
 .7z 01;31
 .rz 01;31
+
 # image formats
 .jpg 01;35
 .jpeg 01;35
@@ -114,6 +120,8 @@ EXEC 01;32
 .png 01;35
 .mng 01;35
 .pcx 01;35
+
+# video formats
 .mov 01;35
 .mpg 01;35
 .mpeg 01;35
@@ -138,6 +146,7 @@ EXEC 01;32
 .xcf 01;35
 .xwd 01;35
 .yuv 01;35
+
 # audio formats
 .aac 00;36
 .au 00;36
@@ -150,3 +159,22 @@ EXEC 01;32
 .ogg 00;36
 .ra 00;36
 .wav 00;36
+
+# Source Code
+.C    00;36
+.H    00;36
+.c    00;36
+.h    00;36
+.cxx  00;36
+.hxx  00;36
+.cpp  00;36
+.hpp  00;36
+.py   00;36
+.sh   00;36
+.vim  00;36
+
+# Objects
+.o   00;33
+.so  00;33
+.a   00;33
+.ko  00;33

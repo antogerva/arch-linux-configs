@@ -158,14 +158,15 @@ awful.menu.new({
             border_width = beautiful.border_width_menu
 })
 
--- Launcher menu
+--[[ Launcher menu
 launcher = 
 awful.widget.launcher({ 
     image = image(beautiful.arch_icon),
     menu = mainmenu,
-    align = "left" 
+    align = "right" 
 })
 launcher.resize = true
+]]--
 
 -- Create a systray
 systray = widget({ type = "systray", align = "right" })
@@ -174,13 +175,16 @@ systray = widget({ type = "systray", align = "right" })
 spacer = " "
 
 -- Separator icon
-separator = widget({ type = "imagebox", align = "right" })
-separator.image = image(beautiful.sepic)
+separatorR = widget({ type = "imagebox", align = "right" })
+separatorR.image = image(beautiful.sepic)
+
+separatorL = widget({ type = "imagebox", align = "left" })
+separatorL.image = image(beautiful.sepic)
 
 -- Create the clock widget
 clockwidget = widget({ type = "textbox", align = "right" })
 -- Run it once so we don't have to wait for the hooks to see our clock
-clockInfo("%d/%m/%Y", "%T")
+clockInfo("%H:%M")
 
 -- Create the wifi widget
 wifiic = widget({ type = "imagebox", align = "right" })
@@ -226,8 +230,8 @@ fsic.image = image(beautiful.fsic)
 fsic.resize = false
 fswidget = widget({ type = "textbox", align = "right" })
 wicked.register(fswidget, wicked.widgets.fs, 
-    setFg(beautiful.fg_focus, "/:")..setFg(beautiful.fg_widg, '${/ usep}%')..spacer..setFg(beautiful.fg_focus, "~:")..setFg(beautiful.fg_widg, '${/home usep}%')..spacer, 
-25)
+    setFg(beautiful.fg_focus, "/:")..setFg(beautiful.fg_widg, '${/ usep}').."%"..spacer..setFg(beautiful.fg_focus, "~:")..setFg(beautiful.fg_widg, '${/home usep}').."%"..spacer, 
+30)
 
 -- Create the volume widget
 volic = widget({ type = "imagebox", align = "right" })
@@ -271,7 +275,7 @@ for s = 1, screen.count() do
     
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
-    layoutbox[s] = widget({ type = "imagebox", align = "right" })
+    layoutbox[s] = widget({ type = "imagebox", align = "left" })
     layoutbox[s]:buttons({ button({ }, 1, function () awful.layout.inc(layouts, 1) end),
                            button({ }, 3, function () awful.layout.inc(layouts, -1) end),
                            button({ }, 4, function () awful.layout.inc(layouts, 1) end),
@@ -285,8 +289,8 @@ for s = 1, screen.count() do
     -- Mod: Only display currently focused client in tasklist
     tasklist[s] = awful.widget.tasklist.new(
                       function(c)
-                        if c == client.focus then
-                            return spacer..setFg(beautiful.fg_focus, c.name)..spacer
+                        if c == client.focus and c ~= nil then
+                            return setFg(beautiful.fg_focus, c.name)
                         end
                         --return awful.widget.tasklist.label.currenttags(c, s)
                       end, tasklist.buttons)
@@ -294,7 +298,7 @@ for s = 1, screen.count() do
     -- Create the wibox
    mywibox[s] = wibox({ 
         position = "top", 
-        height = 14.7, 
+        height = 14.9, 
         fg = beautiful.fg_normal, 
         bg = beautiful.bg_normal, 
         border_color = beautiful.border_wibox, 
@@ -302,8 +306,8 @@ for s = 1, screen.count() do
     })
     
     -- Add widgets to the wibox - order matters
-   mywibox[s].widgets = {   launcher,
-                            taglist[s],
+   mywibox[s].widgets = {   taglist[s],
+                            --layoutbox[s],
                             tasklist[s],
                             promptbox[s],
                             cpuic,
@@ -320,10 +324,9 @@ for s = 1, screen.count() do
                             batterywidget,
                             volic,
                             volumewidget,
-                            separator,
+                            separatorR,
                             clockwidget,
-                            s == 1 and systray or nil,
-                            layoutbox[s] 
+                            s == 1 and systray or nil
                         }
    mywibox[s].screen = s
 end
@@ -599,12 +602,12 @@ clockwidget:buttons({
 
 -- Timed hooks for the widget functions
 -- 1 second
-awful.hooks.timer.register(1, function ()
-    clockInfo("%T")
+awful.hooks.timer.register(60, function ()
+    clockInfo("%H:%M")
 end)
 
 -- 25 seconds
-awful.hooks.timer.register(25, function()
+awful.hooks.timer.register(35, function()
     wifiInfo("wlan0")
 end)
 

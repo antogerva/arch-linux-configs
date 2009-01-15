@@ -7,25 +7,25 @@
 
 -- {{{ Markup functions
 function setBg(bgcolor, text)
-    if text then
+    if text ~= nil then
         return string.format('<bg color="%s" />%s', bgcolor, text)
     end
 end
 
 function setFg(fgcolor, text)
-    if text then
+    if text ~= nil then
         return string.format('<span color="%s">%s</span>', fgcolor, text)
     end
 end
 
 function setBgFg(bgcolor, fgcolor, text)
-    if text then
+    if text ~= nil then
         return string.format('<bg color="%s"/><span color="%s">%s</span>', bgcolor, fgcolor, text)
     end
 end
 
 function setFont(font, text)
-    if text then
+    if text ~= nil then
         return string.format('<span font_desc="%s">%s</span>', font, text)
     end
 end
@@ -61,10 +61,10 @@ function add_calendar(inc_offset)
     local cal = awful.util.pread("cal -m " .. datespec)
     cal = string.gsub(cal, "^%s*(.-)%s*$", "%1")
     calendar = naughty.notify({
-        text     = string.format('<span font_desc="%s">%s</span>', "monaco", 
+        text     = string.format('<span font_desc="%s">%s</span>', "Terminus", 
                    setFg(beautiful.fg_focus, os.date("%a, %d %B %Y")) .. "\n" .. setFg(beautiful.fg_widg, cal)),
         timeout  = 0, hover_timeout = 0.5,
-        width    = 125,
+        width    = 145,
         position = "top_right",
         bg       = beautiful.bg_focus
     })
@@ -88,7 +88,7 @@ function wifiInfo(adapter)
                        })
     end
     
-    wifiwidget.text = setFg(beautiful.fg_widg, ""..wifiStrength.."%")..spacer
+    wifiwidget.text = setFg(beautiful.fg_widg, wifiStrength).."%"..spacer
 end
 -- }}}
 
@@ -107,7 +107,7 @@ function batteryInfo(adapter)
     local battery = math.floor(cur * 100 / cap)
     
     if sta:match("Charging") then
-        dir = setFg("#00FF00", "^")
+        dir = setFg("#90EE90", "^")
         battery = battery.."%"
     elseif sta:match("Discharging") then
         dir = setFg("#A52A2A", "v")
@@ -127,7 +127,7 @@ function batteryInfo(adapter)
         end
         battery = battery.."%"
     else
-        dir = "="
+        dir = ""
         battery = "AC"
     end
     
@@ -138,7 +138,7 @@ end
 -- {{{ Memory
 function memInfo()
     local f = io.open("/proc/meminfo")
-
+ 
     for line in f:lines() do
         if line:match("^MemTotal.*") then
             memTotal = math.floor(tonumber(line:match("(%d+)")) / 1024)
@@ -151,12 +151,21 @@ function memInfo()
         end
     end
     f:close()
-
+ 
     memFree = memFree + memBuffers + memCached
     memInUse = memTotal - memFree
     memUsePct = math.floor(memInUse / memTotal * 100)
+ 
+    if tonumber(memUsePct) >= 15 and tonumber(memInUse) >= 306 then
+        memUsePct = setFg("#FF6565", memUsePct)
+        memInUse = setFg("#FF6565", memInUse)
+    else
+        memUsePct = setFg(beautiful.fg_widg, memUsePct)
+        memInUse = setFg(beautiful.fg_widg, ""..memInUse.."M")
+    end
 
-    memwidget.text = setFg(beautiful.fg_widg, ""..memUsePct.."%").."("..setFg(beautiful.fg_widg,""..memInUse.."M")..")"..spacer
+    --memwidget.text = setFg(beautiful.fg_widg, ""..memUsePct.."%").."("..setFg(beautiful.fg_widg,""..memInUse.."M")..")"..spacer
+    memwidget.text = memUsePct.."%".."("..memInUse..")"..spacer
 end
 -- }}}
 
@@ -210,8 +219,8 @@ function cpuUsg(widget, args)
     local cpufr = fcpufr:read("*a"):match("cpu MHz%s*:%s*([^%s]*)")
     fcpufr:close()
     cpufr = setFg(beautiful.fg_widg, tonumber(cpufr).."MHz")..spacer
-    local core1 = setFg(beautiful.fg_focus, "C1:")..setFg(beautiful.fg_widg, ""..args[2].."%")
-    local core2 = spacer..setFg(beautiful.fg_focus, "C2:")..setFg(beautiful.fg_widg, ""..args[3].."%")
+    local core1 = setFg(beautiful.fg_focus, "C1:")..setFg(beautiful.fg_widg, args[2]).."%"
+    local core2 = spacer..setFg(beautiful.fg_focus, "C2:")..setFg(beautiful.fg_widg, args[3]).."%"
     local cpuUsg = cpufr..core1..core2..spacer 
     
 	return cpuUsg

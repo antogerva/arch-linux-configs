@@ -77,10 +77,7 @@ setprompt () {
     colors
     setopt prompt_subst
 
-    #PROMPT="[%{$fg_bold[cyan]%}%~%{$reset_color%}]-> "
-    #PROMPT="[%{$fg[white]%}%n %{$fg_bold[cyan]%}%~%{$reset_color%}]> "
-    #RPROMPT="[%{$fg_bold[yellow]%}%D{%H:%M}%{$reset_color%}]"
-    PROMPT="%{$fg_bold[grey]%}[%{$fg_bold[white]%}%~%{$reset_color%}%{$fg_bold[grey]%}]%{$reset_color%}-%{$fg_bold[yellow]%}»%{$reset_color%} "
+    PROMPT="%{$fg_bold[grey]%}[%{$fg_bold[white]%}%~%{$reset_color%}%{$fg_bold[grey]%}]%{$reset_color%}-%{$fg_bold[red]%}»%{$reset_color%} "
     RPROMPT="%{$fg[white]%}%D{%H:%M}%{$reset_color%}"
 }
 
@@ -126,6 +123,7 @@ alias rebootuni='sudo netcfg2 -d wifiuni && sleep 3 && sudo reboot'
 alias screenie='cd ~/bin/ && ./info.pl'
 alias pacman='sudo pacman-color'
 alias xpop='xprop | grep --color=none "WM_WINDOW_ROLE\|WM_CLASS" | xmessage -file - -center'
+alias nvtemp='echo "nvGPUTemp: $(nvidia-settings -q gpucoretemp | grep "Attribute" | sed "s/[^1-9]//g")C"'
 # }}}
 
 # {{{ URXVT workaround - stop first line completion bug in tiling WMs

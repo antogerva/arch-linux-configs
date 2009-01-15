@@ -20,6 +20,7 @@ export PKG_CONFIG_PATH
 export EDITOR=vim
 export BROWSER=firefox
 # export OOO_FORCE_DESKTOP=gnome
+
 # Firefox tweak
 export MOZ_DISABLE_PANGO=1
 
