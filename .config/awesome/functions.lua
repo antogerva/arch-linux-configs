@@ -172,9 +172,9 @@ function sysInfo()
 		return ''
 	else
         local pos0 = core0:find('+')+1
-        core0 = string.sub(core0, pos0, pos0+3)
+        core0 = string.sub(core0, pos0, pos0+1)
         local pos1 = core1:find('+')+1
-        core1 = string.sub(core1, pos1, pos1+3)
+        core1 = string.sub(core1, pos1, pos1+1)
         
         if tonumber(core0) >= 40 then
             core0 = setFg("#B9DCE7", core0)
@@ -186,15 +186,21 @@ function sysInfo()
     core0 = setFg(beautiful.fg_focus, "C:")..setFg(beautiful.fg_widg, ""..core0.."°").."/"
     core1 = setFg(beautiful.fg_widg, ""..core1.."°")..spacer
     
-    -- GPU Temp
-    --local comm3 = io.popen('nvidia-settings -q gpucoretemp | grep \'):\' | awk \'{print $4}\' | cut -d\'.\' -f1')
-    --local gpuTemp = comm3:read()
-    --local gpu = setFg(beautiful.fg_focus, "G:")..setFg(beautiful.fg_widg, gpuTemp:gsub("^%s*(.-)%s*$", "%1"))..spacer
-    --local gpu = gpuTemp..spacer
-
-    local sysinfo = core0..core1
-
-    return sysinfo
+    --[[ GPU Temp
+    --local comm2 = 'nvidia-settings -q gpucoretemp | grep \'Attribute\' | sed \'s/[^1-9]//g\''
+    --local comm2 = io.popen('/home/stxza/bin/nvidTemp.sh')
+    --local gpuTemp = comm2:read()
+    --comm2:close()
+    
+    if gpuTemp == nil then
+        return ''
+    else
+        --local gpu = setFg(beautiful.fg_focus, "G:")..setFg(beautiful.fg_widg, gpuTemp)..spacer
+        local gpu = gpuTemp..spacer
+    end
+    ]]--
+    
+    return core0..core1
 end
 -- }}}
 

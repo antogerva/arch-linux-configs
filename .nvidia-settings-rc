@@ -2,7 +2,7 @@
 # /home/stxza/.nvidia-settings-rc
 #
 # Configuration file for nvidia-settings - the NVIDIA X Server Settings utility
-# Generated on Wed Jan 14 22:56:58 2009
+# Generated on Thu Jan 15 14:39:36 2009
 #
 
 # ConfigProperties:
@@ -13,8 +13,8 @@ DisplayStatusBar = Yes
 SliderTextEntries = Yes
 IncludeDisplayNameInConfigFile = No
 ShowQuitDialog = Yes
-Timer = PowerMizer_Monitor_(GPU_0),Yes,1000
 Timer = Thermal_Monitor_(GPU_0),Yes,1000
+Timer = PowerMizer_Monitor_(GPU_0),Yes,1000
 
 # Attributes:
 
