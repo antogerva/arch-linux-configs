@@ -78,7 +78,7 @@ setprompt () {
     setopt prompt_subst
 
     PROMPT="%{$fg_bold[grey]%}[%{$fg_bold[white]%}%~%{$reset_color%}%{$fg_bold[grey]%}]%{$reset_color%}-%{$fg_bold[red]%}»%{$reset_color%} "
-    RPROMPT="%{$fg[white]%}%D{%H:%M}%{$reset_color%}"
+    RPROMPT="%{$fg[cyan]%}%D{%H:%M}%{$reset_color%}"
 }
 
 setprompt

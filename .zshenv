@@ -8,7 +8,13 @@ typeset -U path
 path=(/bin /sbin /usr/bin /usr/sbin /usr/local/bin /home/stxza/bin $path)
 
 # Dircolors
-eval `dircolors -b ~/.dir_colors`
+eval "$(dircolors -b $HOME/.dir_colors)"
+
+# Kill flow control
+if tty -s ; then
+    stty -ixon
+    stty -ixoff
+fi
 
 export LC_ALL=en_AU.UTF-8
 export LC_COLLATE="C"
