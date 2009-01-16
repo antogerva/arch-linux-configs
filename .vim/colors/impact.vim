@@ -15,9 +15,9 @@ if exists("syntax_on")
 endif
 let g:colors_name="impact"
 
-
-        hi Normal       ctermfg=LightGray 
-        hi NonText      ctermfg=DarkGray
+if exists("g:impact_transbg")
+        hi Normal       ctermfg=LightGray ctermbg=none
+        hi NonText      ctermfg=DarkGray  ctermbg=none
 
         hi Statement    ctermfg=Blue      ctermbg=none
         hi Comment      ctermfg=DarkGray  ctermbg=none cterm=bold term=bold
@@ -36,7 +36,31 @@ let g:colors_name="impact"
         hi Visual       ctermfg=White     ctermbg=DarkGray cterm=underline term=none
         hi Title        ctermfg=White     ctermbg=DarkBlue
 
-        hi StatusLine   term=bold cterm=bold ctermfg=White ctermbg=Black
-        hi StatusLineNC term=bold cterm=bold ctermfg=Gray  ctermbg=Black
-        hi LineNr       term=bold cterm=bold ctermfg=White 
+        hi StatusLine   term=bold cterm=bold,underline ctermfg=White ctermbg=Black
+        hi StatusLineNC term=bold cterm=bold,underline ctermfg=Gray  ctermbg=Black
+        hi LineNr       term=bold cterm=bold ctermfg=White ctermbg=DarkGray
+else
+        hi Normal       ctermfg=LightGray ctermbg=Black
+        hi NonText      ctermfg=DarkGray  ctermbg=Black
 
+        hi Statement    ctermfg=Blue      ctermbg=Black
+        hi Comment      ctermfg=DarkGray  ctermbg=Black cterm=bold term=bold
+        hi Constant     ctermfg=DarkCyan  ctermbg=Black
+        hi Identifier   ctermfg=Cyan      ctermbg=Black
+        hi Type         ctermfg=DarkGreen ctermbg=Black
+        hi Folded       ctermfg=DarkGreen ctermbg=Black cterm=underline term=none
+        hi Special      ctermfg=Blue      ctermbg=Black
+        hi PreProc      ctermfg=LightGray ctermbg=Black cterm=bold term=bold
+        hi Scrollbar    ctermfg=Blue      ctermbg=Black
+        hi Cursor       ctermfg=white     ctermbg=Black
+        hi ErrorMsg     ctermfg=Red       ctermbg=Black cterm=bold term=bold
+        hi WarningMsg   ctermfg=Yellow    ctermbg=Black
+        hi VertSplit    ctermfg=White     ctermbg=Black
+        hi Directory    ctermfg=Cyan      ctermbg=DarkBlue
+        hi Visual       ctermfg=White     ctermbg=DarkGray cterm=underline term=none
+        hi Title        ctermfg=White     ctermbg=DarkBlue
+
+        hi StatusLine   term=bold cterm=bold,underline ctermfg=White ctermbg=Black
+        hi StatusLineNC term=bold cterm=bold,underline ctermfg=Gray  ctermbg=Black
+        hi LineNr       term=bold cterm=bold ctermfg=White ctermbg=DarkGray
+endif

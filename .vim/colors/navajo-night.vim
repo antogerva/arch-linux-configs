@@ -1,6 +1,6 @@
 " Vim colour file
 " Maintainer: Matthew Hawkins <matt@mh.dropbear.id.au>
-" Last Change:	Mon, 22 Apr 2002 15:28:04 +1000
+" Last Change:  Mon, 22 Apr 2002 15:28:04 +1000
 " URI: http://mh.dropbear.id.au/vim/navajo-night.png
 "
 " This colour scheme uses a "navajo-black" background
@@ -51,7 +51,7 @@ hi IncSearch term=reverse cterm=reverse gui=reverse
 hi Search term=reverse ctermbg=White ctermfg=Black cterm=reverse guibg=Black guifg=Yellow
 hi MoreMsg term=bold ctermfg=green gui=bold guifg=#d174a8
 hi ModeMsg term=bold cterm=bold gui=bold
-hi LineNr term=underline ctermfg=grey guibg=#7f7f7f gui=bold guifg=White
+hi LineNr term=underline ctermfg=darkcyan ctermbg=grey guibg=#7f7f7f gui=bold guifg=White
 hi Question term=standout ctermfg=darkgreen gui=bold guifg=#d174a8
 hi StatusLine term=bold,reverse cterm=bold,reverse gui=bold guifg=Black guibg=White
 hi StatusLineNC term=reverse cterm=reverse gui=bold guifg=#116f6f guibg=#8f8f8f
