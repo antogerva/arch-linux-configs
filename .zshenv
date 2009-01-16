@@ -7,6 +7,9 @@
 typeset -U path
 path=(/bin /sbin /usr/bin /usr/sbin /usr/local/bin /home/stxza/bin $path)
 
+# Dircolors
+eval `dircolors -b ~/.dir_colors`
+
 export LC_ALL=en_AU.UTF-8
 export LC_COLLATE="C"
 export LANG=en_AU.UTF-8
@@ -23,9 +26,6 @@ export BROWSER=firefox
 
 # Firefox tweak
 export MOZ_DISABLE_PANGO=1
-
-# Dircolors
-eval `dircolors -b ~/.dir_colors`
 
 # Make framebuffer colors look like in X
 #if [ "$TERM" = "linux" ]; then

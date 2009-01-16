@@ -159,15 +159,14 @@ awful.menu.new({
             border_width = beautiful.border_width_menu
 })
 
---[[ Launcher menu
+-- Launcher menu
 launcher = 
 awful.widget.launcher({ 
-    image = image(beautiful.arch_icon),
+    image = image(beautiful.awesome_icon),
     menu = mainmenu,
-    align = "right" 
+    align = "left" 
 })
 launcher.resize = true
-]]--
 
 -- Create a systray
 systray = widget({ type = "systray", align = "right" })
@@ -254,18 +253,18 @@ mywibox = {}
 promptbox = {}
 layoutbox = {}
 taglist = {}
-taglist.buttons = { button({ }, 1, awful.tag.viewonly),
+taglist = {}
+taglist.buttons =   { button({ }, 1, awful.tag.viewonly),
                       button({ modkey }, 1, awful.client.movetotag),
-                      button({ }, 3, function () if instance then instance:hide() end instance = awful.menu.clients({ width=250 }) end),
-                      -- button({ }, 3, function (tag) tag.selected = not tag.selected end),
+                      button({ }, 3, function (tag) tag.selected = not tag.selected end),
                       button({ modkey }, 3, awful.client.toggletag),
                       button({ }, 4, awful.tag.viewnext),
                       button({ }, 5, awful.tag.viewprev) }
 tasklist = {}
-tasklist.buttons = { button({ }, 1, function (c) client.focus = c; c:raise() end),
-                       button({ }, 3, function () awful.menu.clients({ width=250 }) end),
-                       button({ }, 4, function () awful.client.focus.byidx(1) end),
-                       button({ }, 5, function () awful.client.focus.byidx(-1) end) }
+tasklist.buttons =  { button({ }, 1, function (c) client.focus = c; c:raise() end),
+                      button({ }, 3, function () if instance then instance:hide() end instance = awful.menu.clients({ width=250 }) end),
+                      button({ }, 4, function () awful.client.focus.byidx(1) end),
+                      button({ }, 5, function () awful.client.focus.byidx(-1) end) }
 
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
@@ -273,7 +272,8 @@ for s = 1, screen.count() do
     
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
-    layoutbox[s] = widget({ type = "imagebox", align = "left" })
+    layoutbox[s] = widget({ type = "imagebox", align = "right" })
+    layoutbox[s].resize = true
     layoutbox[s]:buttons({ button({ }, 1, function () awful.layout.inc(layouts, 1) end),
                            button({ }, 3, function () awful.layout.inc(layouts, -1) end),
                            button({ }, 4, function () awful.layout.inc(layouts, 1) end),
@@ -296,7 +296,7 @@ for s = 1, screen.count() do
     -- Create the wibox
    mywibox[s] = wibox({ 
         position = "top", 
-        height = 14.9, 
+        height = 14.8, 
         fg = beautiful.fg_normal, 
         bg = beautiful.bg_normal, 
         border_color = beautiful.border_wibox, 
@@ -304,8 +304,8 @@ for s = 1, screen.count() do
     })
     
     -- Add widgets to the wibox - order matters
-   mywibox[s].widgets = {   taglist[s],
-                            --layoutbox[s],
+   mywibox[s].widgets = {   --launcher,
+                            taglist[s],
                             tasklist[s],
                             promptbox[s],
                             cpuic,
@@ -324,7 +324,8 @@ for s = 1, screen.count() do
                             volumewidget,
                             separatorR,
                             clockwidget,
-                            s == 1 and systray or nil
+                            s == 1 and systray or nil,
+                            layoutbox[s]
                         }
    mywibox[s].screen = s
 end
@@ -463,7 +464,7 @@ table.insert(globalkeys, key({ modkey }, "Tab",
         allclients[i+1]:swap(v)
       end
     end
-    awful.client.focus.byidx(-1)
+    awful.client.focus.byidx(1)
   end))
 
 -- Set keys

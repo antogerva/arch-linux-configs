@@ -37,7 +37,7 @@ taglist_squares_unsel     = /usr/share/awesome/themes/default/taglist/squarew.pn
 
 # Wibox Icons
 tasklist_floating_icon    = /home/stxza/.config/awesome/icons/layouts/floatingw.png
-awesome_icon              = /home/stxza/.config/awesome/icons/awesome16_gray.png
+awesome_icon              = /home/stxza/.config/awesome/icons/awesome16_gray_darker.png
 arch_icon                 = /home/stxza/.config/awesome/icons/arch_grey.png
 pacic                     = /home/stxza/.config/awesome/icons/pacman.png
 sepic                     = /home/stxza/.config/awesome/icons/separators/link14.png
