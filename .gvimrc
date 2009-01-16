@@ -1,20 +1,3 @@
-" {{{ GVIM
-let &guicursor = &guicursor . ",a:blinkon0"
-colorscheme xoria256
-set guifont=Monaco\ 9
-set guioptions-=T
-"set guioptions+=g
-"set guioptions-=t
-"set guioptions-=m
-set guioptions-=L
-set guioptions-=l
-set guioptions-=r
-set guioptions-=R
-set guitablabel=%t " set label for tab to just file name
-set anti " Antialias font
-"set transparency=0
-" {{{ GVIM
-
 " Basics
 syntax on               " enable syntax highlighting
 set showmatch           " show matching brackets (),{},[]
@@ -25,6 +8,11 @@ set encoding=utf-8
 filetype on
 set complete=k          " global autocompletion
 set completeopt+=longest
+
+set t_Co=256
+set mouse=a         
+colorscheme xoria256
+set termencoding=utf-8 
 
 " Indenting, Folding..
 set tabstop=4           " numbers of spaces of tab character
@@ -120,3 +108,20 @@ set t_vb=
 " highlight redundant whitespaces and tabs.
 " highlight RedundantSpaces ctermbg=red guibg=red
 " match RedundantSpaces /\s\+$\| \+\ze\t\|\t/
+
+if has('gui_running')
+    let &guicursor = &guicursor . ",a:blinkon0"
+    colorscheme xoria256
+    set guifont=Monaco\ 8
+    set guioptions-=T
+    "set guioptions+=g
+    "set guioptions-=t
+    "set guioptions-=m
+    set guioptions-=L
+    set guioptions-=l
+    set guioptions-=r
+    set guioptions-=R
+    set guitablabel=%t " set label for tab to just file name
+    set anti " Antialias font
+    "set transparency=0
+endif

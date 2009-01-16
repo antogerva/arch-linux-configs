@@ -108,3 +108,20 @@ set t_vb=
 " highlight redundant whitespaces and tabs.
 " highlight RedundantSpaces ctermbg=red guibg=red
 " match RedundantSpaces /\s\+$\| \+\ze\t\|\t/
+
+if has('gui_running')
+    let &guicursor = &guicursor . ",a:blinkon0"
+    colorscheme xoria256
+    set guifont=Monaco\ 8
+    set guioptions-=T
+    "set guioptions+=g
+    "set guioptions-=t
+    "set guioptions-=m
+    set guioptions-=L
+    set guioptions-=l
+    set guioptions-=r
+    set guioptions-=R
+    set guitablabel=%t " set label for tab to just file name
+    set anti " Antialias font
+    "set transparency=0
+endif

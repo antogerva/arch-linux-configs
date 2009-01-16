@@ -13,10 +13,10 @@ defscrollback 10000
 
 autodetach on
 deflogin on
-nethack on
 defutf8 on
 altscreen on
 defbce on
+defflow off
 nonblock on
 defhstatus "screen: ^En (^Et)"
 term screen-256color

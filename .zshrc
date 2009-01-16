@@ -123,7 +123,7 @@ alias rebootuni='sudo netcfg2 -d wifiuni && sleep 3 && sudo reboot'
 alias screenie='cd ~/bin/ && ./info.pl'
 alias pacman='sudo pacman-color'
 alias xpop='xprop | grep --color=none "WM_WINDOW_ROLE\|WM_CLASS" | xmessage -file - -center'
-alias nvtemp='echo "nvGPUTemp: $(nvidia-settings -q gpucoretemp | grep "Attribute" | sed "s/[^1-9]//g")C"'
+alias nvtemp='echo "$(nvidia-settings -q gpucoretemp | grep Attribute | sed "s/ //g")"'
 # }}}
 
 # {{{ URXVT workaround - stop first line completion bug in tiling WMs

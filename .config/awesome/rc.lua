@@ -97,7 +97,8 @@ tag_properties = { { name = "main"
                    , mwfact = 0.618033988769
                    }
                  , { name = "www"
-                   , layout = layouts[7]
+                   , layout = layouts[1]
+                   , mwfact = 0.65
                    , nmaster = 1
                    }
                  , { name = "dev"
@@ -252,22 +253,19 @@ wicked.register(volumewidget, getVol, "$1", 30)
 mywibox = {}
 promptbox = {}
 layoutbox = {}
-
 taglist = {}
 taglist.buttons = { button({ }, 1, awful.tag.viewonly),
-                    button({ modkey }, 1, awful.client.movetotag),
-                    button({ }, 3, function (tag) tag.selected = not tag.selected end),
-                    button({ modkey }, 3, awful.client.toggletag),
-                    button({ }, 4, awful.tag.viewnext),
-                    button({ }, 5, awful.tag.viewprev) 
-                  }
-                      
+                      button({ modkey }, 1, awful.client.movetotag),
+                      button({ }, 3, function () if instance then instance:hide() end instance = awful.menu.clients({ width=250 }) end),
+                      -- button({ }, 3, function (tag) tag.selected = not tag.selected end),
+                      button({ modkey }, 3, awful.client.toggletag),
+                      button({ }, 4, awful.tag.viewnext),
+                      button({ }, 5, awful.tag.viewprev) }
 tasklist = {}
 tasklist.buttons = { button({ }, 1, function (c) client.focus = c; c:raise() end),
-                     button({ }, 3, function () if instance then instance:hide() end instance = awful.menu.clients({ width=250 }) end),
-                     button({ }, 4, function () awful.client.focus.byidx(1) end),
-                     button({ }, 5, function () awful.client.focus.byidx(-1) end) 
-                   }
+                       button({ }, 3, function () awful.menu.clients({ width=250 }) end),
+                       button({ }, 4, function () awful.client.focus.byidx(1) end),
+                       button({ }, 5, function () awful.client.focus.byidx(-1) end) }
 
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
@@ -561,7 +559,7 @@ awful.hooks.manage.register(function (c, startup)
 
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    awful.client.setslave(c)
+    --awful.client.setslave(c)
 
     -- Honor size hints: if you want to drop the gaps between windows, set this to false.
     c.size_hints_honor = false

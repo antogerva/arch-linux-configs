@@ -125,7 +125,6 @@ function batteryInfo(adapter)
             end
             battery = setFg("#FF6565", battery).."%"
         end
-        battery = battery.."%"
     else
         dir = ""
         battery = "AC"

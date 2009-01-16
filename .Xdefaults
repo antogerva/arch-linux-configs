@@ -9,7 +9,7 @@ Xcursor.size:           10
 ! }}}
 
 ! {{{ URxvt
-URxvt.termName:         rxvt-unicode
+URxvt.termName:         rxvt-256color
 URxvt.imLocale:         en_AU.UTF-8
 !URxvt.loginShell:       true
 URxvt.saveLines:        32767
