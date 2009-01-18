@@ -97,7 +97,8 @@ tag_properties = { { name = "main"
                    , mwfact = 0.618033988769
                    }
                  , { name = "www"
-                   , layout = layouts[7]
+                   , layout = layouts[1]
+                   , mwfact = 0.65
                    , nmaster = 1
                    }
                  , { name = "dev"
@@ -161,10 +162,11 @@ awful.menu.new({
 -- Launcher menu
 launcher = 
 awful.widget.launcher({ 
-    image = image(beautiful.arch_icon),
-    menu = mainmenu 
+    image = image(beautiful.awesome_icon),
+    menu = mainmenu,
+    align = "left" 
 })
-launcher.resize = false
+launcher.resize = true
 
 -- Create a systray
 systray = widget({ type = "systray", align = "right" })
@@ -173,98 +175,96 @@ systray = widget({ type = "systray", align = "right" })
 spacer = " "
 
 -- Separator icon
-separator = widget({ type = "imagebox", align = "right" })
-separator.image = image(beautiful.sepic)
+separatorR = widget({ type = "imagebox", align = "right" })
+separatorR.image = image(beautiful.sepic)
+
+separatorL = widget({ type = "imagebox", align = "left" })
+separatorL.image = image(beautiful.sepic)
 
 -- Create the clock widget
 clockwidget = widget({ type = "textbox", align = "right" })
 -- Run it once so we don't have to wait for the hooks to see our clock
-clockInfo("%d/%m/%Y", "%T")
+clockInfo("%H:%M")
 
 -- Create the wifi widget
-wifiwidget = widget({ type = "textbox", align = "right" })
 wifiic = widget({ type = "imagebox", align = "right" })
 wifiic.image = image(beautiful.wifiic)
 wifiic.resize = false
+wifiwidget = widget({ type = "textbox", align = "right" })
 -- Run it once so we don't have to wait for the hooks to see our signal strength
 wifiInfo("wlan0")
 
 -- Create the battery widget
-batterywidget = widget({ type = "textbox", align = "right" })
 batic = widget({ type = "imagebox", align = "right" })
 batic.image = image(beautiful.batic)
 batic.resize = false
+batterywidget = widget({ type = "textbox", align = "right" })
 -- Run it once so we don't have to wait for the hooks to see our percentage
 batteryInfo("BAT0")
 
 -- Create the memory widget
-memwidget = widget({ type = "textbox", align = "right" })
 memic = widget({ type = "imagebox", align = "right" })
 memic.image = image(beautiful.memic)
 memic.resize = false
+memwidget = widget({ type = "textbox", align = "right" })
 -- Run it once so we don't have to wait for the hooks to see our memory usage
 memInfo()
 
 -- Create the CPU Usage widget
-usgwidget = widget({ type = "textbox", align = "right" })
-wicked.register(usgwidget, wicked.widgets.cpu, cpuUsg, 15, nil, 2)
 cpuic = widget({ type = "imagebox", align = "right" })
 cpuic.image = image(beautiful.cpuic)
 cpuic.resize = false
+usgwidget = widget({ type = "textbox", align = "right" })
+wicked.register(usgwidget, wicked.widgets.cpu, cpuUsg, 15, nil, 2)
 
---[[
 -- Create CPU Temps, GPU Temp widget
-tempwidget = widget({ type = "textbox", align = "right" })
-wicked.register(tempwidget, sysInfo, "$1", 25)
 tempic = widget({ type = "imagebox", align = "right" })
 tempic.image = image(beautiful.tempic)
 tempic.resize = false
-]]--
+tempwidget = widget({ type = "textbox", align = "right" })
+wicked.register(tempwidget, sysInfo, "$1", 35)
 
 -- Create the File Sys Usage widget
-fswidget = widget({ type = "textbox", align = "right" })
-wicked.register(fswidget, wicked.widgets.fs, 
-    setFg(beautiful.fg_focus, "/:")..setFg(beautiful.fg_widg, '${/ usep}%')..spacer..setFg(beautiful.fg_focus, "~:")..setFg(beautiful.fg_widg, '${/home usep}%')..spacer, 
-25)
 fsic = widget({ type = "imagebox", align = "right" })
 fsic.image = image(beautiful.fsic)
 fsic.resize = false
+fswidget = widget({ type = "textbox", align = "right" })
+wicked.register(fswidget, wicked.widgets.fs, 
+    setFg(beautiful.fg_focus, "/:")..setFg(beautiful.fg_widg, '${/ usep}').."%"..spacer..setFg(beautiful.fg_focus, "~:")..setFg(beautiful.fg_widg, '${/home usep}').."%"..spacer, 
+30)
 
 -- Create the volume widget
--- maybe make it a normal widget instead of wickedwidget
-volumewidget = widget({ type = "textbox", align = "right" })
-wicked.register(volumewidget, getVol, "$1", 30)
 volic = widget({ type = "imagebox", align = "right" })
 volic.image = image(beautiful.volic)
 volic.resize = false
+volumewidget = widget({ type = "textbox", align = "right" })
+wicked.register(volumewidget, getVol, "$1", 30)
 
 --TODO:
 -- Create the Pacman Upgrade Query widget
---pacwidget = widget({ type = "textbox", name = "pacwidget", align = "right" })
---wicked.register(pacwidget, pacinfo, "$1", 1800)
 --pacic = widget({ type = "imagebox", align = "right" })
 --pacic.image = image(beautiful.pacic)
+--pacic.resize = false
+--pacwidget = widget({ type = "textbox", name = "pacwidget", align = "right" })
+--wicked.register(pacwidget, pacinfo, "$1", 1800)
 
 -- Create a wibox for each screen and add it
 mywibox = {}
 promptbox = {}
 layoutbox = {}
-
 taglist = {}
-taglist.buttons = { button({ }, 1, awful.tag.viewonly),
-                    button({ modkey }, 1, awful.client.movetotag),
-                    button({ }, 3, function (tag) tag.selected = not tag.selected end),
-                    button({ modkey }, 3, awful.client.toggletag),
-                    button({ }, 4, awful.tag.viewnext),
-                    button({ }, 5, awful.tag.viewprev) 
-                  }
-                      
+taglist = {}
+taglist.buttons =   { button({ }, 1, awful.tag.viewonly),
+                      button({ modkey }, 1, awful.client.movetotag),
+                      button({ }, 3, function (tag) tag.selected = not tag.selected end),
+                      button({ modkey }, 3, awful.client.toggletag),
+                      button({ }, 4, awful.tag.viewnext),
+                      button({ }, 5, awful.tag.viewprev) }
 tasklist = {}
-tasklist.buttons = { button({ }, 1, function (c) client.focus = c; c:raise() end),
-                     button({ }, 3, function () if instance then instance:hide() end instance = awful.menu.clients({ width=250 }) end),
-                     button({ }, 4, function () awful.client.focus.byidx(1) end),
-                     button({ }, 5, function () awful.client.focus.byidx(-1) end) 
-                   }
+tasklist.buttons =  { button({ }, 1, function (c) client.focus = c; c:raise() end),
+                      button({ }, 3, function () if instance then instance:hide() end instance = awful.menu.clients({ width=250 }) end),
+                      button({ }, 4, function () awful.client.focus.byidx(1) end),
+                      button({ }, 5, function () awful.client.focus.byidx(-1) end) }
 
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
@@ -273,6 +273,7 @@ for s = 1, screen.count() do
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     layoutbox[s] = widget({ type = "imagebox", align = "right" })
+    layoutbox[s].resize = true
     layoutbox[s]:buttons({ button({ }, 1, function () awful.layout.inc(layouts, 1) end),
                            button({ }, 3, function () awful.layout.inc(layouts, -1) end),
                            button({ }, 4, function () awful.layout.inc(layouts, 1) end),
@@ -286,8 +287,8 @@ for s = 1, screen.count() do
     -- Mod: Only display currently focused client in tasklist
     tasklist[s] = awful.widget.tasklist.new(
                       function(c)
-                        if c == client.focus then
-                            return spacer..setFg(beautiful.fg_focus, c.name)..spacer
+                        if c == client.focus and c ~= nil then
+                            return setFg(beautiful.fg_focus, c.name)
                         end
                         --return awful.widget.tasklist.label.currenttags(c, s)
                       end, tasklist.buttons)
@@ -295,7 +296,7 @@ for s = 1, screen.count() do
     -- Create the wibox
    mywibox[s] = wibox({ 
         position = "top", 
-        height = 14.7, 
+        height = 14.8, 
         fg = beautiful.fg_normal, 
         bg = beautiful.bg_normal, 
         border_color = beautiful.border_wibox, 
@@ -309,8 +310,8 @@ for s = 1, screen.count() do
                             promptbox[s],
                             cpuic,
                             usgwidget,
-                            --tempic,
-                            --tempwidget,                            
+                            tempic,
+                            tempwidget,                            
                             memic,
                             memwidget,
                             fsic,
@@ -321,10 +322,10 @@ for s = 1, screen.count() do
                             batterywidget,
                             volic,
                             volumewidget,
-                            separator,
+                            separatorR,
                             clockwidget,
                             s == 1 and systray or nil,
-                            layoutbox[s] 
+                            layoutbox[s]
                         }
    mywibox[s].screen = s
 end
@@ -400,21 +401,24 @@ table.insert(globalkeys, key({ modkey }              , "e"       , function () a
 table.insert(globalkeys, key({ modkey }              , "o"       , function () awful.util.spawn("soffice") end))
 
 -- Client control
-table.insert(globalkeys, key({ modkey }              , "c"       , function (c) client.focus:kill() end))
+table.insert(clientkeys, key({ modkey }              , "c"       , function (c) c:kill() end))
 table.insert(clientkeys, key({ modkey, "Shift" }     , "r"       , function (c) c:redraw() end))
-table.insert(globalkeys, key({ modkey, "Control" }   , "space"   , awful.client.floating.toggle))
+table.insert(clientkeys, key({ modkey, "Control" }   , "space"   , awful.client.floating.toggle))
 table.insert(clientkeys, key({ modkey, "Control" }   , "Return"  , function (c) c:swap(awful.client.getmaster()) end))
 table.insert(clientkeys, key({ modkey, "Control" }   , "f"       , function (c) c.fullscreen = not c.fullscreen end))
-table.insert(globalkeys, key({ modkey }              , "u"       , awful.client.urgent.jumpto))     
-table.insert(globalkeys, key({ modkey }              , "j"       , function () awful.client.focus.byidx(1); client.focus:raise() end))
-table.insert(globalkeys, key({ modkey }              , "k"       , function () awful.client.focus.byidx(-1);  client.focus:raise() end))
-table.insert(globalkeys, key({ modkey }              , "m"       , function (c) 
-                                                                        if client.focus then 
-                                                                            client.focus.maximized_horizontal = not client.focus.maximized_horizontal
-                                                                            client.focus.maximized_vertical = not client.focus.maximized_vertical 
-                                                                        end 
-                                                                   end))
-                                                        
+table.insert(clientkeys, key({ modkey }              , "m"       , function (c) c.maximized_horizontal = not c.maximized_horizontal
+                                                                                    c.maximized_vertical = not c.maximized_vertical end))
+
+-- Rotate client focus
+table.insert(globalkeys, key({ modkey }              , "j"       , function () awful.client.focus.byidx(1); if client.focus then client.focus:raise() end end))
+table.insert(globalkeys, key({ modkey }              , "k"       , function () awful.client.focus.byidx(-1);  if client.focus then client.focus:raise() end end))
+
+-- Rotate clients position
+table.insert(globalkeys, key({ modkey, "Shift" }     , "j"       , function () awful.client.swap.byidx(1) end))
+table.insert(globalkeys, key({ modkey, "Shift" }     , "k"       , function () awful.client.swap.byidx(-1) end))
+
+table.insert(globalkeys, key({ modkey, "Control" }   , "j"       , function () awful.screen.focus(1) end))
+table.insert(globalkeys, key({ modkey, "Control" }   , "k"       , function () awful.screen.focus(-1) end))                                                        
                                                              
 -- Awesome control
 table.insert(globalkeys, key({ modkey, "Control" }   , "r"       , function () promptbox[mouse.screen].text = awful.util.escape(awful.util.restart()) end))
@@ -436,6 +440,7 @@ table.insert(globalkeys, key({ modkey, "Shift" }     , "h"       , function () a
 table.insert(globalkeys, key({ modkey, "Shift" }     , "l"       , function () awful.tag.incnmaster(-1) end))
 table.insert(globalkeys, key({ modkey, "Control" }   , "h"       , function () awful.tag.incncol(1) end))
 table.insert(globalkeys, key({ modkey, "Control" }   , "l"       , function () awful.tag.incncol(-1) end))
+table.insert(globalkeys, key({ modkey }              , "u"       , awful.client.urgent.jumpto))
 
 -- Shows or hides the statusbar
 table.insert(globalkeys,
@@ -459,8 +464,7 @@ table.insert(globalkeys, key({ modkey }, "Tab",
         allclients[i+1]:swap(v)
       end
     end
-    -- dont want currently - want to keep focus of currently focused client
-    --awful.client.focus.byidx(-1)
+    awful.client.focus.byidx(1)
   end))
 
 -- Set keys
@@ -556,7 +560,7 @@ awful.hooks.manage.register(function (c, startup)
 
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    awful.client.setslave(c)
+    --awful.client.setslave(c)
 
     -- Honor size hints: if you want to drop the gaps between windows, set this to false.
     c.size_hints_honor = false
@@ -597,12 +601,12 @@ clockwidget:buttons({
 
 -- Timed hooks for the widget functions
 -- 1 second
-awful.hooks.timer.register(1, function ()
-    clockInfo("%T")
+awful.hooks.timer.register(60, function ()
+    clockInfo("%H:%M")
 end)
 
 -- 25 seconds
-awful.hooks.timer.register(25, function()
+awful.hooks.timer.register(35, function()
     wifiInfo("wlan0")
 end)
 

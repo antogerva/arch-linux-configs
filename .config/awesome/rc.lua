@@ -40,19 +40,29 @@ channel = "Master"
 -- Default modkey.
 modkey = "Mod4"
 
+-- {{{ layouts
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
-{
-    awful.layout.suit.tile,
+{   awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
     awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
     awful.layout.suit.max,
-    awful.layout.suit.magnifier,
-    awful.layout.suit.floating
+    awful.layout.suit.floating,
 }
+layout_icons =
+{   ["tile"] = "[]=",
+    ["tileleft"] = "=[]",
+    ["tilebottom"] = "[v]",
+    ["tiletop"] = "[^]",
+    ["fairv"] = "[|]",
+    ["fairh"] = "[-]",
+    ["max"] = "[x]",
+    ["floating"] = "[~]"
+}
+-- }}}
 
 -- Table of clients that should be set floating.
 floatapps =
@@ -109,10 +119,10 @@ tag_properties = { { name = "main"
                    , layout = layouts[1]
                    }
                  , { name = "5"
-                   , layout = layouts[9]
+                   , layout = layouts[8]
                    }
                  , { name = "6"
-                   , layout = layouts[9]
+                   , layout = layouts[8]
                    }
                  }
 
@@ -272,13 +282,17 @@ for s = 1, screen.count() do
     
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
-    layoutbox[s] = widget({ type = "imagebox", align = "right" })
-    layoutbox[s].resize = true
-    layoutbox[s]:buttons({ button({ }, 1, function () awful.layout.inc(layouts, 1) end),
-                           button({ }, 3, function () awful.layout.inc(layouts, -1) end),
-                           button({ }, 4, function () awful.layout.inc(layouts, 1) end),
-                           button({ }, 5, function () awful.layout.inc(layouts, -1) end) 
-                         })
+    -- layout box
+    layoutbox[s] = widget({ type  = "textbox", name  = "layoutbox", align = "left" })
+    layoutbox[s]:buttons({
+        button({ }, 1, function () awful.layout.inc(layouts, 1) end),
+        button({ }, 3, function () awful.layout.inc(layouts, -1) end),
+        button({ }, 4, function () awful.layout.inc(layouts, 1) end),
+        button({ }, 5, function () awful.layout.inc(layouts, -1) end)
+    })
+    layoutbox[s].text = getlayouticon(s)
+    layoutbox[s].fg = beautiful.fg_focus
+    layoutbox[s].bg = beautiful.bg_normal
                              
     -- Create a taglist widget
     taglist[s] = awful.widget.taglist.new(s, awful.widget.taglist.label.all, taglist.buttons)
@@ -288,7 +302,7 @@ for s = 1, screen.count() do
     tasklist[s] = awful.widget.tasklist.new(
                       function(c)
                         if c == client.focus and c ~= nil then
-                            return setFg(beautiful.fg_focus, c.name)
+                            return spacer..setFg(beautiful.fg_focus, c.name)
                         end
                         --return awful.widget.tasklist.label.currenttags(c, s)
                       end, tasklist.buttons)
@@ -306,6 +320,7 @@ for s = 1, screen.count() do
     -- Add widgets to the wibox - order matters
    mywibox[s].widgets = {   --launcher,
                             taglist[s],
+                            layoutbox[s],
                             tasklist[s],
                             promptbox[s],
                             cpuic,
@@ -324,8 +339,7 @@ for s = 1, screen.count() do
                             volumewidget,
                             separatorR,
                             clockwidget,
-                            s == 1 and systray or nil,
-                            layoutbox[s]
+                            s == 1 and systray or nil
                         }
    mywibox[s].screen = s
 end
@@ -409,7 +423,7 @@ table.insert(clientkeys, key({ modkey, "Control" }   , "f"       , function (c) 
 table.insert(clientkeys, key({ modkey }              , "m"       , function (c) c.maximized_horizontal = not c.maximized_horizontal
                                                                                     c.maximized_vertical = not c.maximized_vertical end))
 
--- Rotat client focus
+-- Rotate client focus
 table.insert(globalkeys, key({ modkey }              , "j"       , function () awful.client.focus.byidx(1); if client.focus then client.focus:raise() end end))
 table.insert(globalkeys, key({ modkey }              , "k"       , function () awful.client.focus.byidx(-1);  if client.focus then client.focus:raise() end end))
 
@@ -421,7 +435,8 @@ table.insert(globalkeys, key({ modkey, "Control" }   , "j"       , function () a
 table.insert(globalkeys, key({ modkey, "Control" }   , "k"       , function () awful.screen.focus(-1) end))                                                        
                                                              
 -- Awesome control
-table.insert(globalkeys, key({ modkey, "Control" }   , "r"       , function () promptbox[mouse.screen].text = awful.util.escape(awful.util.restart()) end))
+--table.insert(globalkeys, key({ modkey, "Control" }   , "r"       , function () promptbox[mouse.screen].text = awful.util.escape(awful.util.restart()) end))
+table.insert(globalkeys, key({ modkey, "Control" }   , "r"       , awesome.restart))
 table.insert(globalkeys, key({ modkey, "Shift" }     , "q"       , awesome.quit))
 
 -- Prompt
@@ -478,6 +493,7 @@ root.keys(globalkeys)
 awful.hooks.focus.register(function (c)
     if not awful.client.ismarked(c) then
         c.border_color = beautiful.border_focus
+        c.opacity = 1
     end
 end)
 
@@ -485,6 +501,7 @@ end)
 awful.hooks.unfocus.register(function (c)
     if not awful.client.ismarked(c) then
         c.border_color = beautiful.border_normal
+        c.opacity = 0.6
     end
 end)
 
@@ -569,12 +586,7 @@ end)
 -- Hook function to execute when arranging the screen.
 -- (tag switch, new client, etc)
 awful.hooks.arrange.register(function (screen)
-    local layout = awful.layout.getname(awful.layout.get(screen))
-    if layout and beautiful["layout_" ..layout] then
-        layoutbox[screen].image = image(beautiful["layout_" .. layout])
-    else
-        layoutbox[screen].image = nil
-    end
+    layoutbox[screen].text = getlayouticon(screen)
 
     -- Give focus to the latest client in history if no window has focus
     -- or if the current window is a desktop or a dock one.

@@ -7,25 +7,25 @@
 
 -- {{{ Markup functions
 function setBg(bgcolor, text)
-    if text then
+    if text ~= nil then
         return string.format('<bg color="%s" />%s', bgcolor, text)
     end
 end
 
 function setFg(fgcolor, text)
-    if text then
+    if text ~= nil then
         return string.format('<span color="%s">%s</span>', fgcolor, text)
     end
 end
 
 function setBgFg(bgcolor, fgcolor, text)
-    if text then
+    if text ~= nil then
         return string.format('<bg color="%s"/><span color="%s">%s</span>', bgcolor, fgcolor, text)
     end
 end
 
 function setFont(font, text)
-    if text then
+    if text ~= nil then
         return string.format('<span font_desc="%s">%s</span>', font, text)
     end
 end
@@ -61,10 +61,10 @@ function add_calendar(inc_offset)
     local cal = awful.util.pread("cal -m " .. datespec)
     cal = string.gsub(cal, "^%s*(.-)%s*$", "%1")
     calendar = naughty.notify({
-        text     = string.format('<span font_desc="%s">%s</span>', "monaco", 
+        text     = string.format('<span font_desc="%s">%s</span>', "Terminus", 
                    setFg(beautiful.fg_focus, os.date("%a, %d %B %Y")) .. "\n" .. setFg(beautiful.fg_widg, cal)),
         timeout  = 0, hover_timeout = 0.5,
-        width    = 125,
+        width    = 145,
         position = "top_right",
         bg       = beautiful.bg_focus
     })
@@ -88,7 +88,7 @@ function wifiInfo(adapter)
                        })
     end
     
-    wifiwidget.text = setFg(beautiful.fg_widg, ""..wifiStrength.."%")..spacer
+    wifiwidget.text = setFg(beautiful.fg_widg, wifiStrength).."%"..spacer
 end
 -- }}}
 
@@ -107,7 +107,7 @@ function batteryInfo(adapter)
     local battery = math.floor(cur * 100 / cap)
     
     if sta:match("Charging") then
-        dir = setFg("#00FF00", "^")
+        dir = setFg("#90EE90", "^")
         battery = battery.."%"
     elseif sta:match("Discharging") then
         dir = setFg("#A52A2A", "v")
@@ -125,9 +125,8 @@ function batteryInfo(adapter)
             end
             battery = setFg("#FF6565", battery).."%"
         end
-        battery = battery.."%"
     else
-        dir = "="
+        dir = ""
         battery = "AC"
     end
     
@@ -138,7 +137,7 @@ end
 -- {{{ Memory
 function memInfo()
     local f = io.open("/proc/meminfo")
-
+ 
     for line in f:lines() do
         if line:match("^MemTotal.*") then
             memTotal = math.floor(tonumber(line:match("(%d+)")) / 1024)
@@ -151,68 +150,67 @@ function memInfo()
         end
     end
     f:close()
-
+ 
     memFree = memFree + memBuffers + memCached
     memInUse = memTotal - memFree
     memUsePct = math.floor(memInUse / memTotal * 100)
+ 
+    if tonumber(memUsePct) >= 15 and tonumber(memInUse) >= 306 then
+        memUsePct = setFg("#FF6565", memUsePct)
+        memInUse = setFg("#FF6565", memInUse)
+    else
+        memUsePct = setFg(beautiful.fg_widg, memUsePct)
+        memInUse = setFg(beautiful.fg_widg, ""..memInUse.."M")
+    end
 
-    memwidget.text = setFg(beautiful.fg_widg, ""..memUsePct.."%").."("..setFg(beautiful.fg_widg,""..memInUse.."M")..")"..spacer
+    --memwidget.text = setFg(beautiful.fg_widg, ""..memUsePct.."%").."("..setFg(beautiful.fg_widg,""..memInUse.."M")..")"..spacer
+    memwidget.text = memUsePct.."%".."("..memInUse..")"..spacer
 end
 -- }}}
 
---[[
 -- {{{ CPU Usage, CPU & GPU Temps
 function sysInfo()
 	-- CPU Temps
-    local comm0 = "sensors 'coretemp-isa-*' | grep 'Core 0'"
+    local comm0 = 'sensors \'coretemp-isa-*\' | grep \'Core 0\''
 	local core0 = io.popen(comm0):read("*all")    
-    local comm1 = "sensors 'coretemp-isa-*' | grep 'Core 1'"
+    local comm1 = 'sensors \'coretemp-isa-*\' | grep \'Core 1\''
 	local core1 = io.popen(comm1):read("*all")
 
 	if ((core0 == nil) or (core1 == nil)) then
 		return ''
 	else
         local pos0 = core0:find('+')+1
-        core0 = string.sub(core0, pos0, pos0+3)
+        core0 = string.sub(core0, pos0, pos0+1)
         local pos1 = core1:find('+')+1
-        core1 = string.sub(core1, pos1, pos1+3)
+        core1 = string.sub(core1, pos1, pos1+1)
         
-        if tonumber(core0) then
+        if tonumber(core0) >= 40 then
             core0 = setFg("#B9DCE7", core0)
         end
-        if tonumber(core1) then
+        if tonumber(core1) >= 40 then
             core1 = setFg("#B9DCE7", core1)
         end
-        
-       core0 = tonumber(core0)
-       core1 = tonumber(core1)
     end
     core0 = setFg(beautiful.fg_focus, "C:")..setFg(beautiful.fg_widg, ""..core0.."°").."/"
     core1 = setFg(beautiful.fg_widg, ""..core1.."°")..spacer
     
-    -- GPU Temp
-    local gpuTemp = io.popen("nvidia-settings -q gpucoretemp | grep '):' | awk '{print $4}' | cut -d'.' -f1"):read("*all")    
-    if (gpuTemp == nil) then
+    --[[ GPU Temp
+    --local comm2 = 'nvidia-settings -q gpucoretemp | grep \'Attribute\' | sed \'s/[^1-9]//g\''
+    --local comm2 = io.popen('/home/stxza/bin/nvidTemp.sh')
+    --local gpuTemp = comm2:read()
+    --comm2:close()
+    
+    if gpuTemp == nil then
         return ''
-    elseif tonumber(gpuTemp) >= 65 then
-        gpuTemp = setFg("#B9DCE7", gpuTemp)
+    else
+        --local gpu = setFg(beautiful.fg_focus, "G:")..setFg(beautiful.fg_widg, gpuTemp)..spacer
+        local gpu = gpuTemp..spacer
     end
-    gpuTemp = tonumber(gpuTemp).."°"    
-
-    -- pL is the nvidia performance setting thats currently being employed by the driver
-    local perfL = io.popen("nvidia-settings -q GPUCurrentPerfLevel | grep -m1 PerfLevel | cut -d' ' -f6 | cut -d'.' -f1"):read("*all")	
-    if (perfL == nil) then
-       return ''
-    end
-
-    local gpu = setFg(beautiful.fg_focus, "G:")..setFg(beautiful.fg_widg, gpuTemp).."("..perfL..")"..spacer
-
-    local sysinfo = core0..core1..gpu
-
-    return (sysinfo)
+    ]]--
+    
+    return core0..core1
 end
 -- }}}
-]]--
 
 -- {{{ CPU Usage & Speed
 function cpuUsg(widget, args)
@@ -220,8 +218,8 @@ function cpuUsg(widget, args)
     local cpufr = fcpufr:read("*a"):match("cpu MHz%s*:%s*([^%s]*)")
     fcpufr:close()
     cpufr = setFg(beautiful.fg_widg, tonumber(cpufr).."MHz")..spacer
-    local core1 = setFg(beautiful.fg_focus, "C1:")..setFg(beautiful.fg_widg, ""..args[2].."%")
-    local core2 = spacer..setFg(beautiful.fg_focus, "C2:")..setFg(beautiful.fg_widg, ""..args[3].."%")
+    local core1 = setFg(beautiful.fg_focus, "C1:")..setFg(beautiful.fg_widg, args[2]).."%"
+    local core2 = spacer..setFg(beautiful.fg_focus, "C2:")..setFg(beautiful.fg_widg, args[3]).."%"
     local cpuUsg = cpufr..core1..core2..spacer 
     
 	return cpuUsg

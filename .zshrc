@@ -5,7 +5,9 @@
 #------------------------------------------------------------------#
 
 # {{{ Autoload
+autoload -U zutil
 autoload -U compinit
+autoload -U complist
 compinit
 # }}}
 
@@ -76,11 +78,20 @@ setprompt () {
     autoload -U colors zsh/terminfo # Used in the colour alias below
     colors
     setopt prompt_subst
+	
+	#   username@Machine ~/dev/dir[master]$   # clean working directory
+	#   username@Machine ~/dev/dir[master☠]$  # dirty working directory
+	function parse_git_dirty {
+	  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "☠"
+	}
+	function parse_git_branch {
+	  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+	}
 
-    PROMPT="%{$fg_bold[grey]%}[%{$fg_bold[white]%}%~%{$reset_color%}%{$fg_bold[grey]%}]%{$reset_color%}-%{$fg_bold[red]%}»%{$reset_color%} "
-    RPROMPT="%{$fg[cyan]%}%D{%H:%M}%{$reset_color%}"
+    PROMPT='%{$fg_bold[grey]%}[%{$fg_bold[white]%}%~%{$reset_color%}%{$fg_bold[grey]%}]%{$reset_color%}%{$fg_bold[blue]%}$(parse_git_branch)%{$reset_color%}
+-%{$fg_bold[red]%}»%{$reset_color%} '
+    RPROMPT='%{$fg[cyan]%}%D{%H:%M}%{$reset_color%}'
 }
-
 setprompt
 # }}}
 
@@ -127,7 +138,7 @@ alias nvtemp='echo "$(nvidia-settings -q gpucoretemp | grep Attribute | sed "s/ 
 # }}}
 
 # {{{ URXVT workaround - stop first line completion bug in tiling WMs
-if test "$TERM" = "rxvt-unicode"; then
+if test "$TERM" = "rxvt-256color"; then
     sleep 0.1 && clear
 fi
 # }}}

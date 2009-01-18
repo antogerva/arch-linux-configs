@@ -5,6 +5,13 @@
 
 ---- Functions
 
+-- {{{ getlayouticon(layout)
+function getlayouticon(s)
+    if not awful.layout.get(s) then return "   " end
+    return layout_icons[awful.layout.getname(awful.layout.get(s))]
+end
+-- }}}
+
 -- {{{ Markup functions
 function setBg(bgcolor, text)
     if text ~= nil then

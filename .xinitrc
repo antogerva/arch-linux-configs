@@ -5,7 +5,7 @@
 xrdb -merge $HOME/.Xresources &
 xmodmap $HOME/.Xmodmap &
 xbindkeys &
-xsetroot -bg black -cursor_name left_ptr &
+#xsetroot -bg black -cursor_name left_ptr &
 nvidia-settings --load-config-only &
 urxvtd -q -o -f &
 # parcellite &

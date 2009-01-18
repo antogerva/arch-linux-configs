@@ -6,9 +6,9 @@
 font                      = Terminus Bold 6
 
 # BG
-bg_normal                 = #12121288
-bg_focus                  = #5a5a5a88
-bg_urgent                 = #ffc0cb88
+bg_normal                 = #121212
+bg_focus                  = #5a5a5a
+bg_urgent                 = #ffc0cb
 
 # FG
 fg_normal                 = #5a5a5a

@@ -108,6 +108,8 @@ EXEC 01;32
 # image formats
 .jpg 01;35
 .jpeg 01;35
+.JPEG 01;35
+.JPG 01;35
 .gif 01;35
 .bmp 01;35
 .pbm 01;35
@@ -119,6 +121,7 @@ EXEC 01;32
 .tif 01;35
 .tiff 01;35
 .png 01;35
+.PNG 01;35
 .mng 01;35
 .pcx 01;35
 
@@ -173,9 +176,31 @@ EXEC 01;32
 .py   00;36
 .sh   00;36
 .vim  00;36
+.rb   00;36
+.m    00;36
+.pl   00;36
 
 # Objects
 .o   00;33
 .so  00;33
 .a   00;33
 .ko  00;33
+ 
+# octave files.
+.m 01;35
+ 
+# Custom coolness
+*akefile 0;35
+*tags 01;32
+*~ 01;30
+.swp 01;30
+*README 01;31
+*README.* 01;31
+*readme 00;31
+.tex 01;31
+.htm 01;31
+.html 01;31 
+.pdf  00;31
+.PDF  00;31
+.ps  00;31
+.PS  00;31
