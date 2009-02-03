@@ -34,7 +34,8 @@ URxvt.dynamicColors:    on
 !URxvt.foreground:      white
 
 URxvt.visualBell:       true
-Urxvt.cutchars:         "()*,<>[]{}|'
+URxvt.urgentOnBell:     true
+URxvt.cutchars:         "()*,<>[]{}|'
 
 URxvt.perl-lib:           /usr/lib/urxvt/perl/
 URxvt.perl-ext-common:    default,matcher

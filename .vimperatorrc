@@ -1,36 +1,98 @@
-"Turn the menu and toolbar on.
-:set guioptions+=mT
+set defsearch=google
+set hlsearch
+set complete=l
+set followhints=1
+set activate=quickmark,paste
+set nopreload
 
-"Turn off the show tabs by default.
-:set showtabline=1
+" Turn the menu and toolbar on.
+set guioptions+=T
 
-"Turn session tracking off.
-:set! browser.startup.page=1
+" Turn off the show tabs by default.
+set showtabline=1
 
-"Allow user to click in address bar.
-:set! browser.urlbar.clickSelectsAll=true
-:set! browser.urlbar.doubleClickSelectsAll=true
+" Allow user to click in address bar.
+"set! browser.urlbar.clickSelectsAll=true
+"set! browser.urlbar.doubleClickSelectsAll=true
 
-"Map Ctrl + n for new windows
-:map <C-n> <C-v><C-n>
+" Map Ctrl + n for new windows
+map <C-n> <C-v><C-n>
 
-"Map Ctrl + t for new tabs
-:map <C-t> :tabopen<Enter>
+" Vimperator steals focus from form boxes
+noremap <C-k> <C-v><A-d><Tab>
 
-"Map paste operation normally.
-:imap <C-v> <C-v>
+" Map paste operation normally.
+"imap <C-v> <C-v>
+
+" awesome bar style hints
+set wildoptions=auto
+"set cpt=l
+
+" auto pass keys
+autocmd LocationChange .* :js modes.passAllKeys = /mail\.google\.com/.test(buffer.URL)
+autocmd LocationChange .* :js modes.passAllKeys = /www\.google\.com\/reader\/view/.test(buffer.URL)
+
+" avoid unintended paste
+" only use "gP"
+noremap p <Nop>
+noremap P <Nop>
 
 " restart Vimperator
 map <C-r>   :restart<CR>
 
-"awesome bar style hints
-:set wildoptions=auto
-:set cpt=l
+" ==================== Firefox options ==================== "
+" disable accesskey
+set! ui.key.generalAccessKey=0
+" hide close button
+set! browser.tabs.closeButtons=2
+" open bookmarks in background
+set! browser.tabs.loadBookmarksInBackground=true
+" open tabs by javascript in background
+set! browser.tabs.loadDivertedInBackground=true
+" allow lots of popups for ldr
+set! dom.popup_maximum=1000
+" allow control sidebar position
+"set! layout.scrollbar.side=1
 
-set defsearch=google
+" ==================== colorscheme ==================== "
+colorscheme mac
+"colorscheme evening
 
-command! sourcerc :source ~/.vimperatorrc
+" ==================== other tweaks ==================== "
+"Make Vimperator use Edit->Copy for "Y"anking
+js <<EOF
+mappings.addUserMap([modes.NORMAL], ["Y"], 
+    "Yank the currently selected text",
+    function () {
+        buffer.getCurrentWord();
+        events.feedkeys("<C-v>" + (/^Mac/.test(navigator.platform) ? "<M-c>" : "<C-c>"), true);
+        setTimeout( function () {
+          liberator.echo("Yanked " + util.readFromClipboard(), commandline.FORCE_SINGLELINE);
+        }, 20 );
+    });
+EOF
 
-echo ".vimperatorrc sourced"
+"Show the feed-button, even if the address-bar is not displayed
+javascript <<EOF
+(function(){
+    var feedPanel = document.createElement("statusbarpanel");
+    feedPanel.setAttribute("id", "feed-panel-clone");
+    feedPanel.appendChild(document.getElementById("feed-button"));
+    feedPanel.firstChild.setAttribute("style", "padding: 0; max-height: 16px;");
+    document.getElementById("status-bar")
+            .insertBefore(feedPanel, document.getElementById("security-button"));
+})();
+EOF
 
-" vim: ft=vimperator sw=2 sts=2
+" ==================== hints ==================== "
+js <<EOM
+hints.addMode("i", "Focus to input",
+    function(element) element.focus(),
+    function() "//input[not(@type='hidden')] | //textarea | //xhtml:input[not(@type='hidden')] | //xhtml:textarea"
+    );
+
+hints.addMode("h", "Hide element",
+    function(element) {
+        element.style.display = "none";
+    },
+    function() "//*");
