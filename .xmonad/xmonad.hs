@@ -1,7 +1,7 @@
 -- $HOME/.xmonad/xmonad.hs
 -- original author: Øyvind 'Mr.Elendig' Heggstad <mrelendig AT har-ikkje DOT net>
 -- modifier: STxza/ST.x <seynthan DOT tx AT gmail DOT com>
--- version: Arch Linux | xmonad-darcs & xmonad-contrib & haskell-x11-darcs & dzen2-gadgets-svn
+-- version: Arch Linux | xmonad-darcs & xmonad-contrib-darcs & haskell-x11-darcs & dzen2-gadgets-svn
 -- validate syntax: xmonad --recompile
 -- vim :fdm=marker sw=4 sts=4 ts=4 et ai:
 
@@ -85,7 +85,7 @@ myManageHook = composeAll . concat $
     , [ (title =? "ncmpcpp" <&&> className =? "URxvt")  --> doF (W.shift "5:mus" ) ]
     ]
     where
-        myIgnores       = ["panel", "trayer"]
+        myIgnores       = ["panel", "trayer", "xfce4-notifyd"]
         myFloats        = ["feh", "Gimp", "Xmessage", "Qalculate", "Nvidia-settings"]
         myOtherFloats   = ["alsamixer", "Firefox Preferences", "Session Manager - Mozilla Firefox", 
                             "Firefox Add-on Updates", "Clear Private Data"
