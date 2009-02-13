@@ -27,6 +27,7 @@ import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.SetWMName
  
 -- layouts
+import XMonad.Layout.Gaps
 import XMonad.Layout.NoBorders
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Spiral
@@ -48,7 +49,8 @@ import XMonad.Actions.GridSelect (defaultGSConfig, goToSelected)
 --{{{ Main
 main = do
        dzenSbar <- spawnPipe sBarCmd
-       dzenConky <- spawnPipe topBarCmd
+       dzenConkyTop <- spawnPipe topBarCmd
+       dzenConkyBot <- spawnPipe botBarCmd 
        xmonad $ myUrgencyHook $ defaultConfig 
               { workspaces = workspaces'
               , modMask = modMask'
@@ -82,6 +84,8 @@ myManageHook = composeAll . concat $
     , [ className       =? "emesene"         --> doF (W.shift "3:chat") ]
     , [ className       =? "Pidgin"          --> doF (W.shift "3:chat") ]
     , [ className       =? "Easytag"         --> doF (W.swapDown) ]
+    , [ className       =? "urxvt"           --> doF (W.swapDown) ]
+    , [ className       =? "Eclipse"         --> doF (W.shift "4:dev") ]
     , [ (title =? "ncmpcpp" <&&> className =? "URxvt")  --> doF (W.shift "5:mus" ) ]
     ]
     where
@@ -92,7 +96,7 @@ myManageHook = composeAll . concat $
                           ]
 
 manageHook' :: ManageHook
-manageHook' = (doF W.swapDown) <+> manageDocks <+> myManageHook <+> manageHook defaultConfig
+manageHook' = (doF W.swapDown) <+> manageDocks <+> manageHook defaultConfig <+> myManageHook
 
 logHook' :: Handle ->  X ()
 logHook' dzenSbar = dynamicLogWithPP $ myDzenPP dzenSbar
@@ -105,7 +109,8 @@ layoutHook' = customLayout
 
 -- dzen bars
 sBarCmd = "dzen2 -e 'onstart=lower' -x '0' -y '0' -h '16' -w '1383' -ta 'l' -fg '#f0f0f0' -bg '#000000' -fn '-*-profont-*-*-*-*-12-*-*-*-*-*-*-*'"
-topBarCmd = "conky -c ~/.xmonad/conkyrc | dzen2 -e 'onstart=lower' -h '16' -w '505' -ta 'r'"
+topBarCmd = "conky -c ~/.xmonad/conkyrc | dzen2 -e 'onstart=lower' -h '16' -w '480' -ta 'r' -bg '#000000' -fn '-*-profont-*-*-*-*-12-*-*-*-*-*-*-*'"
+botBarCmd = "conky -c ~/.xmonad/conky_botrc | dzen2 -e 'onstart=lower' -h '16' -w '1440' -ta 'r' -fg '#f0f0f0' -bg '#000000' -fn '-*-profont-*-*-*-*-12-*-*-*-*-*-*-*'"
 
 myDzenPP dzenSbar = defaultPP
     { ppCurrent = wrap "^p()[^fg(#a3c5e7)" "^fg()]^p()"
@@ -149,7 +154,7 @@ workspaces' :: [WorkspaceId]
 workspaces' = ["1:main", "2:www", "3:chat", "4:dev", "5:mus", "6:vid", "7:OOo", "8:gfx", "9:rand"]
  
 -- layouts
-customLayout = smartBorders $ avoidStruts $ onWorkspace "3:chat" lc $ tiled 
+customLayout = gaps [(U,16), (D,16), (L,0), (R,0)] $ smartBorders $ avoidStruts $ onWorkspace "3:chat" lc $ tiled 
                 ||| Mirror tiled ||| noBorders Full ||| spiral (6/7) 
                 ||| Grid ||| simplestFloat
     where
@@ -210,7 +215,7 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask,               xK_space ), sendMessage NextLayout)
     , ((modMask .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
     , ((modMask,               xK_b     ), sendMessage ToggleStruts)
-    , ((modMask              , xK_BackSpace), focusUrgent)
+    , ((modMask,               xK_BackSpace), focusUrgent)
  
     -- floating layer stuff
     , ((modMask,               xK_p     ), withFocused $ windows . W.sink)

@@ -5,14 +5,10 @@ set number
 set nocompatible
 set background=dark
 set encoding=utf-8
+set termencoding=utf-8 
 filetype on
 set complete=k          " global autocompletion
 set completeopt+=longest
-
-set t_Co=256
-set mouse=a         
-colorscheme xoria256
-set termencoding=utf-8 
 
 " Indenting, Folding..
 set tabstop=4           " numbers of spaces of tab character
@@ -112,7 +108,7 @@ set t_vb=
 if has('gui_running')
     let &guicursor = &guicursor . ",a:blinkon0"
     colorscheme xoria256
-    set guifont=Monaco\ 8
+    set guifont=MonteCarlo\ 12
     set guioptions-=T
     "set guioptions+=g
     "set guioptions-=t
@@ -124,4 +120,15 @@ if has('gui_running')
     set guitablabel=%t " set label for tab to just file name
     set anti " Antialias font
     "set transparency=0
+elseif (&term =~ 'linux')
+    set t_Co=16
+    set mouse=a
+    set termencoding=utf-8
+    set nocursorline
+    colorscheme desert
+else
+    set t_Co=256
+    set mouse=a         
+    colorscheme xoria256
+    set termencoding=utf-8 
 endif

@@ -30,10 +30,10 @@ own_window_transparent no
 double_buffer yes
 
 # Minimum size of text area
-minimum_size 480 14
+minimum_size 1440 14
 
 # Maximum width
-maximum_width 480
+maximum_width 1440
 
 # Draw shades?
 draw_shades no
@@ -67,7 +67,7 @@ color4 c7dff7
 color5 e9e9e9
 
 # Text alignment, other possible values are commented
-alignment top_right
+alignment bottom_right
 #alignment top_left
 #alignment bottom_left
 #alignment bottom_right
@@ -75,8 +75,8 @@ alignment top_right
 
 # Gap between borders of screen and text
 # same thing as passing -x at command line
-gap_x 80
-gap_y 2
+gap_x 0
+gap_y 0
 
 # Subtract file system buffers from used memory?
 no_buffers yes
@@ -84,14 +84,10 @@ no_buffers yes
 # set to yes if you want all text to be in uppercase
 uppercase no
 
-# number of cpu samples to average
-# set to 1 to disable averaging
-cpu_avg_samples 4
-
 # Force UTF8? note that UTF8 support required XFT
 override_utf8_locale yes
 
-# variable is given either in format $variable or in ${variable}
+if_up_strictness address
 
 TEXT
-${color1}CPU$color ${cpu cpu1}% ${color1}${execi 20 echo $[$(sensors coretemp-isa-0000 | grep 'Core 0' | awk '{print $3}' | sed '{s/[^.0-9]//g}' | cut -d'.' -f1)-16]}${color}C ${cpu cpu2}% ${color1}${execi 20 echo $[$(sensors coretemp-isa-0001 | grep 'Core 1' | awk '{print $3}' | sed '{s/[^.0-9]//g}' | cut -d'.' -f1)-16]}${color}C ${color3}:: ${color1}GPU$color ${execi 20 nvidia-settings -q GPUCurrentClockFreqs | grep Attribute | awk '{print $4}' | cut -c1-7} ${color1}${execi 20 nvidia-settings -q gpucoretemp | grep Attribute | awk '{print $4}' | cut -c1-2}${color}C ${color3}:: ${color1}RAM$color ${memperc}% ${color3}::$color ${color1}DiskF${color} ${color1}R${color}${fs_free /} ${color1}H${color}${fs_free /home/seynthantx}
+${color1}mpd$color ${mpd_smart} [${color 719FCB}${mpd_album}$color] (${mpd_elapsed}/${mpd_length}) ${color3}:: ${color1}V${color} ${exec amixer get Master | awk '/Front Left:/ {print $5}' | tr '[]' ' ' | awk '{print $1}'} ${color3}:: ${if_up eth0}${color1}eth0$color ${downspeed eth0}k/${upspeed eth0}k${endif} ${color3}:: ${color1}${time %k:%M.%d/%m}
