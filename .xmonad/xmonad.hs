@@ -108,9 +108,9 @@ layoutHook' = customLayout
 --{{{ Looks
 
 -- dzen bars
-sBarCmd = "dzen2 -e 'onstart=lower' -x '0' -y '0' -h '16' -w '1383' -ta 'l' -fg '#f0f0f0' -bg '#000000' -fn '-*-profont-*-*-*-*-12-*-*-*-*-*-*-*'"
-topBarCmd = "conky -c ~/.xmonad/conkyrc | dzen2 -e 'onstart=lower' -h '16' -w '480' -ta 'r' -bg '#000000' -fn '-*-profont-*-*-*-*-12-*-*-*-*-*-*-*'"
-botBarCmd = "conky -c ~/.xmonad/conky_botrc | dzen2 -e 'onstart=lower' -h '16' -w '1440' -ta 'r' -fg '#f0f0f0' -bg '#000000' -fn '-*-profont-*-*-*-*-12-*-*-*-*-*-*-*'"
+sBarCmd = "dzen2 -e 'onstart=lower' -x '0' -y '0' -h '16' -w '1368' -ta 'l' -fg '#f0f0f0' -bg '#000000' -fn '-*-profont-*-*-*-*-12-*-*-*-*-*-*-*'"
+topBarCmd = "conky -c ~/.xmonad/conkyrc | dzen2 -e 'onstart=lower' -h '16' -w '480' -ta 'r'"
+botBarCmd = "conky -c ~/.xmonad/conky_botrc | dzen2 -e 'onstart=lower' -h '16' -w '1440' -ta 'r'"
 
 myDzenPP dzenSbar = defaultPP
     { ppCurrent = wrap "^p()[^fg(#a3c5e7)" "^fg()]^p()"
@@ -166,7 +166,7 @@ customLayout = gaps [(U,16), (D,16), (L,0), (R,0)] $ smartBorders $ avoidStruts 
         -- Percent of screen to increment by when resizing panes
         delta = 0.03
         -- For emesene in "chat"
-        lc = withIM (1%7) (ClassName "emesene") Grid
+        lc = withIM (1%7) (And (ClassName "Pidgin") (Role "buddy_list")) Grid
 
 -- XPConfig options:
 myXPConfig = defaultXPConfig
