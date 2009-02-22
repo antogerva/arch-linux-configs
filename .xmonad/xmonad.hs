@@ -38,7 +38,6 @@ import Data.Ratio ((%))
 import XMonad.Layout.SimplestFloat
 
 -- actions
---import XMonad.Actions.UpdatePointer
 import XMonad.Actions.CycleWS
 import XMonad.Actions.RotSlaves
 import qualified XMonad.Actions.FlexibleManipulate as Flex (Flex.mouseWindow, Flex.linear)
@@ -84,7 +83,7 @@ myManageHook = composeAll . concat $
     , [ className       =? "emesene"         --> doF (W.shift "3:chat") ]
     , [ className       =? "Pidgin"          --> doF (W.shift "3:chat") ]
     , [ className       =? "Easytag"         --> doF (W.swapDown) ]
-    , [ className       =? "urxvt"           --> doF (W.swapDown) ]
+    --, [ className       =? "URxvt"           --> doF (W.swapDown) ]
     , [ className       =? "Eclipse"         --> doF (W.shift "4:dev") ]
     , [ (title =? "ncmpcpp" <&&> className =? "URxvt")  --> doF (W.shift "5:mus" ) ]
     ]
@@ -100,7 +99,6 @@ manageHook' = (doF W.swapDown) <+> manageDocks <+> manageHook defaultConfig <+> 
 
 logHook' :: Handle ->  X ()
 logHook' dzenSbar = dynamicLogWithPP $ myDzenPP dzenSbar
---                    >> updatePointer (Relative 0.5 0.5)
  
 layoutHook' = customLayout
 --}}} 
@@ -203,9 +201,9 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask,               xK_f     ), spawn "firefox") 
     , ((modMask,               xK_t     ), spawn "thunar")
     , ((modMask,               xK_g     ), spawn "geany")
-    , ((modMask,               xK_e     ), spawn "emesene")
+    , ((modMask,               xK_p     ), spawn "pidgin")
     , ((modMask,               xK_v     ), spawn "transmission")
-    , ((modMask,               xK_Print ), spawn "scrot -d5 -q90 /home/seynthantx/Pictures/Screenshots/%Y-%m-%d.png")   
+    , ((modMask,               xK_Print ), spawn "scrot -q90 /home/seynthantx/Pictures/Screenshots/%Y-%m-%d.png")   
     , ((modMask .|. shiftMask, xK_c     ), kill1) -- Close the focused window
     
     -- Java hack
@@ -218,7 +216,7 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask,               xK_BackSpace), focusUrgent)
  
     -- floating layer stuff
-    , ((modMask,               xK_p     ), withFocused $ windows . W.sink)
+    , ((modMask,               xK_s     ), withFocused $ windows . W.sink)
  
     -- refresh
     , ((modMask,               xK_n     ), refresh)

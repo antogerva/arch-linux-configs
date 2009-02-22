@@ -43,30 +43,32 @@ Section "Monitor"
 EndSection
 
 Section "Device"
-    Identifier     "Device0"
-    Driver         "nvidia"
-    VendorName     "NVIDIA Corporation"
-    BoardName      "GeForce 8400M GS"
-    Option         "NoLogo" "True"
-    Option         "BackingStore" "False"
-    Option         "UseEdidDpi" "false"
-    Option         "DPI" "96 x 96"
+    Identifier      "Device0"
+    Driver          "nvidia"
+    VendorName      "NVIDIA Corporation"
+    BoardName       "GeForce 8400M GS"
+    Option          "NoLogo" "True"
+    Option          "BackingStore" "False"
+    Option          "UseEdidDpi" "false"
+    Option          "DPI" "96 x 96"
+    Option          "TripleBuffer" "True"
     # Powermizer forcing to certain level always
     # level: 0x1 (highest) | 0x2 (med) | 0x3 (lowest)
-    Option         "RegistryDwords" "PowerMizerLevelAC=0x3"
-    Option		   "RegistryDwords"	"PowerMizerLevel=0x3"
-    Option         "OnDemandVBlankInterrupts" "True"
-    #Option        "Coolbits"       "1"
+    #Option         "RegistryDwords" "PowerMizerLevelAC=0x3"
+    #Option		    "RegistryDwords"	"PowerMizerLevel=0x3"
+    Option          "RegistryDwords" "PowerMizerEnable=0x1; PerfLevelSrc=0x2222; PowerMizerDefault=0x3; PowerMizerDefaultAC=0x3"
+    Option          "OnDemandVBlankInterrupts" "True"
+    #Option         "Coolbits"       "1"
 EndSection
 
 Section "Screen"
-    Identifier     "Screen0"
-    Device         "Device0"
-    Monitor        "Monitor0"
+    Identifier      "Screen0"
+    Device          "Device0"
+    Monitor         "Monitor0"
     DefaultDepth    24
-    Option         "TwinView" "0"
-    Option         "metamodes" "nvidia-auto-select +0+0"
-    SubSection     "Display"
-        Depth       24
+    Option          "TwinView" "0"
+    Option          "metamodes" "nvidia-auto-select +0+0"
+    SubSection      "Display"
+        Depth           24
     EndSubSection
 EndSection
