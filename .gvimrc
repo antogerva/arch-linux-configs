@@ -1,1 +1,1 @@
-.vimrc
+/home/stxza/.vimrc

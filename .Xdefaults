@@ -4,7 +4,7 @@
 ! ----------------------------------------------------------------------------
 
 ! {{{ Xcursor
-Xcursor.theme:          ComixCursors-opaque-White-Small
+Xcursor.theme:          Neutral_Plus_Inverted
 Xcursor.size:           10
 ! }}}
 
@@ -19,7 +19,7 @@ URxvt.secondaryScroll:  true
 
 URxvt.cursorBlink:      true
 URxvt.cursorColor:      #ffffff
-URxvt.borderless: 		1
+URxvt.borderless:       1
 
 URxvt.skipBuiltinGlyphs: true
 URxvt.xftAntialias:     true
@@ -68,7 +68,7 @@ URxvt.bolditalicFont: -*-profont-*-*-*-*-12-*-*-*-*-*-*-*
 ! {{{ Colours
 
 ! ---| MrElendig |--- {{{
-URxvt*background: #000000
+URxvt*background: #1C1C1C
 URxvt*foreground: #C7C7C7
 
 ! black
@@ -151,7 +151,7 @@ xpdf*enableFreetype: yes
 xpdf*antialias: yes
 xpdf*foreground: black
 xpdf*background: white
-xpdf*urlCommand: swiftweasel %s
+xpdf*urlCommand: firefox %s
 xpdf*viKeys: on
 ! }}}
 

@@ -5,7 +5,7 @@
 # Exports
 # export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/home/stxza/bin
 typeset -U path
-path=(/bin /sbin /usr/bin /usr/sbin /usr/local/bin /home/stxza/bin $path)
+path=(/bin /sbin /usr/bin /usr/sbin /usr/local/bin $HOME/bin $path)
 
 # Dircolors
 eval "$(dircolors -b $HOME/.dir_colors)"

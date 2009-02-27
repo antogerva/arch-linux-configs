@@ -56,19 +56,19 @@ zstyle ':completion:*:options' auto-description '%d'
 # {{{ Window Title
 case $TERM in
     *xterm*|rxvt|rxvt-unicode|rxvt-256color|(dt|k|E)term)
-		precmd () { print -Pn "\e]0;$TERM - (%L) [%n@%M]%# [%~]\a" } 
-		preexec () { print -Pn "\e]0;$TERM - (%L) [%n@%M]%# [%~] ($1)\a" }
-	;;
+    precmd () { print -Pn "\e]0;$TERM - (%L) [%n@%M]%# [%~]\a" }
+    preexec () { print -Pn "\e]0;$TERM - (%L) [%n@%M]%# [%~] ($1)\a" }
+  ;;
     screen)
-    	precmd () { 
-			print -Pn "\e]83;title \"$1\"\a" 
-			print -Pn "\e]0;$TERM - (%L) [%n@%M]%# [%~]\a" 
-		}
-		preexec () { 
-			print -Pn "\e]83;title \"$1\"\a" 
-			print -Pn "\e]0;$TERM - (%L) [%n@%M]%# [%~] ($1)\a" 
-		}
-	;; 
+      precmd () {
+      print -Pn "\e]83;title \"$1\"\a"
+      print -Pn "\e]0;$TERM - (%L) [%n@%M]%# [%~]\a"
+    }
+    preexec () {
+      print -Pn "\e]83;title \"$1\"\a"
+      print -Pn "\e]0;$TERM - (%L) [%n@%M]%# [%~] ($1)\a"
+    }
+  ;;
 esac
 # }}}
 
@@ -82,14 +82,14 @@ setprompt () {
 	#   username@Machine ~/dev/dir[master]$   # clean working directory
 	#   username@Machine ~/dev/dir[master☠]$  # dirty working directory
 	function parse_git_dirty {
-	  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "☠"
+		[[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "☠"
 	}
 	function parse_git_branch {
-	  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+		git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
 	}
 
-    PROMPT='%{$fg_bold[grey]%}[%{$fg_bold[white]%}%~%{$reset_color%}%{$fg_bold[grey]%}]%{$reset_color%}%{$fg_bold[blue]%}$(parse_git_branch)%{$reset_color%}
--%{$fg_bold[red]%}»%{$reset_color%} '
+    PROMPT='%{$fg_bold[grey]%}[%{$fg_bold[cyan]%}%~%{$reset_color%}%{$fg_bold[grey]%}]%{$reset_color%}%{$fg_bold[yellow]%}$(parse_git_branch)%{$reset_color%}
+-%{$fg_bold[red]%}>%{$reset_color%} '
     RPROMPT='%{$fg[cyan]%}%D{%H:%M}%{$reset_color%}'
 }
 setprompt
@@ -125,7 +125,7 @@ bindkey "\e[7~" beginning-of-line
 
 # {{{ Aliases
 #alias startx='SHELL=/bin/sh startx'
-alias ll='ls --color=auto -a -lhX'
+alias ll='ls -ahl --color | more; echo "\e[1;32m --[\e[1;34m Dirs:\e[1;36m `ls -al | egrep \"^drw\" | wc -l` \e[1;32m|\e[1;35m Files: \e[1;31m`ls -al | egrep -v \"^drw\" | grep -v total | wc -l` \e[1;32m]--"'
 alias egrep='egrep --color=auto'
 alias shutdownhome='sudo netcfg2 -d wifihome && sleep 3 && sudo shutdown -hP now'
 alias reboothome='sudo netcfg2 -d wifihome && sleep 3 && sudo reboot'
@@ -135,6 +135,7 @@ alias screenie='cd ~/bin/ && ./info.pl'
 alias pacman='sudo pacman-color'
 alias xpop='xprop | grep --color=none "WM_WINDOW_ROLE\|WM_CLASS" | xmessage -file - -center'
 alias nvtemp='echo "$(nvidia-settings -q gpucoretemp | grep Attribute | sed "s/ //g")"'
+alias matlab='cd /home/seynthantx/matlabr2008a/bin/ && ./matlab'
 # }}}
 
 # {{{ URXVT workaround - stop first line completion bug in tiling WMs
@@ -147,17 +148,17 @@ fi
 
 # reload zshrc
 function src() {
-        autoload -U zrecompile
-                [[ -f ~/.zshrc ]] && zrecompile -p ~/.zshrc
-				#for i in "$(find ~/.zsh/ -type f)"; do
-				#	[[ -f $i ]] && zrecompile -p $i
-				#	[[ -f $i.zwc.old ]] && rm -f $i.zwc.old
-				#done
-                [[ -f ~/.zcompdump ]] && zrecompile -p ~/.zcompdump
-                [[ -f ~/.zcompdump ]] && zrecompile -p ~/.zcompdump
-                [[ -f ~/.zshrc.zwc.old ]] && rm -f ~/.zshrc.zwc.old
-                [[ -f ~/.zcompdump.zwc.old ]] && rm -f ~/.zcompdump.zwc.old
-                source ~/.zshrc
+    autoload -U zrecompile
+    [[ -f ~/.zshrc ]] && zrecompile -p ~/.zshrc
+    #for i in "$(find ~/.zsh/ -type f)"; do
+    #	[[ -f $i ]] && zrecompile -p $i
+    #	[[ -f $i.zwc.old ]] && rm -f $i.zwc.old
+    #done
+    [[ -f ~/.zcompdump ]] && zrecompile -p ~/.zcompdump
+    [[ -f ~/.zcompdump ]] && zrecompile -p ~/.zcompdump
+    [[ -f ~/.zshrc.zwc.old ]] && rm -f ~/.zshrc.zwc.old
+    [[ -f ~/.zcompdump.zwc.old ]] && rm -f ~/.zcompdump.zwc.old
+    source ~/.zshrc
 }
 
 # Completion for pacman-color
@@ -236,9 +237,6 @@ roll () {
 
 # user chownage
 function mkmine() { sudo chown -R ${USER} ${1:-.}; }
-
-# search the vim reference manual for keyword
-:h() {  vim --cmd ":silent help $@" --cmd "only"; }
 
 # sanitize - set file/directory owner and permissions to normal values (644/755)
 # Usage: sanitize <file>

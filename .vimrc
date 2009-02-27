@@ -28,7 +28,7 @@ set ignorecase          " case-insensitive search
 set smartcase           " upper-case sensitive search
 
 set laststatus=2        " occasions to show status line, 2=always.
-set cmdheight=1         " command line height
+" set cmdheight=1         " command line height
 set ruler               " ruler display in status line
 set showmode            " show mode at bottom of screen
 " set previewheight=5
@@ -107,8 +107,8 @@ set t_vb=
 
 if has('gui_running')
     let &guicursor = &guicursor . ",a:blinkon0"
-    colorscheme xoria256
-    set guifont=MonteCarlo\ 12
+    colorscheme candycode
+    set guifont=Monaco\ 8
     set guioptions-=T
     "set guioptions+=g
     "set guioptions-=t
@@ -122,13 +122,12 @@ if has('gui_running')
     "set transparency=0
 elseif (&term =~ 'linux')
     set t_Co=16
-    set mouse=a
     set termencoding=utf-8
     set nocursorline
     colorscheme desert
 else
     set t_Co=256
     set mouse=a         
-    colorscheme xoria256
+    colorscheme railscasts
     set termencoding=utf-8 
 endif

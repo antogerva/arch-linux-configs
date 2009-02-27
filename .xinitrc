@@ -4,11 +4,11 @@
 xrdb -merge $HOME/.Xresources &
 
 # wall
-feh --bg-scale ~/Pictures/Walls/CalmSkies.jpg &
+feh --bg-scale pics/Walls/hi-definition.png &
 
 # Trayer icon tray -> try different heights
 trayer --edge top --align right --SetDockType true --SetPartialStrut true \
---expand true --width 5 --transparent true --tint 0x000000 --alpha 0 --distance 0 --padding 0 --heighttype pixel --height 16 &
+--expand true --width 4 --transparent true --tint 0x000000 --alpha 0 --distance 0 --padding 0 --heighttype pixel --height 16 &
 
 # keys & cursor
 xmodmap $HOME/.Xmodmap &
