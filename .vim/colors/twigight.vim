@@ -61,7 +61,7 @@ hi Error guibg=#602020
 
 if &t_Co > 255
     if version >=700
-        hi CursorLine ctermbg=235 cterm=NONE
+        hi CursorLine ctermbg=238 cterm=NONE
         hi CursorColumn ctermbg=235
         hi MatchParen ctermfg=255 ctermbg=29 cterm=bold
         hi TabLine ctermfg=232 ctermbg=250 cterm=italic
@@ -69,10 +69,10 @@ if &t_Co > 255
         hi TabLineSel ctermfg=232 ctermbg=254 cterm=italic,bold
         hi Pmenu ctermfg=255 ctermbg=244
     endif
-    hi Visual ctermbg=237
+    hi Visual ctermbg=238
     hi Cursor ctermbg=250
-    hi Normal ctermfg=254 ctermbg=234
-    hi LineNr ctermfg=240 ctermbg=236 cterm=italic
+    hi Normal ctermfg=254 ctermbg=236
+    hi LineNr ctermfg=242 ctermbg=238 cterm=italic
     hi Comment ctermfg=240 cterm=italic
     hi Todo ctermfg=244 ctermbg=NONE cterm=bold
     hi StatusLine ctermfg=254 ctermbg=233 cterm=italic

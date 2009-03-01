@@ -6,6 +6,7 @@ set nocompatible
 set background=dark
 set encoding=utf-8
 set termencoding=utf-8 
+set shell=/bin/zsh
 filetype on
 set complete=k          " global autocompletion
 set completeopt+=longest
@@ -96,10 +97,11 @@ set laststatus=2
 call <SID>SetStatusLine()
 
 " Turn off blinking
-set visualbell
+"set visualbell
 " Turn off beep
-set noerrorbells
-set t_vb=
+"set noerrorbells
+set vb      " don't beep
+set t_vb=   " ^
 
 " highlight redundant whitespaces and tabs.
 " highlight RedundantSpaces ctermbg=red guibg=red
@@ -108,7 +110,7 @@ set t_vb=
 if has('gui_running')
     let &guicursor = &guicursor . ",a:blinkon0"
     colorscheme candycode
-    set guifont=Monaco\ 8
+    set guifont=Monaco\ 9
     set guioptions-=T
     "set guioptions+=g
     "set guioptions-=t
@@ -128,6 +130,6 @@ elseif (&term =~ 'linux')
 else
     set t_Co=256
     set mouse=a         
-    colorscheme railscasts
+    colorscheme jellybeans
     set termencoding=utf-8 
 endif
