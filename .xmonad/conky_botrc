@@ -90,4 +90,4 @@ override_utf8_locale yes
 if_up_strictness address
 
 TEXT
-${color1}mpd$color ${mpd_smart} [${color 719FCB}${mpd_album}$color] (${mpd_elapsed}/${mpd_length}) ${color3}:: ${color1}V${color} ${exec amixer get Master | awk '/Front Left:/ {print $5}' | tr '[]' ' ' | awk '{print $1}'} ${color3}:: ${if_up eth0}${color1}eth0$color ${downspeed eth0}k/${upspeed eth0}k${endif} ${color3}:: ${color1}${time %k:%M.%d/%m}
+${color1}mpd$color ${color BFBFBF}${mpd_artist}${color} - ${color C3ECE9}$mpd_title${color} [${color FFE9C0}${mpd_album}$color] (${mpd_elapsed}/${mpd_length}) ${color3}:: ${color1}V${color} ${exec amixer get Master | awk '/Front Left:/ {print $5}' | tr '[]' ' ' | awk '{print $1}'} ${color3}:: ${if_up eth0}${color F4D8FF}eth0$color ${downspeed eth0}k/${upspeed eth0}k${endif} ${color3}:: ${color1}${time %k:%M.%d/%m}

@@ -33,6 +33,7 @@ import XMonad.Layout.ResizableTile
 import XMonad.Layout.Spiral
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Grid
+import XMonad.Layout.Cross
 import XMonad.Layout.IM
 import Data.Ratio ((%))
 import XMonad.Layout.SimplestFloat
@@ -80,8 +81,8 @@ myManageHook = composeAll . concat $
     , [ className       =? "OpenOffice.org 3.0" --> doF (W.shift "7:OOo") ]
     , [ className       =? "Smplayer"        --> doF (W.shift "6:vid") ]
     , [ className       =? "Transmission"    --> doF (W.shift "2:www") ]
-    , [ className       =? "emesene"         --> doF (W.shift "3:chat") ]
-    , [ className       =? "Pidgin"          --> doF (W.shift "3:chat") ]
+    , [ className       =? "Controller.py"          --> doF (W.shift "3:chat") ]
+    , [ (className       =? "Controller.py" <&&> resource =? "chat") --> doF (W.shift "3:chat") ]
     , [ className       =? "Easytag"         --> doF (W.swapDown) ]
     --, [ className       =? "URxvt"           --> doF (W.swapDown) ]
     , [ className       =? "Eclipse"         --> doF (W.shift "4:dev") ]
@@ -126,7 +127,8 @@ myDzenPP dzenSbar = defaultPP
         "Mirror ResizableTall" -> "^fg(#777777)^i(/home/seynthantx/.dzen/mtall.xbm)"
         "Hinted Mirror ResizableTall" -> "^fg(#777777)^i(/home/seynthantx/.dzen/layout-mirror-bottom.xbm)"
         "Spiral" -> "[sP]"
-        "Grid" -> "[gR]"
+        "Grid" -> "^fg(#777777)^i(/home/seynthantx/.dzen/grid.xbm)"
+        "Cross" -> "[+]"
         "IM Grid" -> "[iM]"
         "SimplestFloat" -> "[sfL]"
         _ -> x
@@ -154,7 +156,7 @@ workspaces' = ["1:main", "2:www", "3:chat", "4:dev", "5:mus", "6:vid", "7:OOo", 
 -- layouts
 customLayout = gaps [(U,16), (D,16), (L,0), (R,0)] $ smartBorders $ avoidStruts $ onWorkspace "3:chat" lc $ tiled 
                 ||| Mirror tiled ||| noBorders Full ||| spiral (6/7) 
-                ||| Grid ||| simplestFloat
+                ||| Grid ||| simpleCross ||| simplestFloat
     where
         tiled = ResizableTall nmaster delta ratio []
         -- The default number of windows in the master pane
@@ -164,7 +166,7 @@ customLayout = gaps [(U,16), (D,16), (L,0), (R,0)] $ smartBorders $ avoidStruts 
         -- Percent of screen to increment by when resizing panes
         delta = 0.03
         -- For emesene in "chat"
-        lc = withIM (1%7) (And (ClassName "Pidgin") (Role "buddy_list")) Grid
+        lc = withIM (1%7) (And (ClassName "Controller.py") (Role "main")) Grid
 
 -- XPConfig options:
 myXPConfig = defaultXPConfig
@@ -198,10 +200,11 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     [ ((modMask,               xK_x     ), spawn $ XMonad.terminal conf)
     , ((modMask .|. controlMask, xK_x   ), shellPrompt myXPConfig)
     , ((modMask,               xK_r     ), spawn "dmenu_run -fn \"-*-profont-*-*-*-*-12-*-*-*-*-*-*-*\" -nb \"#000000\" -nf \"#888888\" -sb \"#2A2A2A\" -sf \"#ADD8E6\"")
+    , ((modMask,               xK_a     ), spawn "urxvtc -e alsamixer") 
     , ((modMask,               xK_f     ), spawn "firefox") 
     , ((modMask,               xK_t     ), spawn "thunar")
     , ((modMask,               xK_g     ), spawn "geany")
-    , ((modMask,               xK_p     ), spawn "pidgin")
+    , ((modMask,               xK_e     ), spawn "emesene")
     , ((modMask,               xK_v     ), spawn "transmission")
     , ((modMask,               xK_Print ), spawn "scrot -q90 /home/seynthantx/Pictures/Screenshots/%Y-%m-%d.png")   
     , ((modMask .|. shiftMask, xK_c     ), kill1) -- Close the focused window
