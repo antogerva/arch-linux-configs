@@ -23,7 +23,7 @@ EndSection
 Section "Module"
     Load           "dbe"
     Load           "extmod"
-    Load           "freetype"
+    #Load           "freetype"
     Load           "glx"
     Load           "synaptics"
 EndSection
@@ -52,13 +52,10 @@ Section "Device"
     Option          "UseEdidDpi" "false"
     Option          "DPI" "96 x 96"
     Option          "TripleBuffer" "True"
-    # Powermizer forcing to certain level always
-    # level: 0x1 (highest) | 0x2 (med) | 0x3 (lowest)
-    #Option         "RegistryDwords" "PowerMizerLevelAC=0x3"
-    #Option		    "RegistryDwords"	"PowerMizerLevel=0x3"
-    Option          "RegistryDwords" "PowerMizerEnable=0x1; PerfLevelSrc=0x2222; PowerMizerDefault=0x3; PowerMizerDefaultAC=0x3"
     Option          "OnDemandVBlankInterrupts" "True"
     #Option         "Coolbits"       "1"
+    # on battery - max power saving, on AC - adaptive strategy
+    Option          "RegistryDwords" "PowerMizerEnable=0x1; PerfLevelSrc=0x2233; PowerMizerDefault=0x3"
 EndSection
 
 Section "Screen"
