@@ -28,12 +28,10 @@ import XMonad.Hooks.SetWMName
  
 -- layouts
 import XMonad.Layout.Gaps
-import XMonad.Layout.NoBorders
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Spiral
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Grid
-import XMonad.Layout.Cross
 import XMonad.Layout.IM
 import Data.Ratio ((%))
 import XMonad.Layout.SimplestFloat
@@ -81,10 +79,9 @@ myManageHook = composeAll . concat $
     , [ className       =? "OpenOffice.org 3.0" --> doF (W.shift "7:OOo") ]
     , [ className       =? "Smplayer"        --> doF (W.shift "6:vid") ]
     , [ className       =? "Transmission"    --> doF (W.shift "2:www") ]
-    , [ className       =? "Controller.py"          --> doF (W.shift "3:chat") ]
-    , [ (className       =? "Controller.py" <&&> resource =? "chat") --> doF (W.shift "3:chat") ]
+    , [ className       =? "Controller.py"   --> doF (W.shift "3:chat") ]
+    , [ (className      =? "Controller.py" <&&> resource =? "chat") --> doF (W.shift "3:chat") ]
     , [ className       =? "Easytag"         --> doF (W.swapDown) ]
-    --, [ className       =? "URxvt"           --> doF (W.swapDown) ]
     , [ className       =? "Eclipse"         --> doF (W.shift "4:dev") ]
     , [ (title =? "ncmpcpp" <&&> className =? "URxvt")  --> doF (W.shift "5:mus" ) ]
     ]
@@ -128,7 +125,6 @@ myDzenPP dzenSbar = defaultPP
         "Hinted Mirror ResizableTall" -> "^fg(#777777)^i(/home/seynthantx/.dzen/layout-mirror-bottom.xbm)"
         "Spiral" -> "[sP]"
         "Grid" -> "^fg(#777777)^i(/home/seynthantx/.dzen/grid.xbm)"
-        "Cross" -> "[+]"
         "IM Grid" -> "[iM]"
         "SimplestFloat" -> "[sfL]"
         _ -> x
@@ -143,7 +139,7 @@ myUrgencyHook = withUrgencyHook NoUrgencyHook
  
 -- borders
 borderWidth' :: Dimension
-borderWidth' = 1
+borderWidth' = 2
  
 normalBorderColor', focusedBorderColor' :: String
 normalBorderColor'  = "#2a2a2a"
@@ -154,9 +150,9 @@ workspaces' :: [WorkspaceId]
 workspaces' = ["1:main", "2:www", "3:chat", "4:dev", "5:mus", "6:vid", "7:OOo", "8:gfx", "9:rand"]
  
 -- layouts
-customLayout = gaps [(U,16), (D,16), (L,0), (R,0)] $ smartBorders $ avoidStruts $ onWorkspace "3:chat" lc $ tiled 
-                ||| Mirror tiled ||| noBorders Full ||| spiral (6/7) 
-                ||| Grid ||| simpleCross ||| simplestFloat
+customLayout = gaps [(U,16), (D,16), (L,0), (R,0)] $ avoidStruts $ onWorkspace "3:chat" lc $ tiled 
+                ||| Mirror tiled ||| Full ||| spiral (6/7) 
+                ||| Grid ||| simplestFloat
     where
         tiled = ResizableTall nmaster delta ratio []
         -- The default number of windows in the master pane
