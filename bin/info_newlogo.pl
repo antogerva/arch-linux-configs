@@ -14,11 +14,6 @@ my $myArchVersion = "ArchLinux (Overlord)";
 ## what values to display. Use "OS Kernel DE WM win_theme Theme Font Icons" ##
 my $display = "OS Kernel DE WM Win_theme Theme Icons Font Background";
 
-## Takes a screen shot if set to 0 ##
-my $shot = 0;
-## Command to run to take screen shot ##
-my $command = "scrot -d 10";
-
 ## What colors to use for the variables. ##
 my $textcolor = "\e[0m";
 
@@ -36,24 +31,28 @@ my $found = 0;
 my $DE = "NONE";
 my $WM = "Beryl";
 
-## Hash of WMs and the process they run ##
-my %WMlist = ("Beryl", "beryl",
-              "Fluxbox", "fluxbox",
-              "Openbox", "openbox",
-              "Blackbox", "blackbox",
-              "Xfwm4", "xfwm4",
-              "Metacity", "metacity",
-              "Kwin", "kwin",
-              "FVWM", "fvwm",
-              "Enlightenment", "enlightenment",
-              "IceWM", "icewm",
-              "Window Maker", "wmaker",
-              "PekWM","pekwm" );
+## Hash of WMs and the process they run #
+my %WMlist = ("Beryl"           => "beryl",
+              "Fluxbox"         => "fluxbox",
+              "Openbox"         => "openbox",
+              "Blackbox"        => "blackbox",
+              "Xfwm4"           => "xfwm4",
+              "Metacity"        => "metacity",
+              "Kwin"            => "kwin",
+              "FVWM"            => "fvwm",
+              "Enlightenment"   => "enlightenment",
+              "IceWM"           => "icewm",
+              "Window Maker"    => "wmaker",
+              "Compiz-Fusion"   => "compiz",
+              "PekWM"           => "pekwm",
+              "Awesome"         => "awesome",
+              "Dwm"             => "dwm",
+              "XMonad"          => "xmonad" );
 
 ## Hash of DEs and the process they run ##     
-my %DElist = ("Gnome", "gnome-session",
-              "Xfce4", "xfce-mcs-manage",
-              "KDE", "ksmserver");
+my %DElist = ("Gnome"   => "gnome-session",
+              "Xfce4"   => "xfce-mcs-manage",
+              "KDE"     => "ksmserver");
 
 ## Get Kernel version ##
 if ( $display =~ "Kernel"){
@@ -373,4 +372,4 @@ ${c2}
 \e[0m";
 }
 
-system("scrot -d 1");
+system('scrot screen-%H-%M-%S.png -d 5 -q 90 -e \'mv $f ~/pics/Screens/\'');
