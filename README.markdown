@@ -1,11 +1,13 @@
 Arch Linux Configs
 =============
 
-* The configs will mainly be related to monthly screenshots that I post at [deviantART](http://balancest.deviantart.com) 
-which are from my laptop.
-
-Current Desktop
+Current Desktop Shot
 =============
-![Arch Feb '09 I](http://th08.deviantart.com/fs41/300W/f/2009/045/6/9/Arch_February___09_I_by_BalanceST.png)
-<p>[Full Version](http://balancest.deviantart.com/art/Arch-February-09-I-112863552)</p>
+![Arch March '09 II](http://th04.deviantart.com/fs44/300W/f/2009/077/0/d/Arch_March___09_II_by_BalanceST.png)
+<p>[Full Version](http://balancest.deviantart.com/art/Arch-March-09-II-116311447)</p>
+
+Current Lappy Shot
+=============
+![Arch March '09 I](http://th04.deviantart.com/fs45/300W/f/2009/077/3/d/Arch_March___09_I_by_BalanceST.png)
+<p>[Full Version](http://balancest.deviantart.com/art/Arch-March-09-I-116311193)</p>
 
